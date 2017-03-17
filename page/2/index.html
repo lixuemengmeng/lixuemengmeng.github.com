@@ -260,6 +260,159 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/添加和编辑/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李雪萌">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/11/添加和编辑/" itemprop="url">
+                  同时添加和编辑到数据库
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00+08:00">
+                2017-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/php/" itemprop="url" rel="index">
+                    <span itemprop="name">php</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="ajax-同时添加和编辑到数据库"><a href="#ajax-同时添加和编辑到数据库" class="headerlink" title="ajax 同时添加和编辑到数据库"></a>ajax 同时添加和编辑到数据库</h3><p>通常我们添加功能和修改功能都是通过两个按钮点击，跳两个控制器去实现</p>
+<p>而今天 有一个这样的需求，在一个页面可以添加和编辑，并且按只按保存，就可以实现新添加的insert到数据库，新编辑的要update到数据库，我是这么解决的</p>
+<p>首先，我们要先区分是新添加的还是要编辑的</p>
+<p>要编辑的有自己的id</p>
+<figure class="highlight plain"><figcaption><span>type="hidden" name="hide-work" class="hide-work" value="'+data[i].work_id+'"><br></span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line"></div><div class="line">而新添加的直接将value设为new</div><div class="line"></div><div class="line"></div><div class="line"> ```&lt;input type=&quot;hidden&quot; name=&quot;hide-edu&quot; class=&quot;hide-edu&quot; value=&quot;new&quot;&gt;&lt;/br&gt;</div></pre></td></tr></table></figure>
+<p>最后判断一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line"></div><div class="line">如果取到的value值为new 那么直接给将work_id给一个随便的负值例如-1</div><div class="line"></div><div class="line">```if($work_exps[$i][&apos;work_id&apos;] == -1)&#123;</div><div class="line">                    $rs = $this-&gt;T_work_model-&gt;insert_work_exp($work_exps[$i]);</div><div class="line">  &#125;else&#123;</div><div class="line">                    $rs = $this-&gt;T_work_model-&gt;update_work_exp($work_exps[$i]);</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>  之后直接判断work_id是否为-1 如果为-1 证明是新添加的就插入到数据库</p>
+<p>  其次</p>
+<p>  如何将多组数据插入数据库，可是封装成对象数组</p>
+  <figure class="highlight plain"><figcaption><span>aWorks=[];</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">for(var i=0;i&lt;$lis.length;i++)&#123;</div><div class="line">              var oWorks=&#123;&#125;;</div><div class="line">              var $li =$lis.eq(i);</div><div class="line">              oWorks.work_id=$li.find(&apos;.hide-work&apos;).val()==&quot;new&quot;?-1:$li.find(&apos;.hide-work&apos;).val();</div><div class="line">     &#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/31/isset/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -447,7 +600,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -458,7 +611,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
