@@ -87,22 +87,34 @@
 
 
 
-<meta name="description" content="settimeout()和setInterval()settimeout() setInterval()里的this一般指向window
-产生异步的效果，用他来模拟异步的操作
-###settimeout（fn,0）的作用 可以开两个线程去处理123456789&amp;lt;span id=&amp;quot;span1&amp;quot;&amp;gt;用户名&amp;lt;/span&amp;gt;:&amp;lt;input type=&amp;quot">
+<meta name="description" content="Dom节点有很多种，他们分别有不同的nodeType和nodeValue
+元素节点的nodeValue为空，nodeType为1，例如 
+文本节点nodeValue为文本里的值 ，nodeType为3，111 空白 text
+注释节点 nodeType为 8 
+而获取节点的时候我们通常希望获取到的是元素节点，而不希望获取到空格
+
+firstchild  在ie里取到的第一个是元素节点，不包括文本节">
 <meta property="og:type" content="article">
-<meta property="og:title" content="settimeout()和setInterval()">
-<meta property="og:url" content="http://yoursite.com/2017/02/13/settimeout/index.html">
+<meta property="og:title" content="封装next和first解决取到空格的问题">
+<meta property="og:url" content="http://yoursite.com/2017/03/17/next和first/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="settimeout()和setInterval()settimeout() setInterval()里的this一般指向window
-产生异步的效果，用他来模拟异步的操作
-###settimeout（fn,0）的作用 可以开两个线程去处理123456789&amp;lt;span id=&amp;quot;span1&amp;quot;&amp;gt;用户名&amp;lt;/span&amp;gt;:&amp;lt;input type=&amp;quot">
-<meta property="og:updated_time" content="2017-03-15T14:24:02.000Z">
+<meta property="og:description" content="Dom节点有很多种，他们分别有不同的nodeType和nodeValue
+元素节点的nodeValue为空，nodeType为1，例如 
+文本节点nodeValue为文本里的值 ，nodeType为3，111 空白 text
+注释节点 nodeType为 8 
+而获取节点的时候我们通常希望获取到的是元素节点，而不希望获取到空格
+
+firstchild  在ie里取到的第一个是元素节点，不包括文本节">
+<meta property="og:updated_time" content="2017-03-17T03:03:45.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="settimeout()和setInterval()">
-<meta name="twitter:description" content="settimeout()和setInterval()settimeout() setInterval()里的this一般指向window
-产生异步的效果，用他来模拟异步的操作
-###settimeout（fn,0）的作用 可以开两个线程去处理123456789&amp;lt;span id=&amp;quot;span1&amp;quot;&amp;gt;用户名&amp;lt;/span&amp;gt;:&amp;lt;input type=&amp;quot">
+<meta name="twitter:title" content="封装next和first解决取到空格的问题">
+<meta name="twitter:description" content="Dom节点有很多种，他们分别有不同的nodeType和nodeValue
+元素节点的nodeValue为空，nodeType为1，例如 
+文本节点nodeValue为文本里的值 ，nodeType为3，111 空白 text
+注释节点 nodeType为 8 
+而获取节点的时候我们通常希望获取到的是元素节点，而不希望获取到空格
+
+firstchild  在ie里取到的第一个是元素节点，不包括文本节">
 
 
 
@@ -130,13 +142,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/02/13/settimeout/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/17/next和first/"/>
 
 
 
 
 
-  <title> settimeout()和setInterval() | Hexo </title>
+  <title> 封装next和first解决取到空格的问题 | Hexo </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -255,7 +267,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/13/settimeout/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/next和first/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李雪萌">
@@ -276,7 +288,7 @@
             
             
               
-                settimeout()和setInterval()
+                封装next和first解决取到空格的问题
               
             
           </h1>
@@ -291,8 +303,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-13T00:00:00+08:00">
-                2017-02-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-17T00:00:00+08:00">
+                2017-03-17
               </time>
             
 
@@ -314,8 +326,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/jekyll-update/" itemprop="url" rel="index">
-                    <span itemprop="name">jekyll update</span>
+                  <a href="/categories/js封装/" itemprop="url" rel="index">
+                    <span itemprop="name">js封装</span>
                   </a>
                 </span>
 
@@ -349,12 +361,28 @@
       
 
       
-        <h3 id="settimeout-和setInterval"><a href="#settimeout-和setInterval" class="headerlink" title="settimeout()和setInterval()"></a>settimeout()和setInterval()</h3><p>settimeout() setInterval()里的this一般指向window</p>
-<p>产生异步的效果，用他来模拟异步的操作</p>
-<p>###settimeout（fn,0）的作用 可以开两个线程去处理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;span id=&quot;span1&quot;&gt;用户名&lt;/span&gt;:&lt;input type=&quot;text&quot; name=&quot;&quot; id=&quot;username&quot;&gt;</div><div class="line">var oSpan=document.getElementById(&apos;span1&apos;);</div><div class="line">var oUsername=document.getElementById(&apos;username&apos;);</div><div class="line">oUsername.onfocus=function()&#123;</div><div class="line">	console.log(hhh);</div><div class="line">&#125;</div><div class="line">oSpan.onmousedown=function()&#123;</div><div class="line">	oUsername.focus();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>如果没有setInterval()的话，只会简单的调用focus函数,而没有获取焦点的默认行为，<br>因为焦点只能默认在一个 元素身上，mousedown时焦点在span身上，username就没有获取焦点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">oSpan.onmousedown=function()&#123;</div><div class="line">	setTimeout(function()&#123;</div><div class="line">		oUsername.focus();</div><div class="line">	&#125;,2000)</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这样可以在mousedown之后2s后获取焦点，这时焦点在username<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">oSpan.onmousedown=function()&#123;</div><div class="line">	setTimeout(function()&#123;</div><div class="line">		oUsername.focus();</div><div class="line">	&#125;,0)</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>js是单线程的，浏览器是多线程的<br>这样可以mousedown之后立即获取焦点，也有默认行为，因为 js是单线程的，没用setTimeout()时，onmousedown和focus是在同一个线程，不可能有两个元素获取焦点，<br>而加了setTimeout相当于又加了一个线程，mousedown是主线程，浏览器是多线程的，也可以理解为setTimeout打开了另外一个事件的队列，在另外一个队列里进行处理，0虽然是立即执行，但是不在一个线程。</p>
+        <p>Dom节点有很多种，他们分别有不同的nodeType和nodeValue</p>
+<p>元素节点的nodeValue为空，nodeType为1，例如 </p><p></p><p></p>
+<p>文本节点nodeValue为文本里的值 ，nodeType为3，111 空白 text</p>
+<p>注释节点 nodeType为 8 </p>
+<p>而获取节点的时候我们通常希望获取到的是元素节点，而不希望获取到空格</p>
+<blockquote>
+<p>firstchild  在ie里取到的第一个是元素节点，不包括文本节点<br> crome里取到的是空格</p>
+</blockquote>
+<p>还有另一个属性可以获取第一个孩子节点</p>
+<blockquote>
+<p>firstElementchild 在crome里 取到第一个元素节点  但是ie不兼容</p>
+</blockquote>
+<p>因此为了能够获取到元素节点，而不是空格，我封装了一个next函数</p>
+<p>html结构</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&apos;div1&apos;&gt;</div><div class="line">		&lt;h1 id=&apos;h1&apos;&gt;2222222&lt;/h1&gt;</div><div class="line">		&lt;p&gt;111111&lt;/p&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var oDiv=document.getElementById(&apos;div1&apos;);</div><div class="line"> var oH1=document.getElementById(&apos;h1&apos;);</div></pre></td></tr></table></figure>
+<p>js封装next取到第一个兄弟节点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"> function next(elem)&#123;</div><div class="line"> 	do&#123;</div><div class="line"> 		elem=elem.nextSibling;</div><div class="line"> 	&#125;while(elem&amp;&amp;elem.nodeType!=1)</div><div class="line"> 	return elem;</div><div class="line"> &#125;</div><div class="line">console.log(next(oH1));</div></pre></td></tr></table></figure></p>
+<p>循环判断nodeType的值是否为元素节点的值1，没找到值为1就一直while循环选择do while 是因为可能第一个元素就满足<br>假设上面的元素的下一个兄弟不存在（p）不存在，elem.nextSibling为空，这时再去elem.nodeType会报错，因此要在while里先判断elem是否不为空，为空就不执行elem.nodeType，就不会报错</p>
+<p>js封装first取到第一个孩子节点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function first(elem)&#123;</div><div class="line">	elem=elem.firstChild;</div><div class="line">	return elem&amp;&amp;elem.nodeType==1?elem:next(elem);</div><div class="line">&#125;</div><div class="line">console.log(first(oDiv));</div></pre></td></tr></table></figure>
+<p>还是一样先判断elem是否存在，避免出现错误，并且调用刚封装的next函数</p>
+<p>通过这两个函数，就能够避免取到空格的情况啦~~~</p>
 
       
     </div>
@@ -391,8 +419,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/02/13/闭包/" rel="next" title="闭包">
-                <i class="fa fa-chevron-left"></i> 闭包
+              <a href="/2017/03/15/git的通信/" rel="next" title="git通信的基础ssh">
+                <i class="fa fa-chevron-left"></i> git通信的基础ssh
               </a>
             
           </div>
@@ -400,10 +428,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/02/23/字符串反转/" rel="prev" title="字符串反转">
-                字符串反转 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -450,17 +474,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -513,22 +528,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#settimeout-和setInterval"><span class="nav-number">1.</span> <span class="nav-text">settimeout()和setInterval()</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
