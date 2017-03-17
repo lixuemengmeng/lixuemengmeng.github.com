@@ -260,6 +260,153 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/addEventListener和attachEvent/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李雪萌">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/17/addEventListener和attachEvent/" itemprop="url">
+                  addEventListener和attachEvent
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-17T00:00:00+08:00">
+                2017-03-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>添加事件有三种方式，一种是直接添加，第二种是用addEventListener,第三种是用attachEvent的方式</p>
+<p>直接添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">oDiv1.onclick=function()&#123;</div><div class="line">alert(1);</div><div class="line">&#125;</div><div class="line">oDiv1.onclick=function()&#123;</div><div class="line">alert(2);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>优点，所有浏览器都支持<br>缺点，下面的会将上面的方法覆盖<br>用attachevent和addEventListner添加事件不会被覆盖，但是有兼容性问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">oDiv1.addEventListener(&apos;click&apos;,function()&#123;</div><div class="line">alert(1);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>1.this指向window<br>2.不用写on<br> 3.ie不支持<br>4.有三个参数，第三个参数 useCapture用来确定是事件冒泡（ useCapture false），还是事件捕获（useCapture false）<br>5.从上向下执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">oDiv1.attachEvent(&quot;onclick&quot;,function()&#123;</div><div class="line">alert(1);</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>1.this指向正常<br>2.写on<br>3.ie支持<br>4.有两个参数，ie下不支持事件捕获<br>5.从下向上执行</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/getClassName/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -362,152 +509,6 @@
             <p>getElementsByClassName() IE不支持<br>可以通过className来实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">function getClass(className,context,tag)&#123;</div><div class="line">  		context=context||document;</div><div class="line">  		tag=tag||&quot;*&quot;;</div><div class="line">  		var arr=context.getElementsByTagName(tag);</div><div class="line">  		var result=[];</div><div class="line">for(var i=0;i&lt;arr.length;i++)  </div><div class="line">    &#123;  </div><div class="line">        if(arr[i].className==className)  </div><div class="line">        &#123;  </div><div class="line">           result.push(arr[i])  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">  		</div><div class="line">  		return result;</div><div class="line">  	&#125;</div><div class="line">`</div></pre></td></tr></table></figure></p>
 <p>利用for循环判断className，className没有兼容性问题</p>
 
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/文档碎片节点优化性能/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="李雪萌">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/17/文档碎片节点优化性能/" itemprop="url">
-                  利用文档碎片节点优化性能
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-17T00:00:00+08:00">
-                2017-03-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js优化性能/" itemprop="url" rel="index">
-                    <span itemprop="name">js优化性能</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在浏览器中，我们一旦把节点添加到document.body（或者其他节点）中，页面就会更新并反映出这个变化</p>
-<p>如果当我们要向document中添加大量数据时(比如1w条)，如果像上面的代码一样，逐条添加节点，这个过程就可能会十分缓慢。<br>当然,你也可以建个新的节点,比如说div,先将oP添加到div上,然后再将div添加到body中.但这样要在body中多添加一个<div></div>.但文档碎片不会产生这种节点.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var oDiv = document.createElement(&quot;div&quot;);</div><div class="line"> for(var i=0;i&lt;10000;i++)&#123;</div><div class="line">       var op = document.createElement(&quot;span&quot;);</div><div class="line">       var oText = document.createTextNode(i); </div><div class="line">      op.appendChild(oText); </div><div class="line">      oDiv.appendChild(op); </div><div class="line">&#125; </div><div class="line">document.body.appendChild(oDiv);</div></pre></td></tr></table></figure>
-<p>为了解决这个问题，我们可以引入createDocumentFragment()方法，它的作用是创建一个文档碎片，把要插入的新节点先附加在它上面，然后再一次性添加到document中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">//先创建文档碎片</div><div class="line">var oFragmeng = document.createDocumentFragment();</div><div class="line">for(var i=0;i&lt;10000;i++)&#123;</div><div class="line"> var op = document.createElement(&quot;span&quot;); </div><div class="line">var oText = document.createTextNode(i); </div><div class="line">op.appendChild(oText);</div><div class="line"> //先附加在文档碎片中 </div><div class="line">oFragmeng.appendChild(op);</div><div class="line"> &#125; </div><div class="line">//最后一次性添加到document中</div><div class="line"></div><div class="line">document.body.appendChild(oFragmeng);</div></pre></td></tr></table></figure>
           
         
       
@@ -672,6 +673,152 @@
 <p>还是一样先判断elem是否存在，避免出现错误，并且调用刚封装的next函数</p>
 <p>通过这两个函数，就能够避免取到空格的情况啦~~~</p>
 
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/文档碎片节点优化性能/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李雪萌">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/17/文档碎片节点优化性能/" itemprop="url">
+                  利用文档碎片节点优化性能
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-17T00:00:00+08:00">
+                2017-03-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js优化性能/" itemprop="url" rel="index">
+                    <span itemprop="name">js优化性能</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在浏览器中，我们一旦把节点添加到document.body（或者其他节点）中，页面就会更新并反映出这个变化</p>
+<p>如果当我们要向document中添加大量数据时(比如1w条)，如果像上面的代码一样，逐条添加节点，这个过程就可能会十分缓慢。<br>当然,你也可以建个新的节点,比如说div,先将oP添加到div上,然后再将div添加到body中.但这样要在body中多添加一个<div></div>.但文档碎片不会产生这种节点.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var oDiv = document.createElement(&quot;div&quot;);</div><div class="line"> for(var i=0;i&lt;10000;i++)&#123;</div><div class="line">       var op = document.createElement(&quot;span&quot;);</div><div class="line">       var oText = document.createTextNode(i); </div><div class="line">      op.appendChild(oText); </div><div class="line">      oDiv.appendChild(op); </div><div class="line">&#125; </div><div class="line">document.body.appendChild(oDiv);</div></pre></td></tr></table></figure>
+<p>为了解决这个问题，我们可以引入createDocumentFragment()方法，它的作用是创建一个文档碎片，把要插入的新节点先附加在它上面，然后再一次性添加到document中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">//先创建文档碎片</div><div class="line">var oFragmeng = document.createDocumentFragment();</div><div class="line">for(var i=0;i&lt;10000;i++)&#123;</div><div class="line"> var op = document.createElement(&quot;span&quot;); </div><div class="line">var oText = document.createTextNode(i); </div><div class="line">op.appendChild(oText);</div><div class="line"> //先附加在文档碎片中 </div><div class="line">oFragmeng.appendChild(op);</div><div class="line"> &#125; </div><div class="line">//最后一次性添加到document中</div><div class="line"></div><div class="line">document.body.appendChild(oFragmeng);</div></pre></td></tr></table></figure>
           
         
       
@@ -1599,158 +1746,6 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/12/var_dump打断php运行/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="李雪萌">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/12/var_dump打断php运行/" itemprop="url">
-                  echo/var_dump会打断php的运行
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-12T00:00:00+08:00">
-                2017-02-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/php/" itemprop="url" rel="index">
-                    <span itemprop="name">php</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="ajax-echo-var-dump是否会打断php的运行"><a href="#ajax-echo-var-dump是否会打断php的运行" class="headerlink" title="ajax echo/var_dump是否会打断php的运行"></a>ajax echo/var_dump是否会打断php的运行</h3><p>echo/var_dump是否会打断php的运行，答案自然是不会打断执行，但是为什么对执行有影响呢</p>
-<p>问题是这样的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var_dump($userid);</div><div class="line">$rs=$this-&gt;t_user_model-&gt;get_all_by_id($userid);</div><div class="line">echo json_encode($rs);</div></pre></td></tr></table></figure>
-<p>数据在network里是可以正确的查出来，但是就是执行不到回调函数里，我刚开始有看格式是否为json，发现是没有问题的</p>
-<p>之后我百度我把<code>var_dump($userid);</code>去掉，发现可以跳到回调函数里，</p>
-<p>我去百度了一下，</p>
-<p>可能是执行ajaxreturn时, echo/var_dump的内容也会通过ajax返回, echo内容让前端解析出错.</p>
-<p>为了避免这样的情况再发生，以后不要在controller里随便echo/var_dump吧</p>
-<p>ajax不进入get请求的回调函数，链接如下</p>
-<p><a href="http://blog.csdn.net/wabiaozia/article/details/50602672" target="_blank" rel="external">http://blog.csdn.net/wabiaozia/article/details/50602672</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1800,7 +1795,7 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
