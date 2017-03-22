@@ -88,30 +88,27 @@
 
 
 <meta name="description" content="字符串反转
-使用Array.Reverse方法1234567public static string ReverseByArray(string original)&amp;#123;char[] c = original.ToCharArray();//字符串变为字符数组Array.Reverse(c);return new string(c);&amp;#125;
+使用Array.Reverse方法123string.prototype.reverse=function()&amp;#123;	return this.split(&amp;quot;&amp;quot;).reverse().join(&amp;quot;&amp;quot;)&amp;#125;
 
 
-2.只遍历一半数组 引用一个中间数组
-p">
+1234567public static string ReverseByArray(string original)&amp;#12">
 <meta property="og:type" content="article">
 <meta property="og:title" content="字符串反转">
 <meta property="og:url" content="http://yoursite.com/2017/02/23/字符串反转/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="字符串反转
-使用Array.Reverse方法1234567public static string ReverseByArray(string original)&amp;#123;char[] c = original.ToCharArray();//字符串变为字符数组Array.Reverse(c);return new string(c);&amp;#125;
+使用Array.Reverse方法123string.prototype.reverse=function()&amp;#123;	return this.split(&amp;quot;&amp;quot;).reverse().join(&amp;quot;&amp;quot;)&amp;#125;
 
 
-2.只遍历一半数组 引用一个中间数组
-p">
-<meta property="og:updated_time" content="2017-03-17T03:56:45.000Z">
+1234567public static string ReverseByArray(string original)&amp;#12">
+<meta property="og:updated_time" content="2017-03-18T03:34:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="字符串反转">
 <meta name="twitter:description" content="字符串反转
-使用Array.Reverse方法1234567public static string ReverseByArray(string original)&amp;#123;char[] c = original.ToCharArray();//字符串变为字符数组Array.Reverse(c);return new string(c);&amp;#125;
+使用Array.Reverse方法123string.prototype.reverse=function()&amp;#123;	return this.split(&amp;quot;&amp;quot;).reverse().join(&amp;quot;&amp;quot;)&amp;#125;
 
 
-2.只遍历一半数组 引用一个中间数组
-p">
+1234567public static string ReverseByArray(string original)&amp;#12">
 
 
 
@@ -369,9 +366,10 @@ p">
 
       
         <h3 id="字符串反转"><a href="#字符串反转" class="headerlink" title="字符串反转"></a>字符串反转</h3><ol>
-<li>使用Array.Reverse方法<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public static string ReverseByArray(string original)&#123;</div><div class="line"></div><div class="line">char[] c = original.ToCharArray();//字符串变为字符数组</div><div class="line"></div><div class="line">Array.Reverse(c);</div><div class="line"></div><div class="line">return new string(c);&#125;</div></pre></td></tr></table></figure>
+<li>使用Array.Reverse方法<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">string.prototype.reverse=function()&#123;</div><div class="line">	return this.split(&quot;&quot;).reverse().join(&quot;&quot;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
 </ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public static string ReverseByArray(string original)&#123;</div><div class="line"></div><div class="line">char[] c = original.ToCharArray();//字符串变为字符数组</div><div class="line"></div><div class="line">Array.Reverse(c);</div><div class="line"></div><div class="line">return new string(c);&#125;</div></pre></td></tr></table></figure>
 <p>2.只遍历一半数组 引用一个中间数组</p>
 <p>public static string ReverseByCharBuffer2(string original){</p>
 <p>char[] c = original.ToCharArray();</p>
@@ -507,7 +505,7 @@ p">
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
