@@ -359,10 +359,15 @@
       
         
           
-            <p>用attachevent和addEventListner添加事件不会被覆盖，但是有兼容性问题，因此封装了一个函数，可以用来添加事件，移除事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function addEvent（elem,type,handler）&#123;</div><div class="line">if(elem.addEventListener)&#123;</div><div class="line">elem.addEventListener(type,handler)</div><div class="line">&#125;else if（elem.attachEvent）&#123;</div><div class="line">elem[type+handler]=function()&#123;</div><div class="line">handle.call(elem);//改变this指向</div><div class="line">&#125;</div><div class="line">elem.attachEvent(&quot;on&quot;+type,elem[type+handler])</div><div class="line">&#125;else&#123;</div><div class="line">elem[&quot;on&quot;+type]=handle</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>因为attachEvent中的this值指向window，所以我们要用call将其this值改为事件源，为了确保处理的函数是同一个函数我使用了给对象下面添加一个函数属性，这样处理的函数就为同一个函数。</p>
-<p>移除事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function removeEven(elem,type,handler)&#123;</div><div class="line">if(elem..removeEventListene)&#123;</div><div class="line">elem.removeEventListener(type,handle)</div><div class="line">&#125;else if(elem.detachEvent)&#123;</div><div class="line">elem[type+handler]=function()&#123;</div><div class="line">handle.call(elem);//改变this指向</div><div class="line">&#125;</div><div class="line">elem.detachEvent(&quot;on&quot;+type,elem[type+handler])</div><div class="line">&#125;else&#123;</div><div class="line">elem[&quot;on&quot;+type]=null</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>未完待续。。。。。</p>
+            <p>用attachevent和addEventListner添加事件不会被覆盖，但是有兼容性问题，因此封装了一个函数，可以用来添加事件，移除事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">function addEvent（elem,type,handler）&#123;</div><div class="line">if(elem.addEventListener)&#123;</div><div class="line">elem.addEventListener(type,handler)</div><div class="line">&#125;else if（elem.attachEvent）&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line">elem.attachEvent(&quot;on&quot;+type,function（）&#123;</div><div class="line">         handler.call(elem)</div><div class="line">&#125;)</div><div class="line">&#125;else&#123;</div><div class="line">elem[&quot;on&quot;+type]=handle</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>移除事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function removeEvent(elem,type,handler)&#123;</div><div class="line">if(elem..removeEventListene)&#123;</div><div class="line">elem.removeEventListener(type,handle)</div><div class="line">&#125;else if(elem.detachEvent)&#123;</div><div class="line">elem.detachEvent(&quot;on&quot;+type,handle)</div><div class="line">&#125;else&#123;</div><div class="line">elem[&quot;on&quot;+type]=null</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>因为attachEvent中的this值指向window，所以我们要用call将其this值改为事件源。</p>
+<p>调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function fn（）&#123;</div><div class="line"> alert(1111);</div><div class="line">&#125;</div><div class="line">addEvent(oDiv1,&quot;click&quot;，fn)</div><div class="line">removeEvent(oDiv1,&quot;click&quot;,fn)</div></pre></td></tr></table></figure></p>
+<p>会产生一个问题，移除事件是不好使的，因为添加的处理函数和移除的处理函数不是同一函数<br>为了确保处理的函数是同一个函数我使用了给对象下面添加一个函数属性，这样处理的函数就为同一个函数。<br>这样做<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">else if（elem.attachEvent）&#123;</div><div class="line">elem.fn=function()&#123;</div><div class="line">handle.call(elem);//改变this指向</div><div class="line">&#125;</div><div class="line">elem.attachEvent(&quot;on&quot;+type,elem.fn)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">else if(elem.detachEvent)&#123;</div><div class="line">elem.detachEvent(&quot;on&quot;+type,elem.fn)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样就可以移除事件了，添加事件和移除事件就是一个事件了。<br>如果我们添加多个事件，并移除<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function fn1（）&#123;</div><div class="line"> alert(1111);</div><div class="line">&#125;</div><div class="line">function fn2（）&#123;</div><div class="line"> alert(2222);</div><div class="line">&#125;</div><div class="line">addEvent(oDiv1,&quot;click&quot;，fn1)</div><div class="line">addEvent(oDiv1,&quot;click&quot;，fn2)</div><div class="line">removeEvent(oDiv1,&quot;click&quot;,fn1)</div><div class="line">removeEvent(oDiv1,&quot;click&quot;,fn2)</div></pre></td></tr></table></figure></p>
+<p>运行的结果是弹出的是1111，因为我们elem.fn 时，刚开始elem.fn 指向的fn1 后来再addEvent(oDiv1,”click”，fn2)后，elem.fn 就是fn2，fn1被覆盖掉了，此时在移除事件时，移除的是fn2，因此fn1事件没有被移除，我们给elem下加一个变量来存函数elem[type+handle]<br>最后完善的代码是这样的<br>添加事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function addEvent（elem,type,handler）&#123;</div><div class="line">if(elem.addEventListener)&#123;</div><div class="line">elem.addEventListener(type,handler)</div><div class="line">&#125;else if（elem.attachEvent）&#123;</div><div class="line">elem[type+handler]=function()&#123;</div><div class="line">handle.call(elem);//改变this指向</div><div class="line">&#125;</div><div class="line">elem.attachEvent(&quot;on&quot;+type,elem[type+handler])</div><div class="line">&#125;else&#123;</div><div class="line">elem[&quot;on&quot;+type]=handle</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>移除事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function removeEven(elem,type,handler)&#123;</div><div class="line">if(elem..removeEventListene)&#123;</div><div class="line">elem.removeEventListener(type,handle)</div><div class="line">&#125;else if(elem.detachEvent)&#123;</div><div class="line">elem.detachEvent(&quot;on&quot;+type,elem[type+handler])</div><div class="line">&#125;else&#123;</div><div class="line">elem[&quot;on&quot;+type]=null</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
           
         
@@ -553,7 +558,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/文档碎片节点优化性能/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/next和first/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李雪萌">
@@ -575,8 +580,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/03/17/文档碎片节点优化性能/" itemprop="url">
-                  利用文档碎片节点优化性能
+                <a class="post-title-link" href="/2017/03/17/next和first/" itemprop="url">
+                  封装next和first解决取到空格的问题
                 </a>
               
             
@@ -615,8 +620,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js优化性能/" itemprop="url" rel="index">
-                    <span itemprop="name">js优化性能</span>
+                  <a href="/categories/js封装/" itemprop="url" rel="index">
+                    <span itemprop="name">js封装</span>
                   </a>
                 </span>
 
@@ -652,11 +657,29 @@
       
         
           
-            <p>在浏览器中，我们一旦把节点添加到document.body（或者其他节点）中，页面就会更新并反映出这个变化</p>
-<p>如果当我们要向document中添加大量数据时(比如1w条)，如果像上面的代码一样，逐条添加节点，这个过程就可能会十分缓慢。<br>当然,你也可以建个新的节点,比如说div,先将oP添加到div上,然后再将div添加到body中.但这样要在body中多添加一个<div></div>.但文档碎片不会产生这种节点.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var oDiv = document.createElement(&quot;div&quot;);</div><div class="line"> for(var i=0;i&lt;10000;i++)&#123;</div><div class="line">       var op = document.createElement(&quot;span&quot;);</div><div class="line">       var oText = document.createTextNode(i); </div><div class="line">      op.appendChild(oText); </div><div class="line">      oDiv.appendChild(op); </div><div class="line">&#125; </div><div class="line">document.body.appendChild(oDiv);</div></pre></td></tr></table></figure>
-<p>为了解决这个问题，我们可以引入createDocumentFragment()方法，它的作用是创建一个文档碎片，把要插入的新节点先附加在它上面，然后再一次性添加到document中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">//先创建文档碎片</div><div class="line">var oFragmeng = document.createDocumentFragment();</div><div class="line">for(var i=0;i&lt;10000;i++)&#123;</div><div class="line"> var op = document.createElement(&quot;span&quot;); </div><div class="line">var oText = document.createTextNode(i); </div><div class="line">op.appendChild(oText);</div><div class="line"> //先附加在文档碎片中 </div><div class="line">oFragmeng.appendChild(op);</div><div class="line"> &#125; </div><div class="line">//最后一次性添加到document中</div><div class="line"></div><div class="line">document.body.appendChild(oFragmeng);</div></pre></td></tr></table></figure>
+            <p>Dom节点有很多种，他们分别有不同的nodeType和nodeValue</p>
+<p>元素节点的nodeValue为空，nodeType为1，例如 </p><p></p><p></p>
+<p>文本节点nodeValue为文本里的值 ，nodeType为3，111 空白 text</p>
+<p>注释节点 nodeType为 8 </p>
+<p>而获取节点的时候我们通常希望获取到的是元素节点，而不希望获取到空格</p>
+<blockquote>
+<p>firstchild  在ie里取到的第一个是元素节点，不包括文本节点<br> crome里取到的是空格</p>
+</blockquote>
+<p>还有另一个属性可以获取第一个孩子节点</p>
+<blockquote>
+<p>firstElementchild 在crome里 取到第一个元素节点  但是ie不兼容</p>
+</blockquote>
+<p>因此为了能够获取到元素节点，而不是空格，我封装了一个next函数</p>
+<p>html结构</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&apos;div1&apos;&gt;</div><div class="line">		&lt;h1 id=&apos;h1&apos;&gt;2222222&lt;/h1&gt;</div><div class="line">		&lt;p&gt;111111&lt;/p&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var oDiv=document.getElementById(&apos;div1&apos;);</div><div class="line"> var oH1=document.getElementById(&apos;h1&apos;);</div></pre></td></tr></table></figure>
+<p>js封装next取到第一个兄弟节点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"> function next(elem)&#123;</div><div class="line"> 	do&#123;</div><div class="line"> 		elem=elem.nextSibling;</div><div class="line"> 	&#125;while(elem&amp;&amp;elem.nodeType!=1)</div><div class="line"> 	return elem;</div><div class="line"> &#125;</div><div class="line">console.log(next(oH1));</div></pre></td></tr></table></figure></p>
+<p>循环判断nodeType的值是否为元素节点的值1，没找到值为1就一直while循环选择do while 是因为可能第一个元素就满足<br>假设上面的元素的下一个兄弟不存在（p）不存在，elem.nextSibling为空，这时再去elem.nodeType会报错，因此要在while里先判断elem是否不为空，为空就不执行elem.nodeType，就不会报错</p>
+<p>js封装first取到第一个孩子节点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function first(elem)&#123;</div><div class="line">	elem=elem.firstChild;</div><div class="line">	return elem&amp;&amp;elem.nodeType==1?elem:next(elem);</div><div class="line">&#125;</div><div class="line">console.log(first(oDiv));</div></pre></td></tr></table></figure>
+<p>还是一样先判断elem是否存在，避免出现错误，并且调用刚封装的next函数</p>
+<p>通过这两个函数，就能够避免取到空格的情况啦~~~</p>
+
           
         
       
@@ -843,7 +866,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/next和first/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/文档碎片节点优化性能/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李雪萌">
@@ -865,8 +888,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/03/17/next和first/" itemprop="url">
-                  封装next和first解决取到空格的问题
+                <a class="post-title-link" href="/2017/03/17/文档碎片节点优化性能/" itemprop="url">
+                  利用文档碎片节点优化性能
                 </a>
               
             
@@ -905,8 +928,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js封装/" itemprop="url" rel="index">
-                    <span itemprop="name">js封装</span>
+                  <a href="/categories/js优化性能/" itemprop="url" rel="index">
+                    <span itemprop="name">js优化性能</span>
                   </a>
                 </span>
 
@@ -942,29 +965,11 @@
       
         
           
-            <p>Dom节点有很多种，他们分别有不同的nodeType和nodeValue</p>
-<p>元素节点的nodeValue为空，nodeType为1，例如 </p><p></p><p></p>
-<p>文本节点nodeValue为文本里的值 ，nodeType为3，111 空白 text</p>
-<p>注释节点 nodeType为 8 </p>
-<p>而获取节点的时候我们通常希望获取到的是元素节点，而不希望获取到空格</p>
-<blockquote>
-<p>firstchild  在ie里取到的第一个是元素节点，不包括文本节点<br> crome里取到的是空格</p>
-</blockquote>
-<p>还有另一个属性可以获取第一个孩子节点</p>
-<blockquote>
-<p>firstElementchild 在crome里 取到第一个元素节点  但是ie不兼容</p>
-</blockquote>
-<p>因此为了能够获取到元素节点，而不是空格，我封装了一个next函数</p>
-<p>html结构</p>
-   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&apos;div1&apos;&gt;</div><div class="line">		&lt;h1 id=&apos;h1&apos;&gt;2222222&lt;/h1&gt;</div><div class="line">		&lt;p&gt;111111&lt;/p&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var oDiv=document.getElementById(&apos;div1&apos;);</div><div class="line"> var oH1=document.getElementById(&apos;h1&apos;);</div></pre></td></tr></table></figure>
-<p>js封装next取到第一个兄弟节点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"> function next(elem)&#123;</div><div class="line"> 	do&#123;</div><div class="line"> 		elem=elem.nextSibling;</div><div class="line"> 	&#125;while(elem&amp;&amp;elem.nodeType!=1)</div><div class="line"> 	return elem;</div><div class="line"> &#125;</div><div class="line">console.log(next(oH1));</div></pre></td></tr></table></figure></p>
-<p>循环判断nodeType的值是否为元素节点的值1，没找到值为1就一直while循环选择do while 是因为可能第一个元素就满足<br>假设上面的元素的下一个兄弟不存在（p）不存在，elem.nextSibling为空，这时再去elem.nodeType会报错，因此要在while里先判断elem是否不为空，为空就不执行elem.nodeType，就不会报错</p>
-<p>js封装first取到第一个孩子节点</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function first(elem)&#123;</div><div class="line">	elem=elem.firstChild;</div><div class="line">	return elem&amp;&amp;elem.nodeType==1?elem:next(elem);</div><div class="line">&#125;</div><div class="line">console.log(first(oDiv));</div></pre></td></tr></table></figure>
-<p>还是一样先判断elem是否存在，避免出现错误，并且调用刚封装的next函数</p>
-<p>通过这两个函数，就能够避免取到空格的情况啦~~~</p>
-
+            <p>在浏览器中，我们一旦把节点添加到document.body（或者其他节点）中，页面就会更新并反映出这个变化</p>
+<p>如果当我们要向document中添加大量数据时(比如1w条)，如果像上面的代码一样，逐条添加节点，这个过程就可能会十分缓慢。<br>当然,你也可以建个新的节点,比如说div,先将oP添加到div上,然后再将div添加到body中.但这样要在body中多添加一个<div></div>.但文档碎片不会产生这种节点.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var oDiv = document.createElement(&quot;div&quot;);</div><div class="line"> for(var i=0;i&lt;10000;i++)&#123;</div><div class="line">       var op = document.createElement(&quot;span&quot;);</div><div class="line">       var oText = document.createTextNode(i); </div><div class="line">      op.appendChild(oText); </div><div class="line">      oDiv.appendChild(op); </div><div class="line">&#125; </div><div class="line">document.body.appendChild(oDiv);</div></pre></td></tr></table></figure>
+<p>为了解决这个问题，我们可以引入createDocumentFragment()方法，它的作用是创建一个文档碎片，把要插入的新节点先附加在它上面，然后再一次性添加到document中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">//先创建文档碎片</div><div class="line">var oFragmeng = document.createDocumentFragment();</div><div class="line">for(var i=0;i&lt;10000;i++)&#123;</div><div class="line"> var op = document.createElement(&quot;span&quot;); </div><div class="line">var oText = document.createTextNode(i); </div><div class="line">op.appendChild(oText);</div><div class="line"> //先附加在文档碎片中 </div><div class="line">oFragmeng.appendChild(op);</div><div class="line"> &#125; </div><div class="line">//最后一次性添加到document中</div><div class="line"></div><div class="line">document.body.appendChild(oFragmeng);</div></pre></td></tr></table></figure>
           
         
       
