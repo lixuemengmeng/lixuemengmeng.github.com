@@ -260,6 +260,175 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/24/exports和module.exports/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李雪萌">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/24/exports和module.exports/" itemprop="url">
+                  exports module.exports
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-24T00:00:00+08:00">
+                2017-03-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/node/" itemprop="url" rel="index">
+                    <span itemprop="name">node</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>commonjs﻿可以</p>
+<p>1.可以把文件加载成模块</p>
+<p>2.提供了module.exports  exports 解决了public private</p>
+<p>所以nodejs才能处理后端</p>
+<p>module.exports 把一个类 暴露给外部 要在外面new一下 才能调用</p>
+<p>exports返回的永远是一个对象﻿</p>
+<p>module.exports可以返回很多（方法 数组 对象）</p>
+<p>一个简单的例子，计算圆的面积：﻿﻿</p>
+<p>﻿使用 exports</p>
+<p>app.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">var circle = require(&apos;./circle&apos;);</div><div class="line"></div><div class="line">﻿console.log(circle.area(4));</div><div class="line"></div><div class="line">﻿circle.js</div><div class="line"></div><div class="line">exports.area = function(r) &#123;﻿﻿</div><div class="line"></div><div class="line">﻿return r * r * Math.PI;</div><div class="line"></div><div class="line">﻿&#125;</div></pre></td></tr></table></figure>
+<p>这种方法是把对象暴露给外部 之后对象.属性去调用area函数</p>
+<p>﻿使用 module.exports</p>
+<p>﻿app.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">﻿var area = require(&apos;./area&apos;);</div><div class="line"></div><div class="line">﻿console.log(area(4));</div><div class="line"></div><div class="line">﻿area.js</div><div class="line"></div><div class="line">﻿module.exports = function(r) &#123;</div><div class="line"></div><div class="line">﻿return r * r * Math.PI;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这种是将整个类暴露给外部 new之后 直接就可以访问</p>
+<p>﻿exports和module.exports的区别</p>
+<p>exports是module.exports的一个引用；module.exportsd的初始值是一个空对象</p>
+<p>所以exports的初始值也是一个空对象</p>
+<p>require返回的是module.exports</p>
+<p>上面两个例子输出是一样的。你也许会问，为什么不这样写呢？﻿</p>
+<p>app.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">var area = require(&apos;./area&apos;);</div><div class="line"></div><div class="line"> console.log(area(4));</div><div class="line"></div><div class="line">area.js</div><div class="line"></div><div class="line"> exports = function(r) &#123;</div><div class="line"></div><div class="line">   return r * r * Math.PI;</div><div class="line"></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>运行上面的例子会报错。这是因为，前面的例子中通过给 exports 添加属性，只是对 exports 指向的内存做了修改，而</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">exports = function(r) &#123;</div><div class="line"></div><div class="line">   return r * r * Math.PI;</div><div class="line"></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>其实是对 exports 进行了覆盖，exports 指向了一块新的内存（内容为一个计算圆面积的函数），exports 和 module.exports 不再指向同一块内存，此时 exports 和 module.exports 毫无联系， module.exports 指向的那块内存并没有做任何改变，仍然为一个空对象 {} ， area.js 导出了一个空对象，所以我们在 app.js 中调用 area(4) 会报 TypeError: object is not a function 的错误。</p>
+<p>所以，一句话做个总结：当我们想让模块导出的是一个对象时， exports 和 module.exports 均可使用（但 exports 也不能重新覆盖为一个新的对象），而当我们想导出非对象接口时，就必须也只能覆盖 module.exports 。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/22/解决兼容性的添加事件和移除事件/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -722,150 +891,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/getClassName/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="李雪萌">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/17/getClassName/" itemprop="url">
-                  封装getClassName函数适应浏览器兼容性问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-17T00:00:00+08:00">
-                2017-03-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js封装/" itemprop="url" rel="index">
-                    <span itemprop="name">js封装</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>getElementsByClassName() IE不支持<br>可以通过className来实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">function getClass(className,context,tag)&#123;</div><div class="line">  		context=context||document;</div><div class="line">  		tag=tag||&quot;*&quot;;</div><div class="line">  		var arr=context.getElementsByTagName(tag);</div><div class="line">  		var result=[];</div><div class="line">for(var i=0;i&lt;arr.length;i++)  </div><div class="line">    &#123;  </div><div class="line">        if(arr[i].className==className)  </div><div class="line">        &#123;  </div><div class="line">           result.push(arr[i])  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">  		</div><div class="line">  		return result;</div><div class="line">  	&#125;</div><div class="line">`</div></pre></td></tr></table></figure></p>
-<p>利用for循环判断className，className没有兼容性问题</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/文档碎片节点优化性能/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -970,6 +995,150 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var oDiv = document.createElement(&quot;div&quot;);</div><div class="line"> for(var i=0;i&lt;10000;i++)&#123;</div><div class="line">       var op = document.createElement(&quot;span&quot;);</div><div class="line">       var oText = document.createTextNode(i); </div><div class="line">      op.appendChild(oText); </div><div class="line">      oDiv.appendChild(op); </div><div class="line">&#125; </div><div class="line">document.body.appendChild(oDiv);</div></pre></td></tr></table></figure>
 <p>为了解决这个问题，我们可以引入createDocumentFragment()方法，它的作用是创建一个文档碎片，把要插入的新节点先附加在它上面，然后再一次性添加到document中。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">//先创建文档碎片</div><div class="line">var oFragmeng = document.createDocumentFragment();</div><div class="line">for(var i=0;i&lt;10000;i++)&#123;</div><div class="line"> var op = document.createElement(&quot;span&quot;); </div><div class="line">var oText = document.createTextNode(i); </div><div class="line">op.appendChild(oText);</div><div class="line"> //先附加在文档碎片中 </div><div class="line">oFragmeng.appendChild(op);</div><div class="line"> &#125; </div><div class="line">//最后一次性添加到document中</div><div class="line"></div><div class="line">document.body.appendChild(oFragmeng);</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/getClassName/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李雪萌">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/17/getClassName/" itemprop="url">
+                  封装getClassName函数适应浏览器兼容性问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-17T00:00:00+08:00">
+                2017-03-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js封装/" itemprop="url" rel="index">
+                    <span itemprop="name">js封装</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>getElementsByClassName() IE不支持<br>可以通过className来实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">function getClass(className,context,tag)&#123;</div><div class="line">  		context=context||document;</div><div class="line">  		tag=tag||&quot;*&quot;;</div><div class="line">  		var arr=context.getElementsByTagName(tag);</div><div class="line">  		var result=[];</div><div class="line">for(var i=0;i&lt;arr.length;i++)  </div><div class="line">    &#123;  </div><div class="line">        if(arr[i].className==className)  </div><div class="line">        &#123;  </div><div class="line">           result.push(arr[i])  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">  		</div><div class="line">  		return result;</div><div class="line">  	&#125;</div><div class="line">`</div></pre></td></tr></table></figure></p>
+<p>利用for循环判断className，className没有兼容性问题</p>
+
           
         
       
@@ -1600,154 +1769,6 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/13/settimeout/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="李雪萌">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/13/settimeout/" itemprop="url">
-                  settimeout()和setInterval()
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-13T00:00:00+08:00">
-                2017-02-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="settimeout-和setInterval"><a href="#settimeout-和setInterval" class="headerlink" title="settimeout()和setInterval()"></a>settimeout()和setInterval()</h3><p>settimeout() setInterval()里的this一般指向window</p>
-<p>产生异步的效果，用他来模拟异步的操作</p>
-<p>###settimeout（fn,0）的作用 可以开两个线程去处理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;span id=&quot;span1&quot;&gt;用户名&lt;/span&gt;:&lt;input type=&quot;text&quot; name=&quot;&quot; id=&quot;username&quot;&gt;</div><div class="line">var oSpan=document.getElementById(&apos;span1&apos;);</div><div class="line">var oUsername=document.getElementById(&apos;username&apos;);</div><div class="line">oUsername.onfocus=function()&#123;</div><div class="line">	console.log(hhh);</div><div class="line">&#125;</div><div class="line">oSpan.onmousedown=function()&#123;</div><div class="line">	oUsername.focus();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>如果没有setInterval()的话，只会简单的调用focus函数,而没有获取焦点的默认行为，<br>因为焦点只能默认在一个 元素身上，mousedown时焦点在span身上，username就没有获取焦点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">oSpan.onmousedown=function()&#123;</div><div class="line">	setTimeout(function()&#123;</div><div class="line">		oUsername.focus();</div><div class="line">	&#125;,2000)</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这样可以在mousedown之后2s后获取焦点，这时焦点在username<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">oSpan.onmousedown=function()&#123;</div><div class="line">	setTimeout(function()&#123;</div><div class="line">		oUsername.focus();</div><div class="line">	&#125;,0)</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>js是单线程的，浏览器是多线程的<br>这样可以mousedown之后立即获取焦点，也有默认行为，因为 js是单线程的，没用setTimeout()时，onmousedown和focus是在同一个线程，不可能有两个元素获取焦点，<br>而加了setTimeout相当于又加了一个线程，mousedown是主线程，浏览器是多线程的，也可以理解为setTimeout打开了另外一个事件的队列，在另外一个队列里进行处理，0虽然是立即执行，但是不在一个线程。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1797,7 +1818,7 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1808,7 +1829,7 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
