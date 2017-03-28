@@ -88,24 +88,24 @@
 
 
 <meta name="description" content="对象的深复制和浅复制.浅度克隆：原始类型为值传递，对象类型仍为引用传递。深度克隆：所有元素或属性均完全复制，与原对象完全脱离，也就是说所有对于新对象的修改都不会反映到原对象中
-12var a=&amp;#123;name:&amp;apos;yy&amp;apos;,age:26&amp;#125;;var b=new Object();
+a=&amp;#123;name:&apos;yy&apos;,age:26&amp;#125;;1var b=new Object();
 深复制1.将对象下属性的值取出来赋给要复制的对象下的属性
-123456789b.name=">
+1234567891011121314151617181920">
 <meta property="og:type" content="article">
 <meta property="og:title" content="对象的浅复制和深复制">
 <meta property="og:url" content="http://yoursite.com/2017/03/28/对象的深复制和浅复制/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="对象的深复制和浅复制.浅度克隆：原始类型为值传递，对象类型仍为引用传递。深度克隆：所有元素或属性均完全复制，与原对象完全脱离，也就是说所有对于新对象的修改都不会反映到原对象中
-12var a=&amp;#123;name:&amp;apos;yy&amp;apos;,age:26&amp;#125;;var b=new Object();
+a=&amp;#123;name:&apos;yy&apos;,age:26&amp;#125;;1var b=new Object();
 深复制1.将对象下属性的值取出来赋给要复制的对象下的属性
-123456789b.name=">
-<meta property="og:updated_time" content="2017-03-28T14:49:27.000Z">
+1234567891011121314151617181920">
+<meta property="og:updated_time" content="2017-03-28T14:55:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对象的浅复制和深复制">
 <meta name="twitter:description" content="对象的深复制和浅复制.浅度克隆：原始类型为值传递，对象类型仍为引用传递。深度克隆：所有元素或属性均完全复制，与原对象完全脱离，也就是说所有对于新对象的修改都不会反映到原对象中
-12var a=&amp;#123;name:&amp;apos;yy&amp;apos;,age:26&amp;#125;;var b=new Object();
+a=&amp;#123;name:&apos;yy&apos;,age:26&amp;#125;;1var b=new Object();
 深复制1.将对象下属性的值取出来赋给要复制的对象下的属性
-123456789b.name=">
+1234567891011121314151617181920">
 
 
 
@@ -363,19 +363,16 @@
 
       
         <p>对象的深复制和浅复制.<br>浅度克隆：原始类型为值传递，对象类型仍为引用传递。<br>深度克隆：所有元素或属性均完全复制，与原对象完全脱离，也就是说所有对于新对象的修改都不会反映到原对象中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var a=&#123;name:&apos;yy&apos;,age:26&#125;;</div><div class="line">var b=new Object();</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>a=&#123;name:'yy',age:26&#125;;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var b=new Object();</div></pre></td></tr></table></figure>
 <p>深复制<br>1.将对象下属性的值取出来赋给要复制的对象下的属性</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">b.name=a.name;</div><div class="line">b.age=a.age;</div><div class="line">a.name=&apos;xx&apos;;</div><div class="line">console.log(b);//Object &#123; name=&quot;yy&quot;, age=26&#125;</div><div class="line">console.log(a);//Object &#123; name=&quot;xx&quot;, age=26&#125; </div><div class="line"></div><div class="line">``` </div><div class="line"></div><div class="line">2.采用递归的方式</div></pre></td></tr></table></figure>
-<p>function deepClone(obj){<br>    var result={},<br>oClass=isClass(obj);isClass判断对象的什么类型<br> for(key in obj){<br>        var copy=obj[key];<br>        if(isClass(copy)==”Object”){<br>            result[key]=arguments.callee(copy);<br>        }else if(isClass(copy)==”Array”){<br>            result[key]=arguments.callee(copy);<br>        }else{<br>            result[key]=obj[key];<br>        }<br>    }<br>    return result;<br>}</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">简化的递归函数</div></pre></td></tr></table></figure>
-<p>Object.prototype.clone=function(){<br> var o=(this.contructor===Array?[]:{});<br>for(var e in this){<br>o[e]=typeof this[e]===’object’?this[e].clone():this[e]<br>}<br>return o;<br>}</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">3.用JSON</div></pre></td></tr></table></figure>
-<pre><code> var str1=JSON.stringify(obj1);
-var obj2=JSON.parse(str1);
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">将对象先转换为字符串，再将字符串转换为数组</div><div class="line"></div><div class="line">浅复制</div></pre></td></tr></table></figure>
-<p>b=a;<br>a.name=’xx’;<br>console.log(b);//Object { name=”xx”, age=26}<br>console.log(a);//Object { name=”xx”, age=26}</p>
-<p>```</p>
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">b.age=a.age;</div><div class="line">a.name=&apos;xx&apos;;</div><div class="line">console.log(b);//Object &#123; name=&quot;yy&quot;, age=26&#125;</div><div class="line">console.log(a);//Object &#123; name=&quot;xx&quot;, age=26&#125; </div><div class="line">``` </div><div class="line"></div><div class="line">2.采用递归的方式</div><div class="line"></div><div class="line">```function deepClone(obj)&#123;</div><div class="line">    var result=&#123;&#125;,</div><div class="line">   oClass=isClass(obj);isClass判断对象的什么类型   </div><div class="line">  for(key in obj)&#123;</div><div class="line">        var copy=obj[key];</div><div class="line">        if(isClass(copy)==&quot;Object&quot;)&#123;</div><div class="line">            result[key]=arguments.callee(copy);</div><div class="line">        &#125;else if(isClass(copy)==&quot;Array&quot;)&#123;</div><div class="line">            result[key]=arguments.callee(copy);</div><div class="line">        &#125;else&#123;</div><div class="line">            result[key]=obj[key];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>简化的递归函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"> var o=(this.contructor===Array?[]:&#123;&#125;);</div><div class="line">for(var e in this)&#123;</div><div class="line">o[e]=typeof this[e]===&apos;object&apos;?this[e].clone():this[e]</div><div class="line">&#125;</div><div class="line">return o;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>3.用JSON</p>
+<figure class="highlight plain"><figcaption><span>str1=JSON.stringify(obj1);</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var obj2=JSON.parse(str1);</div></pre></td></tr></table></figure>
+<p>将对象先转换为字符串，再将字符串转换为数组</p>
+<p>浅复制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">a.name=&apos;xx&apos;;</div><div class="line">console.log(b);//Object &#123; name=&quot;xx&quot;, age=26&#125;</div><div class="line">console.log(a);//Object &#123; name=&quot;xx&quot;, age=26&#125;</div></pre></td></tr></table></figure>
       
     </div>
 
