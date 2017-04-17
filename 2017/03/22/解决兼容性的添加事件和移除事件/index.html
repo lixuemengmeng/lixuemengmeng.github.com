@@ -93,7 +93,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/03/22/解决兼容性的添加事件和移除事件/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="用attachevent和addEventListner添加事件不会被覆盖，但是有兼容性问题，因此封装了一个函数，可以用来添加事件，移除事件12345678910111213function addEvent（elem,type,handler）&amp;#123;if(elem.addEventListener)&amp;#123;elem.addEventListener(type,handler)&amp;#125">
-<meta property="og:updated_time" content="2017-03-23T07:56:08.000Z">
+<meta property="og:updated_time" content="2017-04-15T08:32:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决兼容性问题的添加事件和移除事件">
 <meta name="twitter:description" content="用attachevent和addEventListner添加事件不会被覆盖，但是有兼容性问题，因此封装了一个函数，可以用来添加事件，移除事件12345678910111213function addEvent（elem,type,handler）&amp;#123;if(elem.addEventListener)&amp;#123;elem.addEventListener(type,handler)&amp;#125">
@@ -353,8 +353,8 @@
       
 
       
-        <p>用attachevent和addEventListner添加事件不会被覆盖，但是有兼容性问题，因此封装了一个函数，可以用来添加事件，移除事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">function addEvent（elem,type,handler）&#123;</div><div class="line">if(elem.addEventListener)&#123;</div><div class="line">elem.addEventListener(type,handler)</div><div class="line">&#125;else if（elem.attachEvent）&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line">elem.attachEvent(&quot;on&quot;+type,function（）&#123;</div><div class="line">         handler.call(elem)</div><div class="line">&#125;)</div><div class="line">&#125;else&#123;</div><div class="line">elem[&quot;on&quot;+type]=handle</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>移除事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function removeEvent(elem,type,handler)&#123;</div><div class="line">if(elem..removeEventListene)&#123;</div><div class="line">elem.removeEventListener(type,handle)</div><div class="line">&#125;else if(elem.detachEvent)&#123;</div><div class="line">elem.detachEvent(&quot;on&quot;+type,handle)</div><div class="line">&#125;else&#123;</div><div class="line">elem[&quot;on&quot;+type]=null</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+        <p>用attachevent和addEventListner添加事件不会被覆盖，但是有兼容性问题，因此封装了一个函数，可以用来添加事件，移除事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">function addEvent（elem,type,handler）&#123;</div><div class="line">if(elem.addEventListener)&#123;</div><div class="line">elem.addEventListener(type,handler)</div><div class="line">&#125;else if（elem.attachEvent）&#123;</div><div class="line">elem.attachEvent(&quot;on&quot;+type,function（）&#123;</div><div class="line">         handler.call(elem)</div><div class="line">&#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">&#125;else&#123;</div><div class="line">elem[&quot;on&quot;+type]=handle</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>移除事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function removeEvent(elem,type,handler)&#123;</div><div class="line">if(elem.removeEventListene)&#123;</div><div class="line">elem.removeEventListener(type,handle)</div><div class="line">&#125;else if(elem.detachEvent)&#123;</div><div class="line">elem.detachEvent(&quot;on&quot;+type,handle)</div><div class="line">&#125;else&#123;</div><div class="line">elem[&quot;on&quot;+type]=null</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>因为attachEvent中的this值指向window，所以我们要用call将其this值改为事件源。</p>
 <p>调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function fn（）&#123;</div><div class="line"> alert(1111);</div><div class="line">&#125;</div><div class="line">addEvent(oDiv1,&quot;click&quot;，fn)</div><div class="line">removeEvent(oDiv1,&quot;click&quot;,fn)</div></pre></td></tr></table></figure></p>
 <p>会产生一个问题，移除事件是不好使的，因为添加的处理函数和移除的处理函数不是同一函数<br>为了确保处理的函数是同一个函数我使用了给对象下面添加一个函数属性，这样处理的函数就为同一个函数。<br>这样做<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">else if（elem.attachEvent）&#123;</div><div class="line">elem.fn=function()&#123;</div><div class="line">handle.call(elem);//改变this指向</div><div class="line">&#125;</div><div class="line">elem.attachEvent(&quot;on&quot;+type,elem.fn)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -473,7 +473,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -484,7 +484,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
