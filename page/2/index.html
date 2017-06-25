@@ -260,7 +260,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/getClassName/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/文档碎片节点优化性能/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李雪萌">
@@ -282,8 +282,154 @@
             
               
                 
-                <a class="post-title-link" href="/2017/03/17/getClassName/" itemprop="url">
-                  封装getClassName函数适应浏览器兼容性问题
+                <a class="post-title-link" href="/2017/03/17/文档碎片节点优化性能/" itemprop="url">
+                  利用文档碎片节点优化性能
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-17T00:00:00+08:00">
+                2017-03-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js优化性能/" itemprop="url" rel="index">
+                    <span itemprop="name">js优化性能</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在浏览器中，我们一旦把节点添加到document.body（或者其他节点）中，页面就会更新并反映出这个变化</p>
+<p>如果当我们要向document中添加大量数据时(比如1w条)，如果像上面的代码一样，逐条添加节点，这个过程就可能会十分缓慢。<br>当然,你也可以建个新的节点,比如说div,先将oP添加到div上,然后再将div添加到body中.但这样要在body中多添加一个<div></div>.但文档碎片不会产生这种节点.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var oDiv = document.createElement(&quot;div&quot;);</div><div class="line"> for(var i=0;i&lt;10000;i++)&#123;</div><div class="line">       var op = document.createElement(&quot;span&quot;);</div><div class="line">       var oText = document.createTextNode(i); </div><div class="line">      op.appendChild(oText); </div><div class="line">      oDiv.appendChild(op); </div><div class="line">&#125; </div><div class="line">document.body.appendChild(oDiv);</div></pre></td></tr></table></figure>
+<p>为了解决这个问题，我们可以引入createDocumentFragment()方法，它的作用是创建一个文档碎片，把要插入的新节点先附加在它上面，然后再一次性添加到document中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">//先创建文档碎片</div><div class="line">var oFragmeng = document.createDocumentFragment();</div><div class="line">for(var i=0;i&lt;10000;i++)&#123;</div><div class="line"> var op = document.createElement(&quot;span&quot;); </div><div class="line">var oText = document.createTextNode(i); </div><div class="line">op.appendChild(oText);</div><div class="line"> //先附加在文档碎片中 </div><div class="line">oFragmeng.appendChild(op);</div><div class="line"> &#125; </div><div class="line">//最后一次性添加到document中</div><div class="line"></div><div class="line">document.body.appendChild(oFragmeng);</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/next和first/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李雪萌">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/17/next和first/" itemprop="url">
+                  封装next和first解决取到空格的问题
                 </a>
               
             
@@ -359,8 +505,204 @@
       
         
           
-            <p>getElementsByClassName() IE不支持<br>可以通过className来实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">function getClass(className,context,tag)&#123;</div><div class="line">  		context=context||document;</div><div class="line">  		tag=tag||&quot;*&quot;;</div><div class="line">  		var arr=context.getElementsByTagName(tag);</div><div class="line">  		var result=[];</div><div class="line">for(var i=0;i&lt;arr.length;i++)  </div><div class="line">    &#123;  </div><div class="line">        if(arr[i].className==className)  </div><div class="line">        &#123;  </div><div class="line">           result.push(arr[i])  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">  		</div><div class="line">  		return result;</div><div class="line">  	&#125;</div><div class="line">`</div></pre></td></tr></table></figure></p>
-<p>利用for循环判断className，className没有兼容性问题</p>
+            <p>Dom节点有很多种，他们分别有不同的nodeType和nodeValue</p>
+<p>元素节点的nodeValue为空，nodeType为1，例如 </p><p></p><p></p>
+<p>文本节点nodeValue为文本里的值 ，nodeType为3，111 空白 text</p>
+<p>注释节点 nodeType为 8 </p>
+<p>而获取节点的时候我们通常希望获取到的是元素节点，而不希望获取到空格</p>
+<blockquote>
+<p>firstchild  在ie里取到的第一个是元素节点，不包括文本节点<br> crome里取到的是空格</p>
+</blockquote>
+<p>还有另一个属性可以获取第一个孩子节点</p>
+<blockquote>
+<p>firstElementchild 在crome里 取到第一个元素节点  但是ie不兼容</p>
+</blockquote>
+<p>因此为了能够获取到元素节点，而不是空格，我封装了一个next函数</p>
+<p>html结构</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&apos;div1&apos;&gt;</div><div class="line">		&lt;h1 id=&apos;h1&apos;&gt;2222222&lt;/h1&gt;</div><div class="line">		&lt;p&gt;111111&lt;/p&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var oDiv=document.getElementById(&apos;div1&apos;);</div><div class="line"> var oH1=document.getElementById(&apos;h1&apos;);</div></pre></td></tr></table></figure>
+<p>js封装next取到第一个兄弟节点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"> function next(elem)&#123;</div><div class="line"> 	do&#123;</div><div class="line"> 		elem=elem.nextSibling;</div><div class="line"> 	&#125;while(elem&amp;&amp;elem.nodeType!=1)</div><div class="line"> 	return elem;</div><div class="line"> &#125;</div><div class="line">console.log(next(oH1));</div></pre></td></tr></table></figure></p>
+<p>循环判断nodeType的值是否为元素节点的值1，没找到值为1就一直while循环选择do while 是因为可能第一个元素就满足<br>假设上面的元素的下一个兄弟不存在（p）不存在，elem.nextSibling为空，这时再去elem.nodeType会报错，因此要在while里先判断elem是否不为空，为空就不执行elem.nodeType，就不会报错</p>
+<p>js封装first取到第一个孩子节点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function first(elem)&#123;</div><div class="line">	elem=elem.firstChild;</div><div class="line">	return elem&amp;&amp;elem.nodeType==1?elem:next(elem);</div><div class="line">&#125;</div><div class="line">console.log(first(oDiv));</div></pre></td></tr></table></figure>
+<p>还是一样先判断elem是否存在，避免出现错误，并且调用刚封装的next函数</p>
+<p>通过这两个函数，就能够避免取到空格的情况啦~~~</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/15/settimeout/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李雪萌">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/15/settimeout/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-15T13:41:02+08:00">
+                2017-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li>为什么选择百度<br> 1）大公司，开发流程规范，前后端数据分离比较好，对性能和兼容性要求较高<br> 2）百度的网页类的产品最多，对前端要求较高<br> 3）虽然不能去搜索的核心算法部门，只是做一些周边的工作，但是这些工作做好了一样可以帮助百度引流</li>
+<li>前端具备哪些能力，工作内容是什么(硬和软实力)，怎么理解前端工程师<br> 1）编码能力<br> 2）注重用户体验 细心<br> 3）沟通能力<br> 4）团队协作<br> 5）学习能力 解决问题的能力</li>
+<li>遇到新问题（事情），如何解决，思路<br> 1）要多沟通，擅于和其他人学习<br> 2）比如遇到手册上的内容版本比较旧，学习的时候搭建不起来（遇到各种坑）,就先确定公公司现在要使用的版本，根据这个版本再找对应的文档<br> 做笔记</li>
+</ol>
+<p>//获取数据<br>var $datatimestart=”1901-01-01 00:00:00”;<br>var $datatimeend=”1901-11-30 06:00:00”;</p>
+<p>var orderVal = “ASC”;<br>var dataResult;<br>$.ajax({<br>    url:’sqlLink2.php’,<br>    data:{<br>        ‘datatimeend’:$datatimeend,<br>        ‘datatimestart’:$datatimestart,<br>        ‘order’:orderVal<br>    },<br>    dataType:’text’,<br>    type:’post’,<br>    error:function(XMLHttpRequest, textStatus, errorThrown){<br>    },<br>    success:function(data){</p>
+<pre><code>    data=data.substring(1,data.length-2);
+    dataResult = data.split(&apos;,&apos;);
+
+    drawSheet();
+}
+</code></pre><p>});</p>
+<p>function drawSheet() {<br>    // 基于准备好的dom，初始化echarts实例<br>    var myChart = echarts.init(document.getElementById(‘main’));</p>
+<pre><code>var base = +new Date(1902, 01, 01);
+var oneDay = 24 * 3600 * 1000;
+
+var class1=0;
+var class2=0;
+var class3=0;
+var class4=0;
+var class5=0;
+for(var i=0;i&lt;dataResult.length;i++){
+    console.log(dataResult[i]);
+    var data=dataResult[i].split(&quot; &quot;);
+
+    var tem=data[2];
+    var temp=parseInt(tem);
+   console.log(temp);
+    if(250&lt;temp&lt;=500){
+        class1++;
+        // break;
+    }else if(0&lt;temp&lt;=250){
+        class2++;
+        // break;
+
+    }else if(500&lt;temp&lt;=750){
+        class3++;
+        // break;
+
+    }else if(750&lt;temp&lt;=1000){
+        class4++;
+        // break;
+
+    }else{
+        class5++;
+        // break;
+
+    }
+}
+console.log(class1);
+console.log(class2);
+console.log(class3);
+console.log(class4);
+</code></pre><p>// 指定图表的配置项和数据<br>        var option = {<br>        title : {<br>            text: ‘1901年度温度范围’,<br>            x:’center’<br>        },<br>        tooltip : {<br>            trigger: ‘item’,<br>            formatter: “{a} <br>{b} : {c} ({d}%)”<br>        },<br>        legend: {<br>            orient: ‘vertical’,<br>            left: ‘left’,<br>            data: [‘250&lt;temp&lt;=500’,’0&lt;temp&lt;=250’,’500&lt;temp&lt;=750’,’750&lt;temp&lt;=1000’,’else’]<br>        },<br>        series : [<br>            {<br>                name: ‘访问来源’,<br>                type: ‘pie’,<br>                radius : ‘55%’,<br>                center: [‘50%’, ‘60%’],<br>                data:[<br>                    {value:class1, name:’250&lt;temp&lt;=500’},<br>                    {value:class2, name:’0&lt;temp&lt;=250’},<br>                    {value:class3, name:’500&lt;temp&lt;=750’},<br>                    {value:class4, name:’750&lt;temp&lt;=1000’},<br>                    {value:class5, name:’else’}<br>                ],<br>                itemStyle: {<br>                    emphasis: {<br>                        shadowBlur: 10,<br>                        shadowOffsetX: 0,<br>                        shadowColor: ‘rgba(0, 0, 0, 0.5)’<br>                    }<br>                }<br>            }<br>        ]<br>    };</p>
+<p>// 使用刚指定的配置项和数据显示图表。<br>    myChart.setOption(option);<br>}</p>
 
           
         
@@ -1001,155 +1343,6 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/13/settimeout/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="李雪萌">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/13/settimeout/" itemprop="url">
-                  settimeout()和setInterval()
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-13T00:00:00+08:00">
-                2017-02-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="settimeout-和setInterval"><a href="#settimeout-和setInterval" class="headerlink" title="settimeout()和setInterval()"></a>settimeout()和setInterval()</h3><p>settimeout() setInterval()里的this一般指向window</p>
-<p>产生异步的效果，用他来模拟异步的操作</p>
-<p>###settimeout（fn,0）的作用 类似于两个线程去处理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;span id=&quot;span1&quot;&gt;用户名&lt;/span&gt;:&lt;input type=&quot;text&quot; name=&quot;&quot; id=&quot;username&quot;&gt;</div><div class="line">var oSpan=document.getElementById(&apos;span1&apos;);</div><div class="line">var oUsername=document.getElementById(&apos;username&apos;);</div><div class="line">oUsername.onfocus=function()&#123;</div><div class="line">	console.log(hhh);</div><div class="line">&#125;</div><div class="line">oSpan.onmousedown=function()&#123;</div><div class="line">	oUsername.focus();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>如果没有setInterval()的话，只会简单的调用focus函数,而没有获取焦点的默认行为，<br>因为焦点只能默认在一个 元素身上，mousedown时焦点在span身上，username就没有获取焦点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">oSpan.onmousedown=function()&#123;</div><div class="line">	setTimeout(function()&#123;</div><div class="line">		oUsername.focus();</div><div class="line">	&#125;,2000)</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这样可以在mousedown之后2s后获取焦点，这时焦点在username<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">oSpan.onmousedown=function()&#123;</div><div class="line">	setTimeout(function()&#123;</div><div class="line">		oUsername.focus();</div><div class="line">	&#125;,0)</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>js是单线程的，浏览器是多线程的<br>这样可以mousedown之后立即获取焦点，也有默认行为，因为 js是单线程的，没用setTimeout()时，onmousedown和focus是在同一个线程，不可能有两个元素获取焦点，<br>而加了setTimeout相当于又加了一个线程，mousedown是主线程，浏览器是多线程的，也可以理解为setTimeout打开了另外一个事件的队列，在另外一个队列里进行处理，0虽然是立即执行，但是不在一个线程。<br>举个小栗子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">setTimeout(function()&#123;</div><div class="line">		console.log(1);</div><div class="line">	&#125;,0);</div><div class="line">	console.log(2);</div><div class="line">	console.log(3);</div></pre></td></tr></table></figure></p>
-<p>会输出2，3 ，1<br>在现有浏览器环境中，Javascript执行引擎是单线程的，主线程的语句和方法，会阻塞定时任务的运行，在Javascript执行引擎之外，存在一个任务队列，当在代码中调用setTimeout()方法时，注册的延时方法会挂到浏览器内核其他模块处理，当延时方法到达触发条件，即到达设置的延时时间时，该模块再将要执行的方法添加至该模块的任务队列中。这一过程与执行引擎主线程独立，执行引擎在主线程方法执行完毕，到达空闲状态时，才会从该模块的任务队列中顺序提取任务来执行，这期间的时间，可能大于注册任务时设置的延时时间；<br>浏览器在空闲状态下，会不断的尝试从模块的任务队列中提取任务，这称为事件循环模型；</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/13/闭包/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1596,158 +1789,11 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/31/isset/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="李雪萌">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/31/isset/" itemprop="url">
-                  数据库查询isset
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-31T00:00:00+08:00">
-                2017-01-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/php/" itemprop="url" rel="index">
-                    <span itemprop="name">php</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>今天用php的ci框架用数据库查询时 遇到了一个错误</p>
-<figure class="highlight plain"><figcaption><span>to get property of non-object</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line"></div><div class="line">这个错误是由于数据库中没有该记录，所以返回的对象是null</div><div class="line"></div><div class="line">而我在view页面写的语句</div><div class="line"></div><div class="line">```&lt;?php echo $rs_work-&gt;company?&gt;</div></pre></td></tr></table></figure>
-<p>此时$rs_work是个空对象,所以会报错</p>
-<p>所以我们应该先判断对象是否为空,可以用isset函数,isset函数是检测变量是否设置，语句如下</p>
-<p><code>&lt;?php if(isset($rs_work)){echo $rs_work-&gt;company;}?&gt;</code></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1792,7 +1838,7 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
