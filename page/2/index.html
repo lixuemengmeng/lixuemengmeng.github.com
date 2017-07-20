@@ -408,7 +408,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/文档碎片节点优化性能/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/next和first/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李雪萌">
@@ -430,8 +430,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/03/17/文档碎片节点优化性能/" itemprop="url">
-                  利用文档碎片节点优化性能
+                <a class="post-title-link" href="/2017/03/17/next和first/" itemprop="url">
+                  封装next和first解决取到空格的问题
                 </a>
               
             
@@ -470,8 +470,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js优化性能/" itemprop="url" rel="index">
-                    <span itemprop="name">js优化性能</span>
+                  <a href="/categories/js封装/" itemprop="url" rel="index">
+                    <span itemprop="name">js封装</span>
                   </a>
                 </span>
 
@@ -507,11 +507,158 @@
       
         
           
-            <p>在浏览器中，我们一旦把节点添加到document.body（或者其他节点）中，页面就会更新并反映出这个变化</p>
-<p>如果当我们要向document中添加大量数据时(比如1w条)，如果像上面的代码一样，逐条添加节点，这个过程就可能会十分缓慢。<br>当然,你也可以建个新的节点,比如说div,先将oP添加到div上,然后再将div添加到body中.但这样要在body中多添加一个<div></div>.但文档碎片不会产生这种节点.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var oDiv = document.createElement(&quot;div&quot;);</div><div class="line"> for(var i=0;i&lt;10000;i++)&#123;</div><div class="line">       var op = document.createElement(&quot;span&quot;);</div><div class="line">       var oText = document.createTextNode(i); </div><div class="line">      op.appendChild(oText); </div><div class="line">      oDiv.appendChild(op); </div><div class="line">&#125; </div><div class="line">document.body.appendChild(oDiv);</div></pre></td></tr></table></figure>
-<p>为了解决这个问题，我们可以引入createDocumentFragment()方法，它的作用是创建一个文档碎片，把要插入的新节点先附加在它上面，然后再一次性添加到document中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">//先创建文档碎片</div><div class="line">var oFragmeng = document.createDocumentFragment();</div><div class="line">for(var i=0;i&lt;10000;i++)&#123;</div><div class="line"> var op = document.createElement(&quot;span&quot;); </div><div class="line">var oText = document.createTextNode(i); </div><div class="line">op.appendChild(oText);</div><div class="line"> //先附加在文档碎片中 </div><div class="line">oFragmeng.appendChild(op);</div><div class="line"> &#125; </div><div class="line">//最后一次性添加到document中</div><div class="line"></div><div class="line">document.body.appendChild(oFragmeng);</div></pre></td></tr></table></figure>
+            <p>Dom节点有很多种，他们分别有不同的nodeType和nodeValue</p>
+<p>元素节点的nodeValue为空，nodeType为1，例如 </p><p></p><p></p>
+<p>文本节点nodeValue为文本里的值 ，nodeType为3，111 空白 text</p>
+<p>注释节点 nodeType为 8 </p>
+<p>而获取节点的时候我们通常希望获取到的是元素节点，而不希望获取到空格</p>
+<blockquote>
+<p>firstchild  在ie里取到的第一个是元素节点，不包括文本节点<br> crome里取到的是空格</p>
+</blockquote>
+<p>还有另一个属性可以获取第一个孩子节点</p>
+<blockquote>
+<p>firstElementchild 在crome里 取到第一个元素节点  但是ie不兼容</p>
+</blockquote>
+<p>因此为了能够获取到元素节点，而不是空格，我封装了一个next函数</p>
+<p>html结构</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&apos;div1&apos;&gt;</div><div class="line">		&lt;h1 id=&apos;h1&apos;&gt;2222222&lt;/h1&gt;</div><div class="line">		&lt;p&gt;111111&lt;/p&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var oDiv=document.getElementById(&apos;div1&apos;);</div><div class="line"> var oH1=document.getElementById(&apos;h1&apos;);</div></pre></td></tr></table></figure>
+<p>js封装next取到第一个兄弟节点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"> function next(elem)&#123;</div><div class="line"> 	do&#123;</div><div class="line"> 		elem=elem.nextSibling;</div><div class="line"> 	&#125;while(elem&amp;&amp;elem.nodeType!=1)</div><div class="line"> 	return elem;</div><div class="line"> &#125;</div><div class="line">console.log(next(oH1));</div></pre></td></tr></table></figure></p>
+<p>循环判断nodeType的值是否为元素节点的值1，没找到值为1就一直while循环选择do while 是因为可能第一个元素就满足<br>假设上面的元素的下一个兄弟不存在（p）不存在，elem.nextSibling为空，这时再去elem.nodeType会报错，因此要在while里先判断elem是否不为空，为空就不执行elem.nodeType，就不会报错</p>
+<p>js封装first取到第一个孩子节点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function first(elem)&#123;</div><div class="line">	elem=elem.firstChild;</div><div class="line">	return elem&amp;&amp;elem.nodeType==1?elem:next(elem);</div><div class="line">&#125;</div><div class="line">console.log(first(oDiv));</div></pre></td></tr></table></figure>
+<p>还是一样先判断elem是否存在，避免出现错误，并且调用刚封装的next函数</p>
+<p>通过这两个函数，就能够避免取到空格的情况啦~~~</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/15/hello-world/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李雪萌">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/15/hello-world/" itemprop="url">
+                  Hello World
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-15T13:41:02+08:00">
+                2017-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+
           
         
       
@@ -730,7 +877,7 @@ console.log(class4);
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/15/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/15/分享项目/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李雪萌">
@@ -752,8 +899,8 @@ console.log(class4);
             
               
                 
-                <a class="post-title-link" href="/2017/03/15/hello-world/" itemprop="url">
-                  Hello World
+                <a class="post-title-link" href="/2017/03/15/分享项目/" itemprop="url">
+                  分享项目总结
                 </a>
               
             
@@ -769,7 +916,7 @@ console.log(class4);
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-15T13:41:02+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-15T00:00:00+08:00">
                 2017-03-15
               </time>
             
@@ -807,15 +954,13 @@ console.log(class4);
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+            <p>到公司实习接触了分享的这个项目，项目主要是要实现截图分享和图片分享的功能，在这个过程中学到很多，解锁了crome开发者工具的更多功能，学会了部署开发机，学会了vim，对linux的命令更加熟悉，更加熟练的使用git，结合smarty模版，用zepto进行交互，也学习了正则表达式。<br>1.在做项目的时候涉及到了form表单提交 ，我们都知道form表单提交是同步的，提交的时候会刷新页面，我们可以用target属性，target指向一个隐藏的iframe,返回的效果会在隐藏的iframe上，这样就可以不刷新页面啦<br>2.在发送post提交的时候，发现一直有问题，后来发现遇到单引号会被转义，我们把单引号都用替换成字符编码就好啦，用的时候记得要转回来呢<br>3.刚开始遇到一个需求需要用到正则表达式，自己研究了好久，<br>终于写出来<br>看一个小栗子 获取手机百度的版本号</p>
+<p><code>parseFloat((navigator.userAgent.match( /baiduboxapp\/\d+(\.\d+)*/ig))[0].substring((&#39;baiduboxapp/&#39;).length));</code></p>
+<ol>
+<li>其实改写组件主要是逻辑要清晰，减少耦合，不要对之前的效果产生影响，代码规范是非常重要的，变量的命名，全局变量的使用，代码的容错性等等，觉得自己做完这个项目，收获最大的应该是对逻辑的思考。</li>
+</ol>
+<p>5.记得第一次过cr的时候，以为自己的代码没什么问题了，结果发现，公司里面对后添加的dom结构的销毁是很重视的，我们在需要在异步的情况下和切换的情况下都要将我们后添加的dom结构，全局函数销毁，用完之后也要销毁。</p>
+<p>###说的额外的感受哈<br>说说我的感受吧 通过这个项目，觉得对我的锻炼特别大，很多逻辑上的思考，经常想不到，就要再改写逻辑，项目不小，涉及的坑真的很多，需要和端那边的人去沟通，和pm进行沟通，经常遇到一个问题就会卡很久，更多的成长是对逻辑上和心里上的，觉得通过这个项目，自己的逻辑更清晰，更有耐心，心里承受能力也变的很强。</p>
 
           
         
@@ -1013,133 +1158,6 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/15/分享项目/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="李雪萌">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/15/分享项目/" itemprop="url">
-                  分享项目总结
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-15T00:00:00+08:00">
-                2017-03-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>到公司实习接触了分享的这个项目，项目主要是要实现截图分享和图片分享的功能，在这个过程中学到很多，解锁了crome开发者工具的更多功能，学会了部署开发机，学会了vim，对linux的命令更加熟悉，更加熟练的使用git，结合smarty模版，用zepto进行交互，也学习了正则表达式。<br>1.在做项目的时候涉及到了form表单提交 ，我们都知道form表单提交是同步的，提交的时候会刷新页面，我们可以用target属性，target指向一个隐藏的iframe,返回的效果会在隐藏的iframe上，这样就可以不刷新页面啦<br>2.在发送post提交的时候，发现一直有问题，后来发现遇到单引号会被转义，我们把单引号都用替换成字符编码就好啦，用的时候记得要转回来呢<br>3.刚开始遇到一个需求需要用到正则表达式，自己研究了好久，<br>终于写出来<br>看一个小栗子 获取手机百度的版本号</p>
-<p><code>parseFloat((navigator.userAgent.match( /baiduboxapp\/\d+(\.\d+)*/ig))[0].substring((&#39;baiduboxapp/&#39;).length));</code></p>
-<ol>
-<li>其实改写组件主要是逻辑要清晰，减少耦合，不要对之前的效果产生影响，代码规范是非常重要的，变量的命名，全局变量的使用，代码的容错性等等，觉得自己做完这个项目，收获最大的应该是对逻辑的思考。</li>
-</ol>
-<p>5.记得第一次过cr的时候，以为自己的代码没什么问题了，结果发现，公司里面对后添加的dom结构的销毁是很重视的，我们在需要在异步的情况下和切换的情况下都要将我们后添加的dom结构，全局函数销毁，用完之后也要销毁。</p>
-<p>###说的额外的感受哈<br>说说我的感受吧 通过这个项目，觉得对我的锻炼特别大，很多逻辑上的思考，经常想不到，就要再改写逻辑，项目不小，涉及的坑真的很多，需要和端那边的人去沟通，和pm进行沟通，经常遇到一个问题就会卡很久，更多的成长是对逻辑上和心里上的，觉得通过这个项目，自己的逻辑更清晰，更有耐心，心里承受能力也变的很强。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/24/浮动问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1249,6 +1267,163 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
 <p>1.左浮</p>
 <p>2.溢出隐藏：overflow：hidden</p>
 <p>3.定位</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/24/内联元素和块级元素之间的嵌套关系/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李雪萌">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/24/内联元素和块级元素之间的嵌套关系/" itemprop="url">
+                  内联样式和块级元素之间的嵌套关系
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-24T00:00:00+08:00">
+                2017-02-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/css/" itemprop="url" rel="index">
+                    <span itemprop="name">css</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>首先，我们来回顾一下内联元素和块级元素<br>内联元素可以嵌套内联元素，块级元素可以嵌套部分块级元素并也能嵌套内联元素，但内联元素不能嵌套块级元素。块级元素为block，内联元素为inline，拥有“inline”特性的同时又拥有“block”的特性称为replace元素。</p>
+<p>在做项目的时候，犯了个错，进了坑<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;p class=&quot;opr-worldcup-tieba2-checkcode&quot;&gt;</div><div class="line">&lt;input class=&quot;opr-worldcup-tieba2-checkcode-input c-input&quot; placeholder=&quot;输入验证码&quot;&gt;</div><div class="line">&lt;div class=&quot;opr-worldcup-tieba2-checkcode-img-wrapper&quot;&gt;image&lt;/div&gt;</div><div class="line">&lt;span class=&quot;opr-worldcup-tieba2-checkcode-change-code&quot;&gt;看不清?&lt;/span&gt;</div><div class="line">&lt;/p&gt;</div></pre></td></tr></table></figure></p>
+<p>在控制台一看，被解析成了这个样子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;p class=&quot;opr-worldcup-tieba2-checkcode&quot;&gt;</div><div class="line">&lt;input class=&quot;opr-worldcup-tieba2-checkcode-input c-input&quot; placeholder=&quot;输入验证码&quot;&gt;</div><div class="line">&lt;/p&gt;</div><div class="line">&lt;div class=&quot;opr-worldcup-tieba2-checkcode-img-wrapper&quot;&gt;image&lt;/div&gt;</div><div class="line">&lt;span class=&quot;opr-worldcup-tieba2-checkcode-change-code&quot;&gt;看不清?&lt;/span&gt;</div><div class="line">&lt;p&gt; &lt;/p&gt;</div></pre></td></tr></table></figure></p>
+<p>我们会发现，<div>分别在一行显示，而此时”p元素的开始”与”p元素的结束”也在不同的一行显示</div></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">原来，在```&lt;p&gt;```元素中是不能嵌套```&lt;div&gt;```元素的，在```&lt;p&gt;```标签还没结束时，遇到下一个块级元素就会自动结束。</div><div class="line">试了一下</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">这段代码会被浏览器会解析为</div><div class="line">```&lt;p&gt;元素的开始&lt;/p&gt;</div></pre></td></tr></table></figure>
+<p>那我们就会想如果把div设置为内联样式的话，是不是就不会出现这样的现象啦<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;这是p元素的开始  </div><div class="line">&lt;div style=&quot;display: inline&quot;&gt;div元素1&lt;/div&gt;  </div><div class="line">&lt;div style=&quot;display: inline&quot;&gt;div元素2&lt;/div&gt;  </div><div class="line">这是p元素的结束  </div><div class="line">&lt;/p&gt;</div></pre></td></tr></table></figure></p>
+<p>即使我们给<div>添加样式，将它变成内联元素形式,他的效果还是一样的，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;这是p元素的开始  &lt;/p&gt;</div><div class="line">&lt;div style=&quot;display: inline&quot;&gt;div元素1&lt;/div&gt;  </div><div class="line">&lt;div style=&quot;display: inline&quot;&gt;div元素2&lt;/div&gt;  </div><div class="line">这是p元素的结束  </div><div class="line">&lt;p&gt;&lt;/p&gt;</div></pre></td></tr></table></figure></div></p>
+<p>我们再用JavaScript代码来检索一个页面中的p元素：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var p = document.querySelectorAll(&quot;p&quot;); //查找p元素  </div><div class="line">console.log(p.length); // 2个元素</div></pre></td></tr></table></figure></p>
+<p>我们以为会是1 结果是2</p>
+<p>###因此得出结论：<br>在p元素是不能嵌套Div元素的，它会被浏览器解析为页面中p元素的两倍数量，也就是开始标签被解析为一个p元素，结束标签被解析为一个p元素。</p>
+<p>###元素的三个类别：<br>那哪些块元素里面不能放哪些块元素呢？我们可以先把所有的块元素再次划分成几个级别的，我们已经知道<code>&lt;html&gt;</code>是在最外层，<code>&lt;html&gt;</code>下一级里面只会有<code>&lt;head&gt;</code>、<code>&lt;body&gt;</code>、。而我们已经知道了可视的元素只会出现在<code>&lt;body&gt;</code>里，所以我们把<code>&lt;body&gt;</code>划在第一个级里面，接着，把不可以自由嵌套的元素划在第三个级，其他的就归进第二个级。所谓的不可自由嵌套的元素就是里面只能放内联元素的，它们包括有：标题标记的<code>&lt;h1&gt;</code>、<code>&lt;h2&gt;</code>、<code>&lt;h3&gt;</code>、<code>&lt;h4&gt;</code>、<code>&lt;h5&gt;</code>、<code>&lt;h6&gt;</code>、<code>&lt;caption&gt;</code>；段落标记的<code>&lt;p&gt;</code>；分隔线<code>&lt;hr&gt;</code>。</p>
+<p>为什么说第二级的元素可以自由嵌套呢？我们可以把它们看成是一些容器（或者说是盒子）， 这些容器的大小可以自由变化，例如我们可以把<code>&lt;ul&gt;</code>嵌在<code>&lt;div&gt;</code>里面，也可以把<code>&lt;div&gt;</code>嵌在<code>&lt;li&gt;</code>里面。</p>
+<p>在HTML里有几个元素是比较特别的：<code>&lt;ul&gt;、&lt;ol&gt;、&lt;dl&gt;、&lt;table&gt;</code>，它们的子一层必须是指定元素，<code>&lt;ul&gt;、&lt;ol&gt;</code>的子一级必须是<code>&lt;li&gt;</code>；<code>&lt;table&gt;</code>的子一层必须是<code>&lt;caption&gt; 或&lt;thead&gt;、&lt;tfoot&gt;、&lt;tbody&gt;</code>等，而再子一层必须是<code>&lt;tr&gt;</code> （<code>&lt;tr&gt;只存在于&lt;thead&gt;、&lt;tfoot&gt;、&lt;tbody&gt;中</code>），之后才是可放内容的<code>&lt;td&gt;</code>或者<code>&lt;th&gt;</code>。</p>
+<p><code>&lt;img&gt;</code>和<code>&lt;input&gt;</code>有着其它内联元素没有的宽和高。它们在”inline”的情况下又有”black”的特性，W3C称之为replace元素。</p>
 
           
         
@@ -1595,158 +1770,6 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/12/var_dump打断php运行/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="李雪萌">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/12/var_dump打断php运行/" itemprop="url">
-                  echo/var_dump会打断php的运行
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-12T00:00:00+08:00">
-                2017-02-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/php/" itemprop="url" rel="index">
-                    <span itemprop="name">php</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="ajax-echo-var-dump是否会打断php的运行"><a href="#ajax-echo-var-dump是否会打断php的运行" class="headerlink" title="ajax echo/var_dump是否会打断php的运行"></a>ajax echo/var_dump是否会打断php的运行</h3><p>echo/var_dump是否会打断php的运行，答案自然是不会打断执行，但是为什么对执行有影响呢</p>
-<p>问题是这样的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var_dump($userid);</div><div class="line">$rs=$this-&gt;t_user_model-&gt;get_all_by_id($userid);</div><div class="line">echo json_encode($rs);</div></pre></td></tr></table></figure>
-<p>数据在network里是可以正确的查出来，但是就是执行不到回调函数里，我刚开始有看格式是否为json，发现是没有问题的</p>
-<p>之后我百度我把<code>var_dump($userid);</code>去掉，发现可以跳到回调函数里，</p>
-<p>我去百度了一下，</p>
-<p>可能是执行ajaxreturn时, echo/var_dump的内容也会通过ajax返回, echo内容让前端解析出错.</p>
-<p>为了避免这样的情况再发生，以后不要在controller里随便echo/var_dump吧</p>
-<p>ajax不进入get请求的回调函数，链接如下</p>
-<p><a href="http://blog.csdn.net/wabiaozia/article/details/50602672" target="_blank" rel="external">http://blog.csdn.net/wabiaozia/article/details/50602672</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1796,7 +1819,7 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
