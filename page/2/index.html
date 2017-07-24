@@ -859,6 +859,133 @@ console.log(class4);
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/15/分享项目/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李雪萌">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/15/分享项目/" itemprop="url">
+                  分享项目总结
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-15T00:00:00+08:00">
+                2017-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>到公司实习接触了分享的这个项目，项目主要是要实现截图分享和图片分享的功能，在这个过程中学到很多，解锁了crome开发者工具的更多功能，学会了部署开发机，学会了vim，对linux的命令更加熟悉，更加熟练的使用git，结合smarty模版，用zepto进行交互，也学习了正则表达式。<br>1.在做项目的时候涉及到了form表单提交 ，我们都知道form表单提交是同步的，提交的时候会刷新页面，我们可以用target属性，target指向一个隐藏的iframe,返回的效果会在隐藏的iframe上，这样就可以不刷新页面啦<br>2.在发送post提交的时候，发现一直有问题，后来发现遇到单引号会被转义，我们把单引号都用替换成字符编码就好啦，用的时候记得要转回来呢<br>3.刚开始遇到一个需求需要用到正则表达式，自己研究了好久，<br>终于写出来<br>看一个小栗子 获取手机百度的版本号</p>
+<p><code>parseFloat((navigator.userAgent.match( /baiduboxapp\/\d+(\.\d+)*/ig))[0].substring((&#39;baiduboxapp/&#39;).length));</code></p>
+<ol>
+<li>其实改写组件主要是逻辑要清晰，减少耦合，不要对之前的效果产生影响，代码规范是非常重要的，变量的命名，全局变量的使用，代码的容错性等等，觉得自己做完这个项目，收获最大的应该是对逻辑的思考。</li>
+</ol>
+<p>5.记得第一次过cr的时候，以为自己的代码没什么问题了，结果发现，公司里面对后添加的dom结构的销毁是很重视的，我们在需要在异步的情况下和切换的情况下都要将我们后添加的dom结构，全局函数销毁，用完之后也要销毁。</p>
+<p>###说的额外的感受哈<br>说说我的感受吧 通过这个项目，觉得对我的锻炼特别大，很多逻辑上的思考，经常想不到，就要再改写逻辑，项目不小，涉及的坑真的很多，需要和端那边的人去沟通，和pm进行沟通，经常遇到一个问题就会卡很久，更多的成长是对逻辑上和心里上的，觉得通过这个项目，自己的逻辑更清晰，更有耐心，心里承受能力也变的很强。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/15/git的通信/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1013,7 +1140,7 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/15/分享项目/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/15/JavaScript中的函数与闭包/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李雪萌">
@@ -1035,8 +1162,8 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
             
               
                 
-                <a class="post-title-link" href="/2017/03/15/分享项目/" itemprop="url">
-                  分享项目总结
+                <a class="post-title-link" href="/2017/03/15/JavaScript中的函数与闭包/" itemprop="url">
+                  JavaScript中的函数与闭包
                 </a>
               
             
@@ -1063,133 +1190,6 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
           </span>
 
           
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>到公司实习接触了分享的这个项目，项目主要是要实现截图分享和图片分享的功能，在这个过程中学到很多，解锁了crome开发者工具的更多功能，学会了部署开发机，学会了vim，对linux的命令更加熟悉，更加熟练的使用git，结合smarty模版，用zepto进行交互，也学习了正则表达式。<br>1.在做项目的时候涉及到了form表单提交 ，我们都知道form表单提交是同步的，提交的时候会刷新页面，我们可以用target属性，target指向一个隐藏的iframe,返回的效果会在隐藏的iframe上，这样就可以不刷新页面啦<br>2.在发送post提交的时候，发现一直有问题，后来发现遇到单引号会被转义，我们把单引号都用替换成字符编码就好啦，用的时候记得要转回来呢<br>3.刚开始遇到一个需求需要用到正则表达式，自己研究了好久，<br>终于写出来<br>看一个小栗子 获取手机百度的版本号</p>
-<p><code>parseFloat((navigator.userAgent.match( /baiduboxapp\/\d+(\.\d+)*/ig))[0].substring((&#39;baiduboxapp/&#39;).length));</code></p>
-<ol>
-<li>其实改写组件主要是逻辑要清晰，减少耦合，不要对之前的效果产生影响，代码规范是非常重要的，变量的命名，全局变量的使用，代码的容错性等等，觉得自己做完这个项目，收获最大的应该是对逻辑的思考。</li>
-</ol>
-<p>5.记得第一次过cr的时候，以为自己的代码没什么问题了，结果发现，公司里面对后添加的dom结构的销毁是很重视的，我们在需要在异步的情况下和切换的情况下都要将我们后添加的dom结构，全局函数销毁，用完之后也要销毁。</p>
-<p>###说的额外的感受哈<br>说说我的感受吧 通过这个项目，觉得对我的锻炼特别大，很多逻辑上的思考，经常想不到，就要再改写逻辑，项目不小，涉及的坑真的很多，需要和端那边的人去沟通，和pm进行沟通，经常遇到一个问题就会卡很久，更多的成长是对逻辑上和心里上的，觉得通过这个项目，自己的逻辑更清晰，更有耐心，心里承受能力也变的很强。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/24/浮动问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="李雪萌">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/24/浮动问题/" itemprop="url">
-                  浮动问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-24T00:00:00+08:00">
-                2017-02-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
             <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
@@ -1202,8 +1202,8 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/css/" itemprop="url" rel="index">
-                    <span itemprop="name">css</span>
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
                   </a>
                 </span>
 
@@ -1239,16 +1239,23 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
       
         
           
-            <h3 id="浮动问题"><a href="#浮动问题" class="headerlink" title="浮动问题"></a>浮动问题</h3><p>一.内部元素浮动如何对父亲元素消除浮动？</p>
-<p>1.给父级元素div也加上float(里面浮动 外面也浮动，不释放空间)</p>
-<p>2.在子元素后面加上<div style="clear:both;"></div></p>
-<p>3.给父元素加上onerflow：hidden;</p>
-<p>二.绝对定位脱离文档流，浮动没有脱离文档流</p>
-<p>三.父元素div1和子元素div2 给子元素div2设置margin </p>
-<p>防止父元素div1随着子元素div2一起掉下去的方法</p>
-<p>1.左浮</p>
-<p>2.溢出隐藏：overflow：hidden</p>
-<p>3.定位</p>
+            <p>查阅书籍：JavaScript权威指南</p>
+<h3 id="函数声明与函数表达式"><a href="#函数声明与函数表达式" class="headerlink" title="函数声明与函数表达式"></a>函数声明与函数表达式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">sum(10,10)//20</div><div class="line">function sum(n1,n1)&#123;</div><div class="line">return n1+n2;</div><div class="line">&#125;</div><div class="line">sum(10,10)//报错</div><div class="line">var sum=function()&#123;</div><div class="line">return n1+n2;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>用函数声明定义的函数,函数可以在函数声明之前调用,而用函数表达式定义的函数只能在声明之后调用。</p>
+<p>根本原因是</p>
+<p>解析器会率先读取函数声明，将其加入执行环境中，<br>函数表达式，必须等到解析器执行到它所在的代码行，才会被真正的执行<br>在权威指南是这么写到的<br>  <img src="http://upload-images.jianshu.io/upload_images/2661054-e709fc6c045186cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h6 id="ECMAScript规范中表示，函数声明语句可以出现在全局代码中，或者内嵌在其他函数中，但是不能出现在循环、条件判、或者try-finally以及with语句中。函数定义表达式可以出现在javascript代码的任何地方。"><a href="#ECMAScript规范中表示，函数声明语句可以出现在全局代码中，或者内嵌在其他函数中，但是不能出现在循环、条件判、或者try-finally以及with语句中。函数定义表达式可以出现在javascript代码的任何地方。" class="headerlink" title="ECMAScript规范中表示，函数声明语句可以出现在全局代码中，或者内嵌在其他函数中，但是不能出现在循环、条件判、或者try/finally以及with语句中。函数定义表达式可以出现在javascript代码的任何地方。"></a>ECMAScript规范中表示，函数声明语句可以出现在全局代码中，或者内嵌在其他函数中，但是不能出现在循环、条件判、或者try/finally以及with语句中。函数定义表达式可以出现在javascript代码的任何地方。</h6><h3 id="嵌套函数"><a href="#嵌套函数" class="headerlink" title="嵌套函数"></a>嵌套函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function hyotense(a,b)&#123;</div><div class="line">  function square(x)&#123;return x*x&#125;;</div><div class="line">  return Math.sqrt(square(a)+square(b));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>他的特别之处在于他的变量作用域规则，他们可以访问嵌套他们的函数的参数和变量，这里要说一下作用域链</p>
+<h6 id="作用域链"><a href="#作用域链" class="headerlink" title="作用域链"></a>作用域链</h6><p>作用域链中的下一个变量对象来自包含（外部）环境，而在下一个变量对象则来自下一个包含环境，一直延续到全局执行环境，全局执行环境的变量对象始终是作用域的最后一个对象</p>
+<h3 id="函数调用"><a href="#函数调用" class="headerlink" title="函数调用"></a>函数调用</h3><p>  （1）作为函数<br>  （2）作为方法<br>  （3）作为构造函数<br>  （4）通过它们的call和apply间接调用</p>
+<h5 id="作为函数"><a href="#作为函数" class="headerlink" title="作为函数"></a>作为函数</h5><p>就是我们通常看到的最简单的调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">function square(x)&#123;return x*x&#125;;</div><div class="line">square(10);</div></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-415b5525f21bf49f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-f0dbc2e4f2f4ba6c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h5 id="作为方法"><a href="#作为方法" class="headerlink" title="作为方法"></a>作为方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var calcuator=&#123;</div><div class="line">    a:1,</div><div class="line">    b:2,</div><div class="line">    add:function()&#123;</div><div class="line">        this.result=this.a+this.b;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">calcuator.add();</div><div class="line">calcuator.result; =&gt;3</div></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-030abb644a8c5478.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h5 id="方法链"><a href="#方法链" class="headerlink" title="方法链"></a>方法链</h5><p>当方法返回的是一个对象的时候，这个对象还可以调用它的方法，jQuery 就是这样。<br>需要注意的是</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-16e8ec103b1a0c4f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var o=&#123;</div><div class="line">    m:function()&#123;//</div><div class="line">        var </div><div class="line"></div><div class="line"></div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
           
         
@@ -1449,7 +1456,7 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/23/字符串反转/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/24/浮动问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李雪萌">
@@ -1471,8 +1478,8 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
             
               
                 
-                <a class="post-title-link" href="/2017/02/23/字符串反转/" itemprop="url">
-                  字符串反转
+                <a class="post-title-link" href="/2017/02/24/浮动问题/" itemprop="url">
+                  浮动问题
                 </a>
               
             
@@ -1488,170 +1495,8 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-23T00:00:00+08:00">
-                2017-02-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="字符串反转"><a href="#字符串反转" class="headerlink" title="字符串反转"></a>字符串反转</h3><ol>
-<li>使用Array.Reverse方法<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">string.prototype.reverse=function()&#123;</div><div class="line">	return this.split(&quot;&quot;).reverse().join(&quot;&quot;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public static string ReverseByArray(string original)&#123;</div><div class="line"></div><div class="line">char[] c = original.ToCharArray();//字符串变为字符数组</div><div class="line"></div><div class="line">Array.Reverse(c);</div><div class="line"></div><div class="line">return new string(c);&#125;</div></pre></td></tr></table></figure>
-<p>2.只遍历一半数组 引用一个中间数组</p>
-<p>public static string ReverseByCharBuffer2(string original){</p>
-<p>char[] c = original.ToCharArray();</p>
-<p>int l = original.Length;</p>
-<p>for (int i = 0; i &lt; l / 2; i++){</p>
-<p>char t = c[i];</p>
-<p>c[i] = c[l - i - 1];</p>
-<p>c[l - i - 1] = t;}</p>
-<p>return new string(c);}</p>
-<p>3.直接追加到一个新的字符串</p>
-<p>function revStr(str){</p>
-<p>var tmpstr=’’;</p>
-<p>for(var l=str.length-1;l&gt;0;i–){</p>
-<p>tmpstr+=str.charAt(l);}</p>
-<p>return tmpstr;}</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/13/简谈a标签与添加点击事件/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="李雪萌">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/13/简谈a标签与添加点击事件/" itemprop="url">
-                  简谈a标签与添加点击事件
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-13T00:00:00+08:00">
-                2017-02-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-24T00:00:00+08:00">
+                2017-02-24
               </time>
             
 
@@ -1710,25 +1555,178 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
       
         
           
-            <h3 id="由来："><a href="#由来：" class="headerlink" title="由来："></a>由来：</h3><p>最近在学习vue基础，想给a添加一个点击事件，没有注意到a的href设为了空，导致页面一直在刷新，点击事件根本就没有进去<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;template v-if=&quot;loginType === &apos;username&apos;&quot;&gt;</div><div class="line">  &lt;label&gt;Username&lt;/label&gt;</div><div class="line">  &lt;input placeholder=&quot;Enter your username&quot;&gt;</div><div class="line">&lt;/template&gt;</div><div class="line">&lt;template v-else&gt;</div><div class="line">  &lt;label&gt;Email&lt;/label&gt;</div><div class="line">  &lt;input placeholder=&quot;Enter your email address&quot;&gt;</div><div class="line">&lt;/template&gt;</div><div class="line">&lt;a href=&quot;&quot;  v-on:click=&quot;doChange&quot;&gt;更换方式&lt;/a&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">var watchExampleVM= new Vue(&#123;</div><div class="line">  el:&apos;#example&apos;,</div><div class="line">  data: &#123;</div><div class="line">    loginType:&apos;username&apos;</div><div class="line">  &#125;,</div><div class="line">  methods: &#123;</div><div class="line">     doChange: function () &#123;</div><div class="line">       this.loginType =this.loginType ==&quot;username&quot;?&quot;email&quot;:&quot;username&quot;;</div><div class="line">       return this.loginType;</div><div class="line">    </div><div class="line">    &#125;</div><div class="line"> &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>后来知道a标签的href会导致默认人的页面跳转事件，如果为空值，就会刷新页面。<br>因为这个小的问题，就重新看了一下给a绑定点击事件注意的小地方，记录一下</p>
-<p>1.链接的 onclick 事件被先执行，其次是 href 属性下的动作（页面跳转，或 javascript 伪链接）；</p>
-<p>2.如果在链接的 href 属性中调用一个有返回值的函数，当前页面的内容将被此函数的返回值代替；</p>
-<p>3.假设链接中同时存在 href 与 onclick，如果想让 href 属性下的动作不执行，我们需要阻止默认行为,</p>
-<h3 id="“a”标签中使用点击事件的方法"><a href="#“a”标签中使用点击事件的方法" class="headerlink" title="“a”标签中使用点击事件的方法"></a>“a”标签中使用点击事件的方法</h3><p>(1)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;JavaScript:js_method();&quot;&lt;/a&gt;</div></pre></td></tr></table></figure>
-<p>但是这种方法在传递this等参数的时候很容易出问题，而且javascript:协议作为a的href属性的时候不仅会导致不必要的触发window.onbeforeunload事件，在IE里面更会使gif动画图片停止播放。W3C标准不推荐在href里面执行javascript语句</p>
-<p>(2)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;javascript:void(0);&quot; onclick=&quot;js_method()&quot;&lt;/a&gt;</div><div class="line">&lt;a href=&quot;javascript:;&quot; onclick=&quot;js_method()&quot;&lt;/a&gt;</div></pre></td></tr></table></figure>
-<p>这种方法是很多网站最常用的方法，也是最周全的方法，onclick方法负责执行js函数，而void是一个操作符，void(0)返回undefined，地址不发生跳转。而且这种方法不会像第一种方法一样直接将js方法暴露在浏览器的状态栏,这种方法可以阻止默认行为</p>
-<p>(3)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;#&quot; onclick=&quot;js_method()&quot;&lt;/a&gt;</div></pre></td></tr></table></figure>
-<p>这种方法也是网上很常见的代码，#是标签内置的一个方法，代表top的作用。所以用这种方法点击后网页后返回到页面的最顶端。</p>
-<p>(4)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;#&quot; onclick=&quot;js_method();return false;&quot;&lt;/a&gt;</div></pre></td></tr></table></figure>
-<p>这种方法点击执行了js函数后return false，页面不发生跳转，执行后还是在页面的当前位置。<br>未完待续。。。</p>
+            <h3 id="浮动问题"><a href="#浮动问题" class="headerlink" title="浮动问题"></a>浮动问题</h3><p>一.内部元素浮动如何对父亲元素消除浮动？</p>
+<p>1.给父级元素div也加上float(里面浮动 外面也浮动，不释放空间)</p>
+<p>2.在子元素后面加上<div style="clear:both;"></div></p>
+<p>3.给父元素加上onerflow：hidden;</p>
+<p>二.绝对定位脱离文档流，浮动没有脱离文档流</p>
+<p>三.父元素div1和子元素div2 给子元素div2设置margin </p>
+<p>防止父元素div1随着子元素div2一起掉下去的方法</p>
+<p>1.左浮</p>
+<p>2.溢出隐藏：overflow：hidden</p>
+<p>3.定位</p>
 
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/24/JavaScript的函数作用域和参数的传递问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李雪萌">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/24/JavaScript的函数作用域和参数的传递问题/" itemprop="url">
+                  JavaScript的函数作用域和参数的传递问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-24T00:00:00+08:00">
+                2017-02-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">1.  var bb = 1; </div><div class="line">function aa(bb) &#123; </div><div class="line">bb = 2;</div><div class="line">&#125;; </div><div class="line">aa(); </div><div class="line">console.log(bb );</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">2. var bb = 1; </div><div class="line">function aa() &#123; </div><div class="line">bb = 2;</div><div class="line">&#125;; </div><div class="line">aa(); </div><div class="line">console.log(bb );</div></pre></td></tr></table></figure>
+<p>你觉得会输出什么呢，想必很多人和我一样认为会输出2 2<br>答案应该是1 2，为什么呢？</p>
+<h3 id="首先我们先来看一下作用域"><a href="#首先我们先来看一下作用域" class="headerlink" title="首先我们先来看一下作用域"></a>首先我们先来看一下作用域</h3><p>1.js编程环境的顶级作用域是window对象下的范围，称为全局作用域，全局作用域中的变量称为全局变量。<br>注意：代码的任何位置隐士声明（不用var），都是全局变量，具有全局作用域。</p>
+<p>2.js函数内的变量无法在函数外面访问，在函数内却可以访问函数外的变量，函数内的变量称为局部变量。</p>
+<p>3.js函数可以嵌套，多个函数的层层嵌套构成了多个作用域的层层嵌套，这称为js的作用域链。</p>
+<p>4.js作用域链的变量访问规则是：如果当前作用域内存在要访问的变量，则使用当前作用域的变量，否则到上一层作用域内寻找，直到全局作用域，如果找不到，则该变量为未声明。</p>
+<h3 id="全局变量和局部变量"><a href="#全局变量和局部变量" class="headerlink" title="全局变量和局部变量"></a>全局变量和局部变量</h3><p>全局变量：变量在全局声明，或者在代码的任何位置隐士声明（不用var），则该变量在全局可见<br>局部变量：变量在函数内显示申明（使用var）,则在该函数内可见”</p>
+<p>具体的全局变量和局部变量在内存中的区域</p>
+<p><a href="http://www.jianshu.com/p/b42715694c80" target="_blank" rel="external">http://www.jianshu.com/p/b42715694c80</a></p>
+<h3 id="知道了作用域，我们就可以看一下这道题啦"><a href="#知道了作用域，我们就可以看一下这道题啦" class="headerlink" title="知道了作用域，我们就可以看一下这道题啦"></a>知道了作用域，我们就可以看一下这道题啦</h3><p>第一个例子<br>在函数aa里面传了一个参数bb,bb变成了函数的局部变量，也就是相当于在函数体内声明了var bb，再去改变bb的值，bb的值在函数里面就变成了2，但是这个变化不会影响到外部作用域下的bb,因此，全局变量bb的值还是1</p>
+<p>第二个例子<br>在函数内部直接给bb赋值，并没有var，此时bb是一个全局变量，给函数里面的bb赋值，相当于在函数内部重新将bb申明了一遍，并且是以全局变量的形式申明的。因此bb会输出2.</p>
+<h3 id="参数的传递是按值类型还是引用类型传递的"><a href="#参数的传递是按值类型还是引用类型传递的" class="headerlink" title="参数的传递是按值类型还是引用类型传递的"></a>参数的传递是按值类型还是引用类型传递的</h3><p>上面的例子是参数为基本类型的值，那么向参数传一个对象会怎么样呢？看下面这个例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function setName(obj) &#123;</div><div class="line">obj.name = &quot;Nicholas&quot;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var person = new Object();</div><div class="line">setName(person);</div><div class="line">alert(person.name);</div></pre></td></tr></table></figure></p>
+<p>这端代码会输出Nicholas，看到这个结果，很多人会认为，在局部作用域中修改的对象会在全局作用域中反映出来，就说明参数是按引用传递的，其实不是这样的， 我们可以看一下下面这个例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function setName(obj) &#123;</div><div class="line">obj.name = &quot;Nicholas&quot;;</div><div class="line">obj = new Object();</div><div class="line">obj.name = &quot;Greg&quot;; </div><div class="line">&#125;</div><div class="line"></div><div class="line">var person = new Object();</div><div class="line">setName(person);</div><div class="line">alert(person.name);</div></pre></td></tr></table></figure></p>
+<p>这个会输出Nicholas，而不是Greg。</p>
+<p>其实是这样的，如果person是按引用传递的，obj是person的引用，obj指向一个新对象，那么person就会自动被修改为指向其name属性值为”Greg”的新对象。实际上，当在函数内部重写obj时，这个变量引用的就是一个局部对象了。而这个局部对象会在函数执行完毕后立即被销毁。下面，我们就用图示来看一下</p>
+<p>首先 person将指向堆的地址赋给obj，此时，obj也指向了同一块地址空间。<br><img src="http://upload-images.jianshu.io/upload_images/2661054-6dce41ac126a620a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"><br>但是当obj指向了堆中的另一块空间（new Object）的时候，obj里面存的指向堆的地址没有变化，因此他还是指向之前的空间（Object）</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-c12347886251f1fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
+<p>因此我们得出结论</p>
+<h6 id="数组、对象等按值传递，是指变量地址的值。"><a href="#数组、对象等按值传递，是指变量地址的值。" class="headerlink" title="数组、对象等按值传递，是指变量地址的值。"></a>数组、对象等按值传递，是指变量地址的值。</h6><h6 id="ECMAScript-中，所有函数的参数都是按值来传递的。"><a href="#ECMAScript-中，所有函数的参数都是按值来传递的。" class="headerlink" title="ECMAScript 中，所有函数的参数都是按值来传递的。"></a>ECMAScript 中，所有函数的参数都是按值来传递的。</h6>
           
         
       
@@ -1811,7 +1809,7 @@ $ ssh-keygen -t rsa（生成公钥）会产生公钥，
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
