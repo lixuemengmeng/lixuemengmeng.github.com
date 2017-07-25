@@ -103,7 +103,7 @@ var aLi=do">
 src放在onload后面
 说是js是同步执行的，但是加载图片的过程是异步的，当有缓存时很可能加载过程的时间很短，当加载完时onload事件还没有绑定，所以执行onload事件时就什么都不执行了。
 var aLi=do">
-<meta property="og:updated_time" content="2017-03-17T03:56:01.000Z">
+<meta property="og:updated_time" content="2017-07-25T00:32:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="闭包">
 <meta name="twitter:description" content="闭包闭包有三个特性
@@ -374,7 +374,7 @@ var aLi=do">
 <p>src放在onload后面</p>
 <p>说是js是同步执行的，但是加载图片的过程是异步的，当有缓存时很可能加载过程的时间很短，当加载完时onload事件还没有绑定，所以执行onload事件时就什么都不执行了。</p>
 <p>var aLi=document.querySelectorAll(“li”);</p>
-<p>   for(var i=0;i&lt;aLi.length;i++){<br>    (function(idx){<br>         aLi[idx].addEventListener(“click”,function(){<br>        alert(idx);<br>    },false);<br>    })(i);</p>
+<p>   for(var i=0;i&lt;aLi.length;i++){<br>    (function(idx){<br>         aLi[idx].addEventListener(“click”,function(){<br>        alert(idx);<br>        },false);<br>    })(i);</p>
 <p>}</p>
 
       

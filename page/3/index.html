@@ -859,7 +859,7 @@
 <p>src放在onload后面</p>
 <p>说是js是同步执行的，但是加载图片的过程是异步的，当有缓存时很可能加载过程的时间很短，当加载完时onload事件还没有绑定，所以执行onload事件时就什么都不执行了。</p>
 <p>var aLi=document.querySelectorAll(“li”);</p>
-<p>   for(var i=0;i&lt;aLi.length;i++){<br>    (function(idx){<br>         aLi[idx].addEventListener(“click”,function(){<br>        alert(idx);<br>    },false);<br>    })(i);</p>
+<p>   for(var i=0;i&lt;aLi.length;i++){<br>    (function(idx){<br>         aLi[idx].addEventListener(“click”,function(){<br>        alert(idx);<br>        },false);<br>    })(i);</p>
 <p>}</p>
 
           
