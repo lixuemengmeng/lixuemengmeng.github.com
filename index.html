@@ -1656,7 +1656,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/next和first/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/getClassName/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李雪萌">
@@ -1678,8 +1678,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/03/17/next和first/" itemprop="url">
-                  封装next和first解决取到空格的问题
+                <a class="post-title-link" href="/2017/03/17/getClassName/" itemprop="url">
+                  封装getClassName函数适应浏览器兼容性问题
                 </a>
               
             
@@ -1755,28 +1755,8 @@
       
         
           
-            <p>Dom节点有很多种，他们分别有不同的nodeType和nodeValue</p>
-<p>元素节点的nodeValue为空，nodeType为1，例如 </p><p></p><p></p>
-<p>文本节点nodeValue为文本里的值 ，nodeType为3，111 空白 text</p>
-<p>注释节点 nodeType为 8 </p>
-<p>而获取节点的时候我们通常希望获取到的是元素节点，而不希望获取到空格</p>
-<blockquote>
-<p>firstchild  在ie里取到的第一个是元素节点，不包括文本节点<br> crome里取到的是空格</p>
-</blockquote>
-<p>还有另一个属性可以获取第一个孩子节点</p>
-<blockquote>
-<p>firstElementchild 在crome里 取到第一个元素节点  但是ie不兼容</p>
-</blockquote>
-<p>因此为了能够获取到元素节点，而不是空格，我封装了一个next函数</p>
-<p>html结构</p>
-   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&apos;div1&apos;&gt;</div><div class="line">		&lt;h1 id=&apos;h1&apos;&gt;2222222&lt;/h1&gt;</div><div class="line">		&lt;p&gt;111111&lt;/p&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var oDiv=document.getElementById(&apos;div1&apos;);</div><div class="line"> var oH1=document.getElementById(&apos;h1&apos;);</div></pre></td></tr></table></figure>
-<p>js封装next取到第一个兄弟节点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"> function next(elem)&#123;</div><div class="line"> 	do&#123;</div><div class="line"> 		elem=elem.nextSibling;</div><div class="line"> 	&#125;while(elem&amp;&amp;elem.nodeType!=1)</div><div class="line"> 	return elem;</div><div class="line"> &#125;</div><div class="line">console.log(next(oH1));</div></pre></td></tr></table></figure></p>
-<p>循环判断nodeType的值是否为元素节点的值1，没找到值为1就一直while循环选择do while 是因为可能第一个元素就满足<br>假设上面的元素的下一个兄弟不存在（p）不存在，elem.nextSibling为空，这时再去elem.nodeType会报错，因此要在while里先判断elem是否不为空，为空就不执行elem.nodeType，就不会报错</p>
-<p>js封装first取到第一个孩子节点</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function first(elem)&#123;</div><div class="line">	elem=elem.firstChild;</div><div class="line">	return elem&amp;&amp;elem.nodeType==1?elem:next(elem);</div><div class="line">&#125;</div><div class="line">console.log(first(oDiv));</div></pre></td></tr></table></figure>
-<p>还是一样先判断elem是否存在，避免出现错误，并且调用刚封装的next函数</p>
-<p>通过这两个函数，就能够避免取到空格的情况啦~~~</p>
+            <p>getElementsByClassName() IE不支持<br>可以通过className来实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">function getClass(className,context,tag)&#123;</div><div class="line">  		context=context||document;</div><div class="line">  		tag=tag||&quot;*&quot;;</div><div class="line">  		var arr=context.getElementsByTagName(tag);</div><div class="line">  		var result=[];</div><div class="line">for(var i=0;i&lt;arr.length;i++)  </div><div class="line">    &#123;  </div><div class="line">        if(arr[i].className==className)  </div><div class="line">        &#123;  </div><div class="line">           result.push(arr[i])  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">  		</div><div class="line">  		return result;</div><div class="line">  	&#125;</div><div class="line">`</div></pre></td></tr></table></figure></p>
+<p>利用for循环判断className，className没有兼容性问题</p>
 
           
         
