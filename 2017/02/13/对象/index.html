@@ -87,25 +87,28 @@
 
 
 
-<meta name="description" content="属性特性可写 是否可写可枚举 是否可以通过for/in循环返回该属性可配置 是否可以删除和修改属性创建对象       对象直接量       关键字new创建       object.create()函数 对象直接量
+<meta name="description" content="属性特性可写 是否可写可枚举 是否可以通过for/in循环返回该属性可配置 是否可以删除和修改属性创建对象对象直接量关键字new创建object.create()函数对象直接量
 关键字new创建
 object.create()
-通过.访问对象的属性，属性需要一个标识符来表示，无法修改通过[]访问对象的属性，属性名通过字符串来表示，可以修改关联数组对象使用">
+通过.访问对象的属性，属性需要一个标识符来表示，无法修改通过[]访问对象的属性，属性名通过字符串来表示，可以修改关联数组对象使用for in 遍历关联数组删除属性
+dele">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深入理解JavaScrip中内存分配和垃圾回收">
 <meta property="og:url" content="http://yoursite.com/2017/02/13/对象/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="属性特性可写 是否可写可枚举 是否可以通过for/in循环返回该属性可配置 是否可以删除和修改属性创建对象       对象直接量       关键字new创建       object.create()函数 对象直接量
+<meta property="og:description" content="属性特性可写 是否可写可枚举 是否可以通过for/in循环返回该属性可配置 是否可以删除和修改属性创建对象对象直接量关键字new创建object.create()函数对象直接量
 关键字new创建
 object.create()
-通过.访问对象的属性，属性需要一个标识符来表示，无法修改通过[]访问对象的属性，属性名通过字符串来表示，可以修改关联数组对象使用">
-<meta property="og:updated_time" content="2017-08-02T13:21:09.000Z">
+通过.访问对象的属性，属性需要一个标识符来表示，无法修改通过[]访问对象的属性，属性名通过字符串来表示，可以修改关联数组对象使用for in 遍历关联数组删除属性
+dele">
+<meta property="og:updated_time" content="2017-08-03T04:24:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解JavaScrip中内存分配和垃圾回收">
-<meta name="twitter:description" content="属性特性可写 是否可写可枚举 是否可以通过for/in循环返回该属性可配置 是否可以删除和修改属性创建对象       对象直接量       关键字new创建       object.create()函数 对象直接量
+<meta name="twitter:description" content="属性特性可写 是否可写可枚举 是否可以通过for/in循环返回该属性可配置 是否可以删除和修改属性创建对象对象直接量关键字new创建object.create()函数对象直接量
 关键字new创建
 object.create()
-通过.访问对象的属性，属性需要一个标识符来表示，无法修改通过[]访问对象的属性，属性名通过字符串来表示，可以修改关联数组对象使用">
+通过.访问对象的属性，属性需要一个标识符来表示，无法修改通过[]访问对象的属性，属性名通过字符串来表示，可以修改关联数组对象使用for in 遍历关联数组删除属性
+dele">
 
 
 
@@ -362,7 +365,7 @@ object.create()
       
 
       
-        <p>属性特性<br>可写 是否可写<br>可枚举 是否可以通过for/in循环返回该属性<br>可配置 是否可以删除和修改属性<br>创建对象<br>       对象直接量<br>       关键字new创建<br>       object.create()函数<br> 对象直接量</p>
+        <p>属性特性<br>可写 是否可写<br>可枚举 是否可以通过for/in循环返回该属性<br>可配置 是否可以删除和修改属性<br>创建对象<br>对象直接量<br>关键字new创建<br>object.create()函数<br>对象直接量</p>
 <p>关键字new创建</p>
 <p>object.create()</p>
 <p>通过.访问对象的属性，属性需要一个标识符来表示，无法修改<br>通过[]访问对象的属性，属性名通过字符串来表示，可以修改<br>关联数组对象<br>使用for in 遍历关联数组<br>删除属性</p>
@@ -372,6 +375,18 @@ object.create()
 <p>hasOwnProperty</p>
 <p>propertyIsEnumerble</p>
 <p>枚举属性</p>
+<p>属性getter和setter<br>由getter和setter定义的属性称为存储器属性<br>查询存储器的属性的值 getter方法<br>设置存储器的属性的值 setter方法<br>读取只读属性总是返回undefine<br>函数定义没有使用function 而是使用get和set 方法</p>
+<p>getter和setter里的this关键字的用法，javascript把这些函数当做对象的方法调用。</p>
+<p>存储器属性是可继承的 可以将上面的p对象当做另一个对象的原型<br>属性的特性</p>
+<p>设置属性的特性</p>
+<p>得到描述符</p>
+<p>对象的属性 原型 类 可扩展性<br>原型属性（重要）</p>
+<p>ECMAscrip5 可以通过Object.prototype可以查询原型<br>ECMAscrip3 o.constructor.prototype<br>类属性（重要）<br>对象的类属性是一个字符串，用于表示对象的类型信息,例如取到当前是否为数组</p>
+<p>js判断类型<br>typeof（对象无法判断出是否为array） constructor instanceof<br>typeof返回的类型是字符串<br>typeof null 返回的是对象（早起的一个错误）<br>typeof function function<br>typeof array object<br>如果变量是给定引用类型的实例（array，RegExp）instanceof 会返回一个true<br>判断类型的函数<br>function ValType(o){<br>if(o===null) return “Null”;<br>if(o===undefined) return “Undefined”;<br>return Object.prototype.toString.call(o).slice(8,-1);”[object array]”<br>}<br>1.监测对象是否为数组？<br>1.es5里的新方法isArray（）<br>constructor instanceof<br>arr.constructor 返回构造函数<br>console.log(arr  instanceof Array); true 是否为构造函数的一个实例<br>console.log(arr  instanceof Object);数组是继承自对象的<br>2.可以object原型下tostring方法去call调用一下，返回object arrary类型，最原始的方法<br>var isArray=Function.isArray||function(o){<br>return typeof o===”object”&amp;&amp;Object.prototype.toString.call(o)===”[object Array]”<br>}<br>利用call（o）将最原始的object对象改为传入的对象o<br>obj.toString()为object中默认的方法。用来返回该对象的一个字符串形式<br>我们可以在自己定义的类里复写tostring函数用来显示他的具体类型<br>例 function Person(){};<br>Person.prototype.toString=function(){<br>return ‘[object Person]’<br>}<br>alert(new Person());</p>
+<p>可扩展性（了解）<br>是否可以给对象添加新属性</p>
+<p>toString方法<br>返回一个表示调用这个方法额对象值的字符串<br>“[object Object]”</p>
+<p>类和模块</p>
+<p>nstanceof可以不是直接继承</p>
 
       
     </div>
@@ -408,8 +423,8 @@ object.create()
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/02/13/深入理解JavaScrip中内存分配和垃圾回收/" rel="next" title="深入理解JavaScrip中内存分配和垃圾回收">
-                <i class="fa fa-chevron-left"></i> 深入理解JavaScrip中内存分配和垃圾回收
+              <a href="/2017/02/13/闭包/" rel="next" title="闭包">
+                <i class="fa fa-chevron-left"></i> 闭包
               </a>
             
           </div>
@@ -418,8 +433,8 @@ object.create()
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/02/23/字符串反转/" rel="prev" title="字符串反转">
-                字符串反转 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/02/13/简谈a标签与添加点击事件/" rel="prev" title="简谈a标签与添加点击事件">
+                简谈a标签与添加点击事件 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
