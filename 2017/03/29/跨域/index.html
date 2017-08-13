@@ -89,20 +89,20 @@
 
 <meta name="description" content="###1.什么情况下是跨域 在不同的域下    例如 www.a.com与www.b.com父域与子域    www.qq.com 与 news.qq.com不同的协议 http://www.a.com 与https://www.a.com不同的端口号loalhost:8000  与localhost:80
 ###如何跨域
-###1.   JSONPJSONP，该协议的一个要点就是允许用户传递一个">
+JSONPJSONP，该协议的一个要点就是允许用户传递一个callback">
 <meta property="og:type" content="article">
 <meta property="og:title" content="跨域">
 <meta property="og:url" content="http://yoursite.com/2017/03/29/跨域/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="###1.什么情况下是跨域 在不同的域下    例如 www.a.com与www.b.com父域与子域    www.qq.com 与 news.qq.com不同的协议 http://www.a.com 与https://www.a.com不同的端口号loalhost:8000  与localhost:80
 ###如何跨域
-###1.   JSONPJSONP，该协议的一个要点就是允许用户传递一个">
-<meta property="og:updated_time" content="2017-03-29T08:50:56.000Z">
+JSONPJSONP，该协议的一个要点就是允许用户传递一个callback">
+<meta property="og:updated_time" content="2017-08-13T14:42:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="跨域">
 <meta name="twitter:description" content="###1.什么情况下是跨域 在不同的域下    例如 www.a.com与www.b.com父域与子域    www.qq.com 与 news.qq.com不同的协议 http://www.a.com 与https://www.a.com不同的端口号loalhost:8000  与localhost:80
 ###如何跨域
-###1.   JSONPJSONP，该协议的一个要点就是允许用户传递一个">
+JSONPJSONP，该协议的一个要点就是允许用户传递一个callback">
 
 
 
@@ -361,7 +361,7 @@
       
         <p>###1.什么情况下是跨域<br> 在不同的域下<br>    例如 www.a.com与www.b.com<br>父域与子域<br>    www.qq.com 与 news.qq.com<br>不同的协议<br> <a href="http://www.a.com" target="_blank" rel="external">http://www.a.com</a> 与<a href="https://www.a.com" target="_blank" rel="external">https://www.a.com</a><br>不同的端口号<br>loalhost:8000  与localhost:80</p>
 <p>###如何跨域</p>
-<p>###1.   JSONP<br>JSONP，该协议的一个要点就是允许用户传递一个callback参数给服务端，然后服务端返回数据时会将这个callback参数作为函数名来包裹住JSON数据，这样客户端就可以随意定制自己的函数来自动处理返回数据了.<br>利用script标签的src属性<br>在a域下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">//jsonp      </div><div class="line">		function bb(data)&#123;</div><div class="line">			alert(data.age+&quot; haha&quot;);</div><div class="line">		&#125;</div><div class="line">		var oBtn = document.getElementById(&quot;btn&quot;);</div><div class="line">		oBtn.onclick = function()&#123;</div><div class="line">			var script = document.createElement(&apos;script&apos;);</div><div class="line">			script.src=&quot;http://www.b.com/index1.php?name=lisi&amp;age=19&amp;callback=bb&quot;;</div><div class="line">			document.body.appendChild(script);</div><div class="line">		&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h3><p>JSONP，该协议的一个要点就是允许用户传递一个callback参数给服务端，然后服务端返回数据时会将这个callback参数作为函数名来包裹住JSON数据，这样客户端就可以随意定制自己的函数来自动处理返回数据了.<br>利用script标签的src属性<br>在a域下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">//jsonp      </div><div class="line">		function bb(data)&#123;</div><div class="line">			alert(data.age+&quot; haha&quot;);</div><div class="line">		&#125;</div><div class="line">		var oBtn = document.getElementById(&quot;btn&quot;);</div><div class="line">		oBtn.onclick = function()&#123;</div><div class="line">			var script = document.createElement(&apos;script&apos;);</div><div class="line">			script.src=&quot;http://www.b.com/index1.php?name=lisi&amp;age=19&amp;callback=bb&quot;;</div><div class="line">			document.body.appendChild(script);</div><div class="line">		&#125;</div></pre></td></tr></table></figure></p>
 <p>在b域下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$name = $_GET[&apos;name&apos;];</div><div class="line">	$age = $_GET[&apos;age&apos;];</div><div class="line">	$callback = $_GET[&apos;callback&apos;];</div><div class="line"></div><div class="line">	//echo &apos;aa(&quot;&apos;.$name.&apos;&quot;)&apos;;</div><div class="line">	echo $callback.&apos;(&#123;&quot;name&quot;:&quot;&apos;.$name.&apos;&quot;,&quot;age&quot;:&quot;&apos;.$age.&apos;&quot;&#125;)&apos;</div></pre></td></tr></table></figure></p>
 <p>###2.  iframe标签<br>利用src属性 不会执行代码 加到body里 iframe识别的是标签<br>包一个script标签 自动加到header里<br>子页面里不能访问父页面的方法 可以用 top<br> top可以访问父页面的方法，但是不能跨域</p>
 <p>a域下 index2.html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">a.com </div><div class="line">	&lt;script&gt;</div><div class="line">	//iframe</div><div class="line">		function aa(data)&#123;</div><div class="line">			alert(data);</div><div class="line">		&#125;</div><div class="line">	&lt;/script&gt;</div><div class="line">	&lt;iframe src=&quot;http://www.b.com/index2.php?name=zhangsan&quot;&gt;&lt;/iframe&gt;</div></pre></td></tr></table></figure></p>
@@ -409,8 +409,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/29/git的使用/" rel="next" title="git的使用">
-                <i class="fa fa-chevron-left"></i> git的使用
+              <a href="/2017/03/28/对象的深复制和浅复制/" rel="next" title="对象的浅复制和深复制">
+                <i class="fa fa-chevron-left"></i> 对象的浅复制和深复制
               </a>
             
           </div>
@@ -419,8 +419,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/17/快排/" rel="prev" title="快速排序">
-                快速排序 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/03/29/git的使用/" rel="prev" title="git的使用">
+                git的使用 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -468,8 +468,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -522,6 +531,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JSONP"><span class="nav-number">1.</span> <span class="nav-text">JSONP</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
