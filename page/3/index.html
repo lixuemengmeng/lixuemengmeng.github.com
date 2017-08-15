@@ -260,167 +260,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/24/JavaScript的函数作用域和参数的传递问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="李雪萌">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/24/JavaScript的函数作用域和参数的传递问题/" itemprop="url">
-                  JavaScript的函数作用域和参数的传递问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-24T00:00:00+08:00">
-                2017-02-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">1.  var bb = 1; </div><div class="line">function aa(bb) &#123; </div><div class="line">bb = 2;</div><div class="line">&#125;; </div><div class="line">aa(); </div><div class="line">console.log(bb );</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">2. var bb = 1; </div><div class="line">function aa() &#123; </div><div class="line">bb = 2;</div><div class="line">&#125;; </div><div class="line">aa(); </div><div class="line">console.log(bb );</div></pre></td></tr></table></figure>
-<p>你觉得会输出什么呢，想必很多人和我一样认为会输出2 2<br>答案应该是1 2，为什么呢？</p>
-<h3 id="首先我们先来看一下作用域"><a href="#首先我们先来看一下作用域" class="headerlink" title="首先我们先来看一下作用域"></a>首先我们先来看一下作用域</h3><p>1.js编程环境的顶级作用域是window对象下的范围，称为全局作用域，全局作用域中的变量称为全局变量。<br>注意：代码的任何位置隐士声明（不用var），都是全局变量，具有全局作用域。</p>
-<p>2.js函数内的变量无法在函数外面访问，在函数内却可以访问函数外的变量，函数内的变量称为局部变量。</p>
-<p>3.js函数可以嵌套，多个函数的层层嵌套构成了多个作用域的层层嵌套，这称为js的作用域链。</p>
-<p>4.js作用域链的变量访问规则是：如果当前作用域内存在要访问的变量，则使用当前作用域的变量，否则到上一层作用域内寻找，直到全局作用域，如果找不到，则该变量为未声明。</p>
-<h3 id="全局变量和局部变量"><a href="#全局变量和局部变量" class="headerlink" title="全局变量和局部变量"></a>全局变量和局部变量</h3><p>全局变量：变量在全局声明，或者在代码的任何位置隐士声明（不用var），则该变量在全局可见<br>局部变量：变量在函数内显示申明（使用var）,则在该函数内可见”</p>
-<p>具体的全局变量和局部变量在内存中的区域</p>
-<p><a href="http://www.jianshu.com/p/b42715694c80" target="_blank" rel="external">http://www.jianshu.com/p/b42715694c80</a></p>
-<h3 id="知道了作用域，我们就可以看一下这道题啦"><a href="#知道了作用域，我们就可以看一下这道题啦" class="headerlink" title="知道了作用域，我们就可以看一下这道题啦"></a>知道了作用域，我们就可以看一下这道题啦</h3><p>第一个例子<br>在函数aa里面传了一个参数bb,bb变成了函数的局部变量，也就是相当于在函数体内声明了var bb，再去改变bb的值，bb的值在函数里面就变成了2，但是这个变化不会影响到外部作用域下的bb,因此，全局变量bb的值还是1</p>
-<p>第二个例子<br>在函数内部直接给bb赋值，并没有var，此时bb是一个全局变量，给函数里面的bb赋值，相当于在函数内部重新将bb申明了一遍，并且是以全局变量的形式申明的。因此bb会输出2.</p>
-<h3 id="参数的传递是按值类型还是引用类型传递的"><a href="#参数的传递是按值类型还是引用类型传递的" class="headerlink" title="参数的传递是按值类型还是引用类型传递的"></a>参数的传递是按值类型还是引用类型传递的</h3><p>上面的例子是参数为基本类型的值，那么向参数传一个对象会怎么样呢？看下面这个例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function setName(obj) &#123;</div><div class="line">obj.name = &quot;Nicholas&quot;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var person = new Object();</div><div class="line">setName(person);</div><div class="line">alert(person.name);</div></pre></td></tr></table></figure></p>
-<p>这端代码会输出Nicholas，看到这个结果，很多人会认为，在局部作用域中修改的对象会在全局作用域中反映出来，就说明参数是按引用传递的，其实不是这样的， 我们可以看一下下面这个例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function setName(obj) &#123;</div><div class="line">obj.name = &quot;Nicholas&quot;;</div><div class="line">obj = new Object();</div><div class="line">obj.name = &quot;Greg&quot;; </div><div class="line">&#125;</div><div class="line"></div><div class="line">var person = new Object();</div><div class="line">setName(person);</div><div class="line">alert(person.name);</div></pre></td></tr></table></figure></p>
-<p>这个会输出Nicholas，而不是Greg。</p>
-<p>其实是这样的，如果person是按引用传递的，obj是person的引用，obj指向一个新对象，那么person就会自动被修改为指向其name属性值为”Greg”的新对象。实际上，当在函数内部重写obj时，这个变量引用的就是一个局部对象了。而这个局部对象会在函数执行完毕后立即被销毁。下面，我们就用图示来看一下</p>
-<p>首先 person将指向堆的地址赋给obj，此时，obj也指向了同一块地址空间。<br><img src="http://upload-images.jianshu.io/upload_images/2661054-6dce41ac126a620a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"><br>但是当obj指向了堆中的另一块空间（new Object）的时候，obj里面存的指向堆的地址没有变化，因此他还是指向之前的空间（Object）</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2661054-c12347886251f1fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
-<p>因此我们得出结论</p>
-<h6 id="数组、对象等按值传递，是指变量地址的值。"><a href="#数组、对象等按值传递，是指变量地址的值。" class="headerlink" title="数组、对象等按值传递，是指变量地址的值。"></a>数组、对象等按值传递，是指变量地址的值。</h6><h6 id="ECMAScript-中，所有函数的参数都是按值来传递的。"><a href="#ECMAScript-中，所有函数的参数都是按值来传递的。" class="headerlink" title="ECMAScript 中，所有函数的参数都是按值来传递的。"></a>ECMAScript 中，所有函数的参数都是按值来传递的。</h6>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/23/字符串反转/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -540,6 +379,166 @@
 <p>for(var l=str.length-1;l&gt;0;i–){</p>
 <p>tmpstr+=str.charAt(l);}</p>
 <p>return tmpstr;}</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/13/简谈a标签与添加点击事件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李雪萌">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/13/简谈a标签与添加点击事件/" itemprop="url">
+                  简谈a标签与添加点击事件
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-13T00:00:00+08:00">
+                2017-02-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/css/" itemprop="url" rel="index">
+                    <span itemprop="name">css</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="由来："><a href="#由来：" class="headerlink" title="由来："></a>由来：</h3><p>最近在学习vue基础，想给a添加一个点击事件，没有注意到a的href设为了空，导致页面一直在刷新，点击事件根本就没有进去<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;template v-if=&quot;loginType === &apos;username&apos;&quot;&gt;</div><div class="line">  &lt;label&gt;Username&lt;/label&gt;</div><div class="line">  &lt;input placeholder=&quot;Enter your username&quot;&gt;</div><div class="line">&lt;/template&gt;</div><div class="line">&lt;template v-else&gt;</div><div class="line">  &lt;label&gt;Email&lt;/label&gt;</div><div class="line">  &lt;input placeholder=&quot;Enter your email address&quot;&gt;</div><div class="line">&lt;/template&gt;</div><div class="line">&lt;a href=&quot;&quot;  v-on:click=&quot;doChange&quot;&gt;更换方式&lt;/a&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">var watchExampleVM= new Vue(&#123;</div><div class="line">  el:&apos;#example&apos;,</div><div class="line">  data: &#123;</div><div class="line">    loginType:&apos;username&apos;</div><div class="line">  &#125;,</div><div class="line">  methods: &#123;</div><div class="line">     doChange: function () &#123;</div><div class="line">       this.loginType =this.loginType ==&quot;username&quot;?&quot;email&quot;:&quot;username&quot;;</div><div class="line">       return this.loginType;</div><div class="line">    </div><div class="line">    &#125;</div><div class="line"> &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>后来知道a标签的href会导致默认人的页面跳转事件，如果为空值，就会刷新页面。<br>因为这个小的问题，就重新看了一下给a绑定点击事件注意的小地方，记录一下</p>
+<p>1.链接的 onclick 事件被先执行，其次是 href 属性下的动作（页面跳转，或 javascript 伪链接）；</p>
+<p>2.如果在链接的 href 属性中调用一个有返回值的函数，当前页面的内容将被此函数的返回值代替；</p>
+<p>3.假设链接中同时存在 href 与 onclick，如果想让 href 属性下的动作不执行，我们需要阻止默认行为,</p>
+<h3 id="“a”标签中使用点击事件的方法"><a href="#“a”标签中使用点击事件的方法" class="headerlink" title="“a”标签中使用点击事件的方法"></a>“a”标签中使用点击事件的方法</h3><p>(1)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;JavaScript:js_method();&quot;&lt;/a&gt;</div></pre></td></tr></table></figure>
+<p>但是这种方法在传递this等参数的时候很容易出问题，而且javascript:协议作为a的href属性的时候不仅会导致不必要的触发window.onbeforeunload事件，在IE里面更会使gif动画图片停止播放。W3C标准不推荐在href里面执行javascript语句</p>
+<p>(2)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;javascript:void(0);&quot; onclick=&quot;js_method()&quot;&lt;/a&gt;</div><div class="line">&lt;a href=&quot;javascript:;&quot; onclick=&quot;js_method()&quot;&lt;/a&gt;</div></pre></td></tr></table></figure>
+<p>这种方法是很多网站最常用的方法，也是最周全的方法，onclick方法负责执行js函数，而void是一个操作符，void(0)返回undefined，地址不发生跳转。而且这种方法不会像第一种方法一样直接将js方法暴露在浏览器的状态栏,这种方法可以阻止默认行为</p>
+<p>(3)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;#&quot; onclick=&quot;js_method()&quot;&lt;/a&gt;</div></pre></td></tr></table></figure>
+<p>这种方法也是网上很常见的代码，#是标签内置的一个方法，代表top的作用。所以用这种方法点击后网页后返回到页面的最顶端。</p>
+<p>(4)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;#&quot; onclick=&quot;js_method();return false;&quot;&lt;/a&gt;</div></pre></td></tr></table></figure>
+<p>这种方法点击执行了js函数后return false，页面不发生跳转，执行后还是在页面的当前位置。<br>未完待续。。。</p>
 
           
         
@@ -712,166 +711,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var element= document.getElementById(&apos;some_element&apos;);</div><div class="line">var myObject= new Object();</div><div class="line">myObject.element=element;</div><div class="line">element.someObject=myObject;</div></pre></td></tr></table></figure>
 <p>这个例子在一个DOM元素（element）与一个原生javascript对象（myObject）之间创建了循环引用。变量myObject有一个名为element    的属性指向element对象，而变量element的属性someObject指向myObject，由于这个循环引用，即使这个例子中的DOM从页面中移除，它永远不会被回收<br>如果长时间没断开这个循环引用，会导致内存泄漏。<br>我们可以如下代码消除这个循环引用（断开一个引用就可以断开这种循环引用）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">myObject.element=null;</div><div class="line">element.someObject=null;</div></pre></td></tr></table></figure></p>
 <p>有不完善的地方希望批评改进呢</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/13/简谈a标签与添加点击事件/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="李雪萌">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/13/简谈a标签与添加点击事件/" itemprop="url">
-                  简谈a标签与添加点击事件
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-13T00:00:00+08:00">
-                2017-02-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/css/" itemprop="url" rel="index">
-                    <span itemprop="name">css</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="由来："><a href="#由来：" class="headerlink" title="由来："></a>由来：</h3><p>最近在学习vue基础，想给a添加一个点击事件，没有注意到a的href设为了空，导致页面一直在刷新，点击事件根本就没有进去<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;template v-if=&quot;loginType === &apos;username&apos;&quot;&gt;</div><div class="line">  &lt;label&gt;Username&lt;/label&gt;</div><div class="line">  &lt;input placeholder=&quot;Enter your username&quot;&gt;</div><div class="line">&lt;/template&gt;</div><div class="line">&lt;template v-else&gt;</div><div class="line">  &lt;label&gt;Email&lt;/label&gt;</div><div class="line">  &lt;input placeholder=&quot;Enter your email address&quot;&gt;</div><div class="line">&lt;/template&gt;</div><div class="line">&lt;a href=&quot;&quot;  v-on:click=&quot;doChange&quot;&gt;更换方式&lt;/a&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">var watchExampleVM= new Vue(&#123;</div><div class="line">  el:&apos;#example&apos;,</div><div class="line">  data: &#123;</div><div class="line">    loginType:&apos;username&apos;</div><div class="line">  &#125;,</div><div class="line">  methods: &#123;</div><div class="line">     doChange: function () &#123;</div><div class="line">       this.loginType =this.loginType ==&quot;username&quot;?&quot;email&quot;:&quot;username&quot;;</div><div class="line">       return this.loginType;</div><div class="line">    </div><div class="line">    &#125;</div><div class="line"> &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>后来知道a标签的href会导致默认人的页面跳转事件，如果为空值，就会刷新页面。<br>因为这个小的问题，就重新看了一下给a绑定点击事件注意的小地方，记录一下</p>
-<p>1.链接的 onclick 事件被先执行，其次是 href 属性下的动作（页面跳转，或 javascript 伪链接）；</p>
-<p>2.如果在链接的 href 属性中调用一个有返回值的函数，当前页面的内容将被此函数的返回值代替；</p>
-<p>3.假设链接中同时存在 href 与 onclick，如果想让 href 属性下的动作不执行，我们需要阻止默认行为,</p>
-<h3 id="“a”标签中使用点击事件的方法"><a href="#“a”标签中使用点击事件的方法" class="headerlink" title="“a”标签中使用点击事件的方法"></a>“a”标签中使用点击事件的方法</h3><p>(1)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;JavaScript:js_method();&quot;&lt;/a&gt;</div></pre></td></tr></table></figure>
-<p>但是这种方法在传递this等参数的时候很容易出问题，而且javascript:协议作为a的href属性的时候不仅会导致不必要的触发window.onbeforeunload事件，在IE里面更会使gif动画图片停止播放。W3C标准不推荐在href里面执行javascript语句</p>
-<p>(2)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;javascript:void(0);&quot; onclick=&quot;js_method()&quot;&lt;/a&gt;</div><div class="line">&lt;a href=&quot;javascript:;&quot; onclick=&quot;js_method()&quot;&lt;/a&gt;</div></pre></td></tr></table></figure>
-<p>这种方法是很多网站最常用的方法，也是最周全的方法，onclick方法负责执行js函数，而void是一个操作符，void(0)返回undefined，地址不发生跳转。而且这种方法不会像第一种方法一样直接将js方法暴露在浏览器的状态栏,这种方法可以阻止默认行为</p>
-<p>(3)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;#&quot; onclick=&quot;js_method()&quot;&lt;/a&gt;</div></pre></td></tr></table></figure>
-<p>这种方法也是网上很常见的代码，#是标签内置的一个方法，代表top的作用。所以用这种方法点击后网页后返回到页面的最顶端。</p>
-<p>(4)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;#&quot; onclick=&quot;js_method();return false;&quot;&lt;/a&gt;</div></pre></td></tr></table></figure>
-<p>这种方法点击执行了js函数后return false，页面不发生跳转，执行后还是在页面的当前位置。<br>未完待续。。。</p>
 
           
         
@@ -1557,7 +1396,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

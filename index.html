@@ -1675,7 +1675,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/addEventListener和attachEvent/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/getClassName/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李雪萌">
@@ -1697,8 +1697,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/03/17/addEventListener和attachEvent/" itemprop="url">
-                  addEventListener和attachEvent
+                <a class="post-title-link" href="/2017/03/17/getClassName/" itemprop="url">
+                  封装getClassName函数适应浏览器兼容性问题
                 </a>
               
             
@@ -1737,8 +1737,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
+                  <a href="/categories/js封装/" itemprop="url" rel="index">
+                    <span itemprop="name">js封装</span>
                   </a>
                 </span>
 
@@ -1774,15 +1774,8 @@
       
         
           
-            <p>添加事件有三种方式，一种是直接添加，第二种是用addEventListener,第三种是用attachEvent的方式</p>
-<p>直接添加</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">oDiv1.onclick=function()&#123;</div><div class="line">alert(1);</div><div class="line">&#125;</div><div class="line">oDiv1.onclick=function()&#123;</div><div class="line">alert(2);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>优点，所有浏览器都支持</p>
-<p>缺点，下面的会将上面的方法覆盖</p>
-<p>用attachevent和addEventListner添加事件不会被覆盖，但是有兼容性问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">oDiv1.addEventListener(&apos;click&apos;,function()&#123;</div><div class="line">alert(1);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>1.this指向正常<br>2.不用写on<br> 3.ie不支持<br>4.有三个参数，第三个参数 useCapture用来确定是事件冒泡（ useCapture false），还是事件捕获（useCapture false）<br>5.从上向下执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">oDiv1.attachEvent(&quot;onclick&quot;,function()&#123;</div><div class="line">alert(1);</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>1.this指向window </p>
-<p>2.写on<br>3.ie支持<br>4.有两个参数，ie下不支持事件捕获<br>5.从下向上执行</p>
+            <p>getElementsByClassName() IE不支持<br>可以通过className来实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">function getClass(className,context,tag)&#123;</div><div class="line">  		context=context||document;</div><div class="line">  		tag=tag||&quot;*&quot;;</div><div class="line">  		var arr=context.getElementsByTagName(tag);</div><div class="line">  		var result=[];</div><div class="line">for(var i=0;i&lt;arr.length;i++)  </div><div class="line">    &#123;  </div><div class="line">        if(arr[i].className==className)  </div><div class="line">        &#123;  </div><div class="line">           result.push(arr[i])  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">  		</div><div class="line">  		return result;</div><div class="line">  	&#125;</div><div class="line">`</div></pre></td></tr></table></figure></p>
+<p>利用for循环判断className，className没有兼容性问题</p>
 
           
         
@@ -1866,7 +1859,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
