@@ -427,6 +427,573 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/16/深入理解Promise和Deferred/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李雪萌">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/16/深入理解Promise和Deferred/" itemprop="url">
+                  JavaScript中的函数与闭包
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-16T00:00:00+08:00">
+                2017-07-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Promise-的含义"><a href="#Promise-的含义" class="headerlink" title="Promise 的含义"></a>Promise 的含义</h3><p>一句话概括一下promise的作用：可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。<br>所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。<br>Promise 是异步编程的一种解决方案，比传统的解决方案——回调函数和事件——更合理和更强大。可以解决回调地狱问题。</p>
+<h6 id="什么是回调地狱"><a href="#什么是回调地狱" class="headerlink" title="什么是回调地狱"></a>什么是回调地狱</h6><p>JavaScript要异步，回调少不了，但当业务逻辑复杂的时候，回调的嵌套过多，代码复杂度增加，可读性降低，维护起来也复杂，调试也复杂，这就是回调地狱。</p>
+<h6 id="Promise对象有以下两个特点"><a href="#Promise对象有以下两个特点" class="headerlink" title="Promise对象有以下两个特点"></a>Promise对象有以下两个特点</h6><p>（1）对象的状态不受外界影响。Promise对象代表一个异步操作，有三种状态：Pending（进行中）、Fulfilled（已成功）和Rejected（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态<br>（2）一旦状态改变，就不会再变，任何时候都可以得到这个结果。Promise对象的状态改变，只有两种可能：从Pending变为Fulfiled（Resolved）和从Pending变为Rejected。只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果，这时就称为 Resolved（已定型）。如果改变已经发生了，你再对Promise对象添加回调函数，也会立即得到这个结果。这与事件（Event）完全不同，事件的特点是，如果你错过了它，再去监听，是得不到结果的。</p>
+<h6 id="Promise的缺点"><a href="#Promise的缺点" class="headerlink" title="Promise的缺点"></a>Promise的缺点</h6><p>Promise也有一些缺点。首先，无法取消Promise，一旦新建它就会立即执行，无法中途取消。其次，如果不设置回调函数，Promise内部抛出的错误，不会反应到外部。第三，当处于Pending状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。</p>
+<h3 id="promise的基本用法"><a href="#promise的基本用法" class="headerlink" title="promise的基本用法"></a>promise的基本用法</h3><p>Promise对象是一个构造函数，用来生成Promise实例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var promise = new Promise(function(resolve, reject) &#123;</div><div class="line">  // ... some code</div><div class="line">  if (/* 异步操作成功 */)&#123;</div><div class="line">    resolve(value);</div><div class="line">  &#125; else &#123;</div><div class="line">    reject(error);</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>Promise构造函数接受一个函数作为参数，该函数的两个参数分别是resolve和reject。它们是两个函数，<br>resolve函数的作用是，将Promise对象的状态从“未完成”变为“成功”（即从 Pending 变为 Resolved），在异步操作成功时调用，并将异步操作的结果，作为参数传递出去；reject函数的作用是，将Promise对象的状态从“未完成”变为“失败”（即从 Pending 变为 Rejected），在异步操作失败时调用，并将异步操作报出的错误，作为参数传递出去。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">promise.then(function(value) &#123;</div><div class="line">  // success</div><div class="line">&#125;, function(error) &#123;</div><div class="line">  // failure</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>then方法可以接受两个回调函数作为参数。第一个回调函数是Promise对象的状态变为Resolved时调用，第二个回调函数是Promise对象的状态变为Rejected时调用。其中，第二个函数是可选的，不一定要提供。这两个函数都接受Promise对象传出的值作为参数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">let promise = new Promise(function(resolve, reject) &#123;</div><div class="line">  console.log(&apos;Promise&apos;);</div><div class="line">  resolve();</div><div class="line">&#125;);</div><div class="line"></div><div class="line">promise.then(function() &#123;</div><div class="line">  console.log(&apos;Resolved.&apos;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">console.log(&apos;Hi!&apos;);</div><div class="line"></div><div class="line">// Promise</div><div class="line">// Hi!</div><div class="line">// Resolved</div></pre></td></tr></table></figure></p>
+<p>Promise 新建后立即执行，所以首先输出的是Promise。然后，then方法指定的回调函数，将在当前脚本所有同步任务执行完才会执行，所以Resolved最后输出。<br>面是一个用Promise对象实现的 Ajax 操作的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">var getJSON = function(url) &#123;</div><div class="line">  var promise = new Promise(function(resolve, reject)&#123;</div><div class="line">    var client = new XMLHttpRequest();</div><div class="line">    client.open(&quot;GET&quot;, url);</div><div class="line">    client.onreadystatechange = handler;</div><div class="line">    client.responseType = &quot;json&quot;;</div><div class="line">    client.setRequestHeader(&quot;Accept&quot;, &quot;application/json&quot;);</div><div class="line">    client.send();</div><div class="line"></div><div class="line">    function handler() &#123;</div><div class="line">      if (this.readyState !== 4) &#123;</div><div class="line">        return;</div><div class="line">      &#125;</div><div class="line">      if (this.status === 200) &#123;</div><div class="line">        resolve(this.response);</div><div class="line">      &#125; else &#123;</div><div class="line">        reject(new Error(this.statusText));</div><div class="line">      &#125;</div><div class="line">    &#125;;</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  return promise;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">getJSON(&quot;/posts.json&quot;).then(function(json) &#123;</div><div class="line">  console.log(&apos;Contents: &apos; + json);</div><div class="line">&#125;, function(error) &#123;</div><div class="line">  console.error(&apos;出错了&apos;, error);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>getJSON是对 XMLHttpRequest 对象的封装，用于发出一个针对 JSON 数据的 HTTP 请求，并且返回一个Promise对象<br>如果调用resolve函数和reject函数时带有参数，那么它们的参数会被传递给回调函数。reject函数的参数通常是Error对象的实例，表示抛出的错误，resolve参数也可以是另一个 Promise 实例。</p>
+<h6 id="当resolve参数是另一个-Promise-实例。"><a href="#当resolve参数是另一个-Promise-实例。" class="headerlink" title="当resolve参数是另一个 Promise 实例。"></a>当resolve参数是另一个 Promise 实例。</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">var p1 = new Promise(function (resolve, reject) &#123;</div><div class="line">  setTimeout(() =&gt; reject(new Error(&apos;fail&apos;)), 3000)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">var p2 = new Promise(function (resolve, reject) &#123;</div><div class="line">  setTimeout(() =&gt; resolve(p1), 1000)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">p2</div><div class="line">  .then(result =&gt; console.log(result))</div><div class="line">  .catch(error =&gt; console.log(error))</div><div class="line">// Error: fail</div></pre></td></tr></table></figure>
+<p>上面代码中，p1是一个Promise，3秒之后变为rejected。p2的状态在1秒之后改变，resolve方法返回的是p1。由于p2返回的是另一个 Promise，导致p2自己的状态无效了，由p1的状态决定p2的状态。所以，后面的then语句都变成针对后者（p1）。又过了2秒，p1变为rejected，导致触发catch方法指定的回调函数。</p>
+<h6 id="注意，调用resolve或reject并不会终结-Promise-的参数函数的执行。"><a href="#注意，调用resolve或reject并不会终结-Promise-的参数函数的执行。" class="headerlink" title="注意，调用resolve或reject并不会终结 Promise 的参数函数的执行。"></a>注意，调用resolve或reject并不会终结 Promise 的参数函数的执行。</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">new Promise((resolve, reject) =&gt; &#123;</div><div class="line">  resolve(1);</div><div class="line">  console.log(2);</div><div class="line">&#125;).then(r =&gt; &#123;</div><div class="line">  console.log(r);</div><div class="line">&#125;);</div><div class="line">// 2</div><div class="line">// 1</div></pre></td></tr></table></figure>
+<p>上面代码中，调用resolve(1)以后，后面的console.log(2)还是会执行，并且会首先打印出来。这是因为立即 resolved 的 Promise 是在本轮事件循环的末尾执行，总是晚于本轮循环的同步任务。<br>一般来说，调用resolve或reject以后，Promise 的使命就完成了，后继操作应该放到then方法里面，而不应该直接写在resolve或reject的后面。所以，最好在它们前面加上return语句，这样就不会有意外。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">new Promise((resolve, reject) =&gt; &#123;</div><div class="line">  return resolve(1);</div><div class="line">  // 后面的语句不会执行</div><div class="line">  console.log(2);</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<h3 id="Promise-prototype-then"><a href="#Promise-prototype-then" class="headerlink" title="Promise.prototype.then()"></a>Promise.prototype.then()</h3><p>then方法的第一个参数是Resolved状态的回调函数，第二个参数（可选）是Rejected状态的回调函数。</p>
+<p>then方法返回的是一个新的Promise实例（注意，不是原来那个Promise实例）。因此可以采用链式写法，即then方法后面再调用另一个then方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">getJSON(&quot;/posts.json&quot;).then(function(json) &#123;</div><div class="line">  return json.post;</div><div class="line">&#125;).then(function(post) &#123;</div><div class="line">  // ...</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>上面的代码使用then方法，依次指定了两个回调函数。第一个回调函数完成以后，会将返回结果作为参数，传入第二个回调函数。</p>
+<p>采用链式的then，可以指定一组按照次序调用的回调函数。这时，前一个回调函数，有可能返回的还是一个Promise对象（即有异步操作），这时后一个回调函数，就会等待该Promise对象的状态发生变化，才会被调用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">getJSON(&quot;/post/1.json&quot;).then(function(post) &#123;</div><div class="line">  return getJSON(post.commentURL);</div><div class="line">&#125;).then(function funcA(comments) &#123;</div><div class="line">  console.log(&quot;Resolved: &quot;, comments);</div><div class="line">&#125;, function funcB(err)&#123;</div><div class="line">  console.log(&quot;Rejected: &quot;, err);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>上面代码中，第一个then方法指定的回调函数，返回的是另一个Promise对象。这时，第二个then方法指定的回调函数，就会等待这个新的Promise对象状态发生变化。如果变为Resolved，就调用funcA，如果状态变为Rejected，就调用funcB。</p>
+<h3 id="Promise-prototype-catch"><a href="#Promise-prototype-catch" class="headerlink" title="Promise.prototype.catch()"></a>Promise.prototype.catch()</h3><p>Promise.prototype.catch方法是.then(null, rejection)的别名，用于指定发生错误时的回调函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">getJSON(&apos;/posts.json&apos;).then(function(posts) &#123;</div><div class="line">  // ...</div><div class="line">&#125;).catch(function(error) &#123;</div><div class="line">  // 处理 getJSON 和 前一个回调函数运行时发生的错误</div><div class="line">  console.log(&apos;发生错误！&apos;, error);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>getJSON方法返回一个 Promise 对象，如果该对象状态变为Resolved，则会调用then方法指定的回调函数；如果异步操作抛出错误，状态就会变为Rejected，就会调用catch方法指定的回调函数，处理这个错误。另外，then方法指定的回调函数，如果运行中抛出错误，也会被catch方法捕获。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">var promise = new Promise(function(resolve, reject) &#123;</div><div class="line">  throw new Error(&apos;test&apos;);</div><div class="line">&#125;);</div><div class="line">promise.catch(function(error) &#123;</div><div class="line">  console.log(error);</div><div class="line">&#125;);</div><div class="line">// Error: test</div><div class="line">var promise = new Promise(function(resolve, reject) &#123;</div><div class="line">  try &#123;</div><div class="line">    throw new Error(&apos;test&apos;);</div><div class="line">  &#125; catch(e) &#123;</div><div class="line">    reject(e);</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">promise.catch(function(error) &#123;</div><div class="line">  console.log(error);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// 写法二</div><div class="line">var promise = new Promise(function(resolve, reject) &#123;</div><div class="line">  reject(new Error(&apos;test&apos;));</div><div class="line">&#125;);</div><div class="line">promise.catch(function(error) &#123;</div><div class="line">  console.log(error);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>reject方法的作用，等同于抛出错误。</p>
+<p>注意：如果Promise状态已经变成Resolved，再抛出错误是无效的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var promise = new Promise(function(resolve, reject) &#123;</div><div class="line">  resolve(&apos;ok&apos;);</div><div class="line">  throw new Error(&apos;test&apos;);</div><div class="line">&#125;);</div><div class="line">promise</div><div class="line">  .then(function(value) &#123; console.log(value) &#125;)</div><div class="line">  .catch(function(error) &#123; console.log(error) &#125;);</div><div class="line">// ok</div></pre></td></tr></table></figure></p>
+<p>Promise 在resolve语句后面，再抛出错误，不会被捕获，等于没有抛出。</p>
+<h6 id="因为-Promise-的状态一旦改变，就永久保持该状态，不会再变了。"><a href="#因为-Promise-的状态一旦改变，就永久保持该状态，不会再变了。" class="headerlink" title="因为 Promise 的状态一旦改变，就永久保持该状态，不会再变了。"></a>因为 Promise 的状态一旦改变，就永久保持该状态，不会再变了。</h6><h5 id="Promise-对象的错误具有“冒泡”性质，会一直向后传递，直到被捕获为止。也就是说，错误总是会被下一个catch语句捕获。"><a href="#Promise-对象的错误具有“冒泡”性质，会一直向后传递，直到被捕获为止。也就是说，错误总是会被下一个catch语句捕获。" class="headerlink" title="Promise 对象的错误具有“冒泡”性质，会一直向后传递，直到被捕获为止。也就是说，错误总是会被下一个catch语句捕获。"></a>Promise 对象的错误具有“冒泡”性质，会一直向后传递，直到被捕获为止。也就是说，错误总是会被下一个catch语句捕获。</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">getJSON(&apos;/post/1.json&apos;).then(function(post) &#123;</div><div class="line">  return getJSON(post.commentURL);</div><div class="line">&#125;).then(function(comments) &#123;</div><div class="line">  // some code</div><div class="line">&#125;).catch(function(error) &#123;</div><div class="line">  // 处理前面三个Promise产生的错误</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码中，一共有三个Promise对象：一个由getJSON产生，两个由then产生。它们之中任何一个抛出的错误，都会被最后一个catch捕获。</p>
+<p>一般来说，不要在then方法里面定义Reject状态的回调函数（即then的第二个参数），总是使用catch方法,因为catch可以捕获前面then方法执行中的错误。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var promise = new Promise(function (resolve, reject) &#123;</div><div class="line">  resolve(&apos;ok&apos;);</div><div class="line">  setTimeout(function () &#123; throw new Error(&apos;test&apos;) &#125;, 0)</div><div class="line">&#125;);</div><div class="line">promise.then(function (value) &#123; console.log(value) &#125;);</div><div class="line">// ok</div><div class="line">// Uncaught Error: test</div></pre></td></tr></table></figure></p>
+<p>上面代码中，Promise 指定在下一轮“事件循环”再抛出错误。到了那个时候，Promise 的运行已经结束了，所以这个错误是在 Promise 函数体外抛出的，会冒泡到最外层，成了未捕获的错误。</p>
+<h3 id="Promise-all"><a href="#Promise-all" class="headerlink" title="Promise.all()"></a>Promise.all()</h3><p>Promise.all方法用于将多个 Promise 实例，包装成一个新的 Promise 实例。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var p = Promise.all([p1, p2, p3]);</div></pre></td></tr></table></figure></p>
+<p>p的状态由p1、p2、p3决定，分成两种情况。</p>
+<p>（1）只有p1、p2、p3的状态都变成fulfilled，p的状态才会变成fulfilled，此时p1、p2、p3的返回值组成一个数组，传递给p的回调函数。</p>
+<p>（2）只要p1、p2、p3之中有一个被rejected，p的状态就变成rejected，此时第一个被reject的实例的返回值，会传递给p的回调函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">// 生成一个Promise对象的数组</div><div class="line">var promises = [2, 3, 5, 7, 11, 13].map(function (id) &#123;</div><div class="line">  return getJSON(&apos;/post/&apos; + id + &quot;.json&quot;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">Promise.all(promises).then(function (posts) &#123;</div><div class="line">  // ...</div><div class="line">&#125;).catch(function(reason)&#123;</div><div class="line">  // ...</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>上面代码中，promises是包含6个 Promise 实例的数组，只有这6个实例的状态都变成fulfilled，或者其中有一个变为rejected，才会调用Promise.all方法后面的回调函数。只有等到6个 Promise 实例的结果都返回了，才会触发Promise.all(promises)的回调函数</p>
+<h6 id="注意，如果作为参数的-Promise-实例，自己定义了catch方法，那么它一旦被rejected，并不会触发Promise-all-的catch方法。"><a href="#注意，如果作为参数的-Promise-实例，自己定义了catch方法，那么它一旦被rejected，并不会触发Promise-all-的catch方法。" class="headerlink" title="注意，如果作为参数的 Promise 实例，自己定义了catch方法，那么它一旦被rejected，并不会触发Promise.all()的catch方法。"></a>注意，如果作为参数的 Promise 实例，自己定义了catch方法，那么它一旦被rejected，并不会触发Promise.all()的catch方法。</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">const p1 = new Promise((resolve, reject) =&gt; &#123;</div><div class="line">  resolve(&apos;hello&apos;);</div><div class="line">&#125;)</div><div class="line">.then(result =&gt; result)</div><div class="line">.catch(e =&gt; e);</div><div class="line"></div><div class="line">const p2 = new Promise((resolve, reject) =&gt; &#123;</div><div class="line">  throw new Error(&apos;报错了&apos;);</div><div class="line">&#125;)</div><div class="line">.then(result =&gt; result)</div><div class="line">.catch(e =&gt; e);</div><div class="line"></div><div class="line">Promise.all([p1, p2])</div><div class="line">.then(result =&gt; console.log(result))</div><div class="line">.catch(e =&gt; console.log(e));</div><div class="line">// [&quot;hello&quot;, Error: 报错了]</div></pre></td></tr></table></figure>
+<p>上面代码中，p1会resolved，p2首先会rejected，但是p2有自己的catch方法，该方法返回的是一个新的 Promise 实例，p2指向的实际上是这个实例。该实例执行完catch方法后，也会变成resolved，导致Promise.all()方法参数里面的两个实例都会resolved，因此会调用then方法指定的回调函数，而不会调用catch方法指定的回调函数。</p>
+<p>如果p2没有自己的catch方法，就会调用Promise.all()的catch方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">const p1 = new Promise((resolve, reject) =&gt; &#123;</div><div class="line">  resolve(&apos;hello&apos;);</div><div class="line">&#125;)</div><div class="line">.then(result =&gt; result);</div><div class="line"></div><div class="line">const p2 = new Promise((resolve, reject) =&gt; &#123;</div><div class="line">  throw new Error(&apos;报错了&apos;);</div><div class="line">&#125;)</div><div class="line">.then(result =&gt; result);</div><div class="line"></div><div class="line">Promise.all([p1, p2])</div><div class="line">.then(result =&gt; console.log(result))</div><div class="line">.catch(e =&gt; console.log(e));</div><div class="line">// Error: 报错了</div></pre></td></tr></table></figure>
+<h3 id="Promise-race"><a href="#Promise-race" class="headerlink" title="Promise.race()"></a>Promise.race()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var p = Promise.race([p1, p2, p3]);</div></pre></td></tr></table></figure>
+<p>上面代码中，只要p1、p2、p3之中有一个实例率先改变状态，p的状态就跟着改变。那个率先改变的 Promise 实例的返回值(执行最快的那个)，就传递给p的回调函数。</p>
+<h3 id="Promise-resolve"><a href="#Promise-resolve" class="headerlink" title="Promise.resolve()"></a>Promise.resolve()</h3><p>有时需要将现有对象转为Promise对象，Promise.resolve方法就起到这个作用<br>Promise.resolve方法的参数分成四种情况。<br>(1)参数是一个Promise实例<br>Promise.resolve将不做任何修改、原封不动地返回这个实例。<br>(2) 参数是一个thenable对象<br>thenable对象指的是具有then方法的对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">let thenable = &#123;</div><div class="line">  then: function(resolve, reject) &#123;</div><div class="line">    resolve(42);</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">let p1 = Promise.resolve(thenable);</div><div class="line">p1.then(function(value) &#123;</div><div class="line">  console.log(value);  // 42</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>上面代码中，thenable对象的then方法执行后，对象p1的状态就变为resolved，从而立即执行最后那个then方法指定的回调函数，输出42。<br>(3)参数不是具有then方法的对象，或根本就不是对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var p = Promise.resolve(&apos;Hello&apos;);</div><div class="line"></div><div class="line">p.then(function (s)&#123;</div><div class="line">  console.log(s)</div><div class="line">&#125;);</div><div class="line">// Hello</div></pre></td></tr></table></figure></p>
+<p>如果参数是一个原始值，或者是一个不具有then方法的对象，则Promise.resolve方法返回一个新的Promise对象，状态为Resolved。<br>(4)不带有任何参数<br>Promise.resolve方法允许调用时不带参数，直接返回一个Resolved状态的Promise对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var p = Promise.resolve();</div><div class="line"></div><div class="line">p.then(function () &#123;</div><div class="line">  // ...</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>需要注意的是，立即resolve的Promise对象，是在本轮“事件循环”（event loop）的结束时，而不是在下一轮“事件循环”的开始时</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">setTimeout(function () &#123;</div><div class="line">  console.log(&apos;three&apos;);</div><div class="line">&#125;, 0);</div><div class="line"></div><div class="line">Promise.resolve().then(function () &#123;</div><div class="line">  console.log(&apos;two&apos;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">console.log(&apos;one&apos;);</div><div class="line"></div><div class="line">// one</div><div class="line">// two</div><div class="line">// three</div></pre></td></tr></table></figure>
+<p>上面代码中，setTimeout(fn, 0)在下一轮“事件循环”开始时执行，Promise.resolve()在本轮“事件循环”结束时执行，console.log(‘one’)则是立即执行，因此最先输出。</p>
+<h3 id="Promise-reject"><a href="#Promise-reject" class="headerlink" title="Promise.reject()"></a>Promise.reject()</h3><p>生成一个Promise对象的实例p，状态为rejected，回调函数会立即执行。</p>
+<p>注意，Promise.reject()方法的参数，会原封不动地作为reject的理由，变成后续方法的参数。这一点与Promise.resolve方法不一致。</p>
+<h3 id="deferred对象"><a href="#deferred对象" class="headerlink" title="deferred对象"></a>deferred对象</h3><p>deferred对象就是jQuery的回调函数解决方案<br>deferred的主要作用：不管是ajax操作还是本地操作，也不管是异步操作还是同步操作—-都可以使用deferred对象的各种方法，指定回调函数。<br>jquery ajax的传统写法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$.ajax(&#123;</div><div class="line">　　　　url: &quot;test.html&quot;,</div><div class="line">　　　　success: function()&#123;</div><div class="line">　　　　　　alert(&quot;哈哈，成功了！&quot;);</div><div class="line">　　　　&#125;,</div><div class="line">　　　　error:function()&#123;</div><div class="line">　　　　　　alert(&quot;出错啦！&quot;);</div><div class="line">　　　　&#125;</div><div class="line">　　&#125;);</div></pre></td></tr></table></figure></p>
+<p>$.ajax()操作完成后，如果使用的是低于1.5.0版本的jQuery，返回的是XHR对象，你没法进行链式操作；如果高于1.5.0版本，返回的是deferred对象，可以进行链式操作。<br>新的写法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">　　$.ajax(&quot;test.html&quot;)</div><div class="line">　　.done(function()&#123; alert(&quot;哈哈，成功了！&quot;); &#125;)</div><div class="line">　　.fail(function()&#123; alert(&quot;出错啦！&quot;); &#125;);</div></pre></td></tr></table></figure></p>
+<p>done()相当于success方法，fail()相当于error方法。采用链式写法以后，代码的可读性大大提高。</p>
+<h3 id="deferred对象的几大优点如下"><a href="#deferred对象的几大优点如下" class="headerlink" title="deferred对象的几大优点如下"></a>deferred对象的几大优点如下</h3><h5 id="指定同一操作的多个回调函数"><a href="#指定同一操作的多个回调函数" class="headerlink" title="指定同一操作的多个回调函数"></a>指定同一操作的多个回调函数</h5><p>deferred对象的一大好处，就是它允许你自由添加多个回调函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">　$.ajax(&quot;test.html&quot;)</div><div class="line">　　.done(function()&#123; alert(&quot;哈哈，成功了！&quot;);&#125; )</div><div class="line">　　.fail(function()&#123; alert(&quot;出错啦！&quot;); &#125; )</div><div class="line">　　.done(function()&#123; alert(&quot;第二个回调函数！&quot;);&#125; );</div></pre></td></tr></table></figure></p>
+<h5 id="为多个操作指定回调函数"><a href="#为多个操作指定回调函数" class="headerlink" title="为多个操作指定回调函数"></a>为多个操作指定回调函数</h5><p>deferred对象的另一大好处，就是它允许你为多个事件指定一个回调函数，这是传统写法做不到的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$.when($.ajax(&quot;test1.html&quot;), $.ajax(&quot;test2.html&quot;))</div><div class="line">　　.done(function()&#123; alert(&quot;哈哈，成功了！&quot;); &#125;)</div><div class="line">　　.fail(function()&#123; alert(&quot;出错啦！&quot;); &#125;);</div></pre></td></tr></table></figure></p>
+<p>先执行两个操作$.ajax(“test1.html”)和$.ajax(“test2.html”)，如果都成功了，就运行done()指定的回调函数；如果有一个失败或都失败了，就执行fail()指定的回调函数。</p>
+<h5 id="普通操作的回调函数接口"><a href="#普通操作的回调函数接口" class="headerlink" title="普通操作的回调函数接口"></a>普通操作的回调函数接口</h5><p>deferred对象的最大优点，就是它把这一套回调函数接口，从ajax操作扩展到了所有操作。也就是说，任何一个操作—-不管是ajax操作还是本地操作，也不管是异步操作还是同步操作—-都可以使用deferred对象的各种方法，指定回调函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var wait = function()&#123;</div><div class="line">　　　　var tasks = function()&#123;</div><div class="line">　　　　　　alert(&quot;执行完毕！&quot;);</div><div class="line">　　　　&#125;;</div><div class="line">　　　　setTimeout(tasks,5000);</div><div class="line">　　&#125;;</div></pre></td></tr></table></figure>
+<p>给上面的代码添加回调<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$.when(wait())</div><div class="line">　　.done(function()&#123; alert(&quot;哈哈，成功了！&quot;); &#125;)</div><div class="line">　　.fail(function()&#123; alert(&quot;出错啦！&quot;); &#125;);</div></pre></td></tr></table></figure></p>
+<p>但是，这样写的话，done()方法会立即执行，起不到回调函数的作用。</p>
+<h6 id="原因在于-when-的参数只能是deferred对象，所以必须对wait-进行改写："><a href="#原因在于-when-的参数只能是deferred对象，所以必须对wait-进行改写：" class="headerlink" title="原因在于$.when()的参数只能是deferred对象，所以必须对wait()进行改写："></a>原因在于$.when()的参数只能是deferred对象，所以必须对wait()进行改写：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">var dtd=$.Deferred(); // 新建一个deferred对象</div><div class="line">var wait = function(dtd)&#123;</div><div class="line">　　　　var tasks = function()&#123;</div><div class="line">　　　　　　alert(&quot;执行完毕！&quot;);</div><div class="line">                   dtd.resolve();// 改变deferred对象的执行状态</div><div class="line">　　　　&#125;;</div><div class="line">　　　　setTimeout(tasks,5000);</div><div class="line">           return  dtd;</div><div class="line">　　&#125;;</div><div class="line">//wait()函数返回的是deferred对象，这就可以加上链式操作了。</div><div class="line">　   $.when(wait(dtd))</div><div class="line">　　.done(function()&#123; alert(&quot;哈哈，成功了！&quot;); &#125;)</div><div class="line">　　.fail(function()&#123; alert(&quot;出错啦！&quot;); &#125;);</div></pre></td></tr></table></figure>
+<p>wait()函数运行完，就会自动运行done()方法指定的回调函数。<br>前面部分的ajax操作时，deferred对象会根据返回结果，自动改变自身的执行状态；但是，在wait()函数中，这个执行状态必须由程序员手动指定。dtd.resolve()的意思是，将dtd对象的执行状态从”未完成”改为”已完成”，从而触发done()方法。</p>
+<h5 id="deferred-promise"><a href="#deferred-promise" class="headerlink" title="deferred.promise()"></a>deferred.promise()</h5><p>上面这种写法，还是有问题。那就是dtd是一个全局对象，所以它的执行状态可以从外部改变。<br>请看下面的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">　var dtd = $.Deferred(); // 新建一个Deferred对象</div><div class="line">　　var wait = function(dtd)&#123;</div><div class="line">　　　　var tasks = function()&#123;</div><div class="line">　　　　　　alert(&quot;执行完毕！&quot;);</div><div class="line">　　　　　　dtd.resolve(); // 改变Deferred对象的执行状态</div><div class="line">　　　　&#125;;</div><div class="line">　　　　setTimeout(tasks,5000);</div><div class="line">　　　　return dtd;</div><div class="line">　　&#125;;</div><div class="line">　　$.when(wait(dtd))</div><div class="line">　　.done(function()&#123; alert(&quot;哈哈，成功了！&quot;); &#125;)</div><div class="line">　　.fail(function()&#123; alert(&quot;出错啦！&quot;); &#125;);</div><div class="line">　　dtd.resolve();</div></pre></td></tr></table></figure></p>
+<p>我在代码的尾部加了一行dtd.resolve()，这就改变了dtd对象的执行状态，因此导致done()方法立刻执行，跳出”哈哈，成功了！”的提示框，等5秒之后再跳出”执行完毕！”的提示框。</p>
+<h6 id="为了避免这种情况，jQuery提供了deferred-promise-用是，在原来的deferred对象上返回另一个deferred对象，后者只开放与改变执行状态无关的方法（比如done-方法和fail-方法），屏蔽与改变执行状态有关的方法（比如resolve-方法和reject-方法），从而使得执行状态不能被改变。"><a href="#为了避免这种情况，jQuery提供了deferred-promise-用是，在原来的deferred对象上返回另一个deferred对象，后者只开放与改变执行状态无关的方法（比如done-方法和fail-方法），屏蔽与改变执行状态有关的方法（比如resolve-方法和reject-方法），从而使得执行状态不能被改变。" class="headerlink" title="为了避免这种情况，jQuery提供了deferred.promise()用是，在原来的deferred对象上返回另一个deferred对象，后者只开放与改变执行状态无关的方法（比如done()方法和fail()方法），屏蔽与改变执行状态有关的方法（比如resolve()方法和reject()方法），从而使得执行状态不能被改变。"></a>为了避免这种情况，jQuery提供了deferred.promise()用是，在原来的deferred对象上返回另一个deferred对象，后者只开放与改变执行状态无关的方法（比如done()方法和fail()方法），屏蔽与改变执行状态有关的方法（比如resolve()方法和reject()方法），从而使得执行状态不能被改变。</h6><p>请看下面的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">　　var dtd = $.Deferred(); // 新建一个Deferred对象</div><div class="line">　　var wait = function(dtd)&#123;</div><div class="line">　　　　var tasks = function()&#123;</div><div class="line">　　　　　　alert(&quot;执行完毕！&quot;);</div><div class="line">　　　　　　dtd.resolve(); // 改变Deferred对象的执行状态</div><div class="line">　　　　&#125;;　　　　setTimeout(tasks,5000);</div><div class="line">　　　　**return dtd.promise(); // 返回promise对象**</div><div class="line">　　&#125;;</div><div class="line">　　**var d = wait(dtd); // 新建一个d对象，改为对这个对象进行操作**</div><div class="line">　　$.when(d)</div><div class="line">　　.done(function()&#123; alert(&quot;哈哈，成功了！&quot;); &#125;)</div><div class="line">　　.fail(function()&#123; alert(&quot;出错啦！&quot;); &#125;);</div><div class="line">　　**d.resolve(); // 此时，这个语句是无效的**</div></pre></td></tr></table></figure></p>
+<p>在上面的这段代码中，wait()函数返回的是promise对象。然后，我们把回调函数绑定在这个对象上面，而不是原来的deferred对象上面。这样的好处是，无法改变这个对象的执行状态，要想改变执行状态，只能操作原来的deferred对象。</p>
+<p>更好的写法,将dtd对象变成wait(）函数的内部对象。</p>
+<p>另一种防止执行状态被外部改变的方法，是使用deferred对象的建构函数$.Deferred()。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var wait = function(dtd)&#123;</div><div class="line">　　　　var tasks = function()&#123;</div><div class="line">　　　　　　alert(&quot;执行完毕！&quot;);</div><div class="line">　　　　　　dtd.resolve(); // 改变deferred对象的执行状态</div><div class="line">　　　　&#125;;</div><div class="line">　　　　setTimeout(tasks,5000);</div><div class="line">　　　　return dtd;</div><div class="line">　　&#125;;</div><div class="line">　     $.Deferred(wait)</div><div class="line">　　.done(function()&#123; alert(&quot;哈哈，成功了！&quot;); &#125;)</div><div class="line">　　.fail(function()&#123; alert(&quot;出错啦！&quot;); &#125;);</div></pre></td></tr></table></figure></p>
+<p>jQuery规定，$.Deferred()可以接受一个函数名（注意，是函数名）作为参数，$.Deferred()所生成的deferred对象将作为这个函数的默认参数。</p>
+<h4 id="小结：deferred对象的方法"><a href="#小结：deferred对象的方法" class="headerlink" title="小结：deferred对象的方法"></a>小结：deferred对象的方法</h4><p>前面已经讲到了deferred对象的多种方法，下面做一个总结：<br>　　（1） <a href="http://api.jquery.com/category/deferred-object/" target="_blank" rel="external">$.Deferred()</a> 生成一个deferred对象。<br>　　（2） <a href="http://api.jquery.com/deferred.done/" target="_blank" rel="external">deferred.done()</a> 指定操作成功时的回调函数<br>　　（3） <a href="http://api.jquery.com/deferred.fail/" target="_blank" rel="external">deferred.fail()</a> 指定操作失败时的回调函数<br>　　（4） <a href="http://api.jquery.com/deferred.promise/" target="_blank" rel="external">deferred.promise()</a> 没有参数时，返回一个新的deferred对象，该对象的运行状态无法被改变；接受参数时，作用为在参数对象上部署deferred接口。<br>　　（5） <a href="http://api.jquery.com/deferred.resolve/" target="_blank" rel="external">deferred.resolve()</a> 手动改变deferred对象的运行状态为”已完成”，从而立即触发done()方法。<br>　　（6）<a href="http://api.jquery.com/deferred.reject/" target="_blank" rel="external">deferred.reject()</a> 这个方法与deferred.resolve()正好相反，调用后将deferred对象的运行状态变为”已失败”，从而立即触发fail()方法。<br>　　（7） <a href="http://api.jquery.com/jQuery.when/" target="_blank" rel="external">$.when()</a> 为多个操作指定回调函数。<br>除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。<br>　　（8）<a href="http://api.jquery.com/deferred.then/" target="_blank" rel="external">deferred.then()</a><br>有时为了省事，可以把done()和fail()合在一起写，这就是then()方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$.when($.ajax( &quot;/main.php&quot; ))</div><div class="line">　　**.then(successFunc, failureFunc );**</div></pre></td></tr></table></figure></p>
+<p>如果then()有两个参数，那么第一个参数是done()方法的回调函数，第二个参数是fail()方法的回调方法。如果then()只有一个参数，那么等同于done()。<br>　　（9）<a href="http://api.jquery.com/deferred.always/" target="_blank" rel="external">deferred.always()</a><br>这个方法也是用来指定回调函数的，它的作用是，不管调用的是deferred.resolve()还是deferred.reject()，最后总是执行。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">　$.ajax( &quot;test.html&quot; )</div><div class="line">　.always( function() &#123; alert(&quot;已执行！&quot;);&#125; );</div></pre></td></tr></table></figure></p>
+<p>其实 ，我只是个搬运工，主要还是阮一峰大神写的好<br>参考文档<br>deferred: <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html" target="_blank" rel="external">http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html</a><br>promise:<br> <a href="http://es6.ruanyifeng.com/#docs/promise" target="_blank" rel="external">http://es6.ruanyifeng.com/#docs/promise</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/11/JavaScript中的函数与闭包/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李雪萌">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/11/JavaScript中的函数与闭包/" itemprop="url">
+                  JavaScript中的函数与闭包
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-11T00:00:00+08:00">
+                2017-07-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>查阅书籍：JavaScript权威指南</p>
+<h3 id="函数声明与函数表达式"><a href="#函数声明与函数表达式" class="headerlink" title="函数声明与函数表达式"></a>函数声明与函数表达式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">sum(10,10)//20</div><div class="line">function sum(n1,n1)&#123;</div><div class="line">return n1+n2;</div><div class="line">&#125;</div><div class="line">sum(10,10)//报错</div><div class="line">var sum=function()&#123;</div><div class="line">return n1+n2;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>用函数声明定义的函数,函数可以在函数声明之前调用,而用函数表达式定义的函数只能在声明之后调用。</p>
+<p>根本原因是</p>
+<p>解析器会率先读取函数声明，将其加入执行环境中，<br>函数表达式，必须等到解析器执行到它所在的代码行，才会被真正的执行</p>
+<p>在权威指南是这么写到的</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-e709fc6c045186cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h6 id="ECMAScript规范中表示，函数声明语句可以出现在全局代码中，或者内嵌在其他函数中，但是不能出现在循环、条件判、或者try-finally以及with语句中。函数定义表达式可以出现在javascript代码的任何地方。"><a href="#ECMAScript规范中表示，函数声明语句可以出现在全局代码中，或者内嵌在其他函数中，但是不能出现在循环、条件判、或者try-finally以及with语句中。函数定义表达式可以出现在javascript代码的任何地方。" class="headerlink" title="ECMAScript规范中表示，函数声明语句可以出现在全局代码中，或者内嵌在其他函数中，但是不能出现在循环、条件判、或者try/finally以及with语句中。函数定义表达式可以出现在javascript代码的任何地方。"></a>ECMAScript规范中表示，函数声明语句可以出现在全局代码中，或者内嵌在其他函数中，但是不能出现在循环、条件判、或者try/finally以及with语句中。函数定义表达式可以出现在javascript代码的任何地方。</h6><h3 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h3><p>JavaScript函数可以是匿名的。这意味着你可以从函数声明中省略函数名。但是，函数必须存储在变量中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var addNumbers = function (x, y) &#123; return x + y; &#125;</div></pre></td></tr></table></figure>
+<p>上述语法也被称为函数表达式。</p>
+<h3 id="立即执行函数表达式"><a href="#立即执行函数表达式" class="headerlink" title="立即执行函数表达式"></a>立即执行函数表达式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(function() &#123; </div><div class="line"></div><div class="line">&#125;());</div></pre></td></tr></table></figure>
+<p>这其中定义的任何变量或函数不能被这个范围以外的任何代码改变。</p>
+<p>这是一个在代码中创建局部范围的很好方法。它们可以帮助你保护变量和函数，以避免被应用程序的其他部分更改或覆盖。</p>
+<h3 id="嵌套函数"><a href="#嵌套函数" class="headerlink" title="嵌套函数"></a>嵌套函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function hyotense(a,b)&#123;</div><div class="line">function square(x)&#123;return x*x&#125;;</div><div class="line">return Math.sqrt(square(a)+square(b));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>他的特别之处在于他的变量作用域规则，他们可以访问嵌套他们的函数的参数和变量，这里要说一下作用域链</p>
+<h6 id="作用域链"><a href="#作用域链" class="headerlink" title="作用域链"></a>作用域链</h6><p>作用域链中的下一个变量对象来自包含（外部）环境，而在下一个变量对象则来自下一个包含环境，一直延续到全局执行环境，全局执行环境的变量对象始终是作用域的最后一个对象</p>
+<h3 id="函数调用"><a href="#函数调用" class="headerlink" title="函数调用"></a>函数调用</h3><p>（1）作为函数<br>（2）作为方法<br>（3）作为构造函数<br>（4）通过它们的call和apply间接调用</p>
+<h5 id="作为函数"><a href="#作为函数" class="headerlink" title="作为函数"></a>作为函数</h5><p>就是我们通常看到的最简单的调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">function square(x)&#123;return x*x&#125;;</div><div class="line">square(10);</div></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-415b5525f21bf49f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-f0dbc2e4f2f4ba6c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h5 id="作为方法"><a href="#作为方法" class="headerlink" title="作为方法"></a>作为方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var calcuator=&#123;</div><div class="line">a:1,</div><div class="line">b:2,</div><div class="line">add:function()&#123;</div><div class="line">this.result=this.a+this.b;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">calcuator.add();</div><div class="line">calcuator.result; =&gt;3</div></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-030abb644a8c5478.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h5 id="方法链"><a href="#方法链" class="headerlink" title="方法链"></a>方法链</h5><p>当方法返回的是一个对象的时候，这个对象还可以调用它的方法，jQuery 就是这样。<br>需要注意的是</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-16e8ec103b1a0c4f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-523bfac337fe6136.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h4 id="作为构造函数"><a href="#作为构造函数" class="headerlink" title="作为构造函数"></a>作为构造函数</h4><p>函数可以充当构造器的角色，并且可以使用构造函数来创建新的对象。这是JavaScript面向对象的特点之一。使用构造函数的好处是，你将能够通过预定义的属性和方法，创造尽可能多的对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">function Programmer(name, company, expertise) &#123;  </div><div class="line">this.name = name;   </div><div class="line">this.company = company;  </div><div class="line">this.expertise = expertise;  </div><div class="line">this.writeCode = function() &#123;     </div><div class="line">console.log(&quot;Writing some public static thing..&quot;);</div><div class="line">&#125;   </div><div class="line">this.makeSkypeCall = function() &#123;    </div><div class="line">console.log(&quot;Making skype call..&quot;);</div><div class="line">&#125;  </div><div class="line">this.doSalsa = function() &#123;    </div><div class="line">console.log(&quot;I&apos;m a programmer, I can only do Gangnam style..&quot;);</div><div class="line">&#125;  </div><div class="line">this.canWriteJavaScript = function() &#123;     </div><div class="line">return expertise === &quot;JavaScript&quot;;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h6 id="始终使用new关键字来从构造器创建新的对象。"><a href="#始终使用new关键字来从构造器创建新的对象。" class="headerlink" title="始终使用new关键字来从构造器创建新的对象。"></a>始终使用new关键字来从构造器创建新的对象。</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var jsProgrammer = Programmer(&quot;Douglas Crockford&quot;, &quot;Yahoo&quot;, &quot;JavaScript&quot;)</div></pre></td></tr></table></figure>
+<p>最终将添加所有属性和方法到全局的window对象，原因是，除非明确指定，否则“this”指向全局的window对象。使用new 设置“this”上下文到被创建的当前对象。</p>
+<h4 id="间接调用"><a href="#间接调用" class="headerlink" title="间接调用"></a>间接调用</h4><p>javascript函数也是对象，函数对象也可以包括方法，其中call()和apply也可以间接调用函数<br>call和apply都可以改变this的指向<br>call第二个参数是散列分布<br>apply以数组的形式传第二个参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ClassA.call(this,name,age);改变this值</div><div class="line">ClassA.apply(this,[name,age]);</div><div class="line">ClassA.apply(this,arguments);arguments是一个数组，里面放的是所有传过来的实参</div></pre></td></tr></table></figure>
+<p>call可以用做继承</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function Parent(age)&#123;</div><div class="line">this.name=[&apos;mike&apos;,&apos;jack&apos;,&apos;smith&apos;];</div><div class="line">this.age=age;</div><div class="line">&#125;</div><div class="line">function Child(age)&#123;</div><div class="line">Parent.call(this,age);//把this指向Parent,同时还可以传递参数</div><div class="line">&#125;</div><div class="line">var test=new Child(21);</div><div class="line">console.log(test.age);//21</div><div class="line">console.log(test.name);</div><div class="line">test.name.push(&apos;bill&apos;);</div><div class="line">console.log(test.name);//mike,jack,smith,bill</div></pre></td></tr></table></figure>
+<h6 id="ES5还定义了一个方法：bind-，它会创建一个函数的实例，其this值会被绑定到传给bind-函数的值。如"><a href="#ES5还定义了一个方法：bind-，它会创建一个函数的实例，其this值会被绑定到传给bind-函数的值。如" class="headerlink" title="ES5还定义了一个方法：bind()，它会创建一个函数的实例，其this值会被绑定到传给bind()函数的值。如"></a>ES5还定义了一个方法：bind()，它会创建一个函数的实例，其this值会被绑定到传给bind()函数的值。如</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">window.color=&apos;red&apos;;</div><div class="line">var o=&#123;color:&apos;blue&apos;&#125;;</div><div class="line">function sayColor()&#123;</div><div class="line">console.log(this.color);</div><div class="line">&#125;</div><div class="line">var objectSaycolor=sayColor.bind(o);</div><div class="line">//var objectSaycolor=sayColor.bind();</div><div class="line">objectSaycolor();//blue</div></pre></td></tr></table></figure>
+<p>在这里sayColor()调用bind()并传入对象o,创建了objectSayColor()函数。objectSayColor()函数的this值等于o,因此即使是在全局作用域中调用这个函数，也会看到blue。</p>
+<h4 id="实参和形参"><a href="#实参和形参" class="headerlink" title="实参和形参"></a>实参和形参</h4><p>当调用函数时，传入的实参比函数声明时指定的形参要少的话，剩下的形参都会设为undefine<br>那么当调用函数时，传入的实参超过函数声明时指定的形参的话，没有办法直接获得其他形参，参数对象解决了这个问题，那么什么是参数对象呢？</p>
+<h5 id="参数对象arguments"><a href="#参数对象arguments" class="headerlink" title="参数对象arguments"></a>参数对象arguments</h5><p>标识符arguments是指向实参对象的引用，实参对象是一个类数组对象，这样通过数组下标就可以访问传入函数的实参值<br>我们可以通过arguments[0]取到传入实参的第一位，和真正的数组一样arguments也有length属性，用来表示传入实参的个数。<br>arguments有一个重要的用处，让函数可以操作任意数量的实参。下面的这个例子就利用arguments实现任意数量的数字去比较大小。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-1906588fe2b00979.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>要注意的是，实参对象并不是真正的数组，他不能够使用数组的方法</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-d5180ad0b94f252c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h4 id="实参对象的callee和caller属性"><a href="#实参对象的callee和caller属性" class="headerlink" title="实参对象的callee和caller属性"></a>实参对象的callee和caller属性</h4><p>callee是标准的，指向当前正在执行的函数， 一般用于递归函数 可以实现低耦合 防止将函数赋值为其他函数，<br>caller是非标准的，调用当前正在执行的函数的函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function factorial(num)&#123;</div><div class="line">if(num &lt;= 1)&#123;</div><div class="line">return 1;</div><div class="line">&#125;else&#123;</div><div class="line">return num*arguments.callee(num-1);</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>用一句可以概括一下闭包：外部函数内会定义一个内部函数 2.内部函数调用外部函数的变量  3.外部函数的变量不会回收<br>函数对象可以可以通过作用域链相互关联起来，函数内部的变量可以保存在函数内作用域。</p>
+<p>从技术角度讲，javascript的函数都是闭包，定义大多数函数时的作用域链在调用函数时依然有效。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var scope=&quot;global scope&quot;;</div><div class="line">function checkscope()&#123;</div><div class="line">var scope=&quot;local scope&quot;</div><div class="line">function f()&#123;return scope&#125;;</div><div class="line">retunr f();</div><div class="line">&#125;</div><div class="line">checkscope();</div></pre></td></tr></table></figure></p>
+<p>这个例子很明显，会输出local scope，将f函数执行后的结果返回。<br>做一点改变<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var scope=&quot;global scope&quot;;</div><div class="line">function checkscope()&#123;</div><div class="line">var scope=&quot;local scope&quot;</div><div class="line">function f()&#123;return scope&#125;;</div><div class="line">retunr f;</div><div class="line">&#125;</div><div class="line">checkscope()();</div></pre></td></tr></table></figure></p>
+<p>答案是“local scope”<br>书上的答案是这样的</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-176c3afa9ff9fec4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-48639d8c5fd37574.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h6 id="注意：函数定义时的作用域在函数执行时依然有效"><a href="#注意：函数定义时的作用域在函数执行时依然有效" class="headerlink" title="注意：函数定义时的作用域在函数执行时依然有效"></a>注意：函数定义时的作用域在函数执行时依然有效</h6><p>很多人会认为外部函数中定义的局部变量在函数返回后就不存在了，<br>其实原理是这样的，</p>
+<h6 id="当执行流进入一个函数时，函数的环境（变量，函数）会被推进一个环境栈（我习惯叫运行栈），在栈里面存的是对函数的一个引用，真正的函数是放在堆上面的，当函数执行之后，正常的情况会将环境中的变量弹出来，断开函数的引用，但是由于在外面checkscope变量指向了function-return-scope-这个函数-而在函数里面还需要scope这个变量，因此在这种情况下，编译器会将scope捕捉（我理解就是复制了一份引用），这样我们就可以取到scope，这就是在内部函数里面调用外部函数的变量，外部函数的变量不会被释放的原因。"><a href="#当执行流进入一个函数时，函数的环境（变量，函数）会被推进一个环境栈（我习惯叫运行栈），在栈里面存的是对函数的一个引用，真正的函数是放在堆上面的，当函数执行之后，正常的情况会将环境中的变量弹出来，断开函数的引用，但是由于在外面checkscope变量指向了function-return-scope-这个函数-而在函数里面还需要scope这个变量，因此在这种情况下，编译器会将scope捕捉（我理解就是复制了一份引用），这样我们就可以取到scope，这就是在内部函数里面调用外部函数的变量，外部函数的变量不会被释放的原因。" class="headerlink" title="当执行流进入一个函数时，函数的环境（变量，函数）会被推进一个环境栈（我习惯叫运行栈），在栈里面存的是对函数的一个引用，真正的函数是放在堆上面的，当函数执行之后，正常的情况会将环境中的变量弹出来，断开函数的引用，但是由于在外面checkscope变量指向了function(){return scope}这个函数,而在函数里面还需要scope这个变量，因此在这种情况下，编译器会将scope捕捉（我理解就是复制了一份引用），这样我们就可以取到scope，这就是在内部函数里面调用外部函数的变量，外部函数的变量不会被释放的原因。"></a>当执行流进入一个函数时，函数的环境（变量，函数）会被推进一个环境栈（我习惯叫运行栈），在栈里面存的是对函数的一个引用，真正的函数是放在堆上面的，当函数执行之后，正常的情况会将环境中的变量弹出来，断开函数的引用，但是由于在外面checkscope变量指向了function(){return scope}这个函数,而在函数里面还需要scope这个变量，因此在这种情况下，编译器会将scope捕捉（我理解就是复制了一份引用），这样我们就可以取到scope，这就是在内部函数里面调用外部函数的变量，外部函数的变量不会被释放的原因。</h6><p>闭包有什么用处呢？<br>看下面这个例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">for(var i=0;i&lt;10;i++)&#123;</div><div class="line">ali[i].onclick=function()&#123;</div><div class="line">alert(i);</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>想想这个例子，当我们点击不同的li时，会如我们所愿的输出当前li的下标么？答案当然是不，点击不同的li时都会输出10，因为for循环瞬间执行完毕的时候，每次i出了函数，都将i从栈里面弹出去，在重新给i赋值，i最后变成了10，这个时候无论点击什么，都会alert 10，闭包就可以解决这个问题，将变量保存下来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">for(var i=0;i&lt;10;i++)&#123;</div><div class="line">(function(idx)&#123;</div><div class="line">ali[i].onclick=function()&#123;</div><div class="line">alert(i);</div><div class="line">&#125;</div><div class="line">&#125;)(i);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>看一下这个闭包，通过这种方式就可以保存下来每一个下标，每个点击事件都将当前的i保留下来了，原理和上面那个例子是一样的。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/10/JavaScript的函数作用域和参数的传递问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李雪萌">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/10/JavaScript的函数作用域和参数的传递问题/" itemprop="url">
+                  JavaScript的函数作用域和参数的传递问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-10T00:00:00+08:00">
+                2017-07-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">1.  var bb = 1; </div><div class="line">function aa(bb) &#123; </div><div class="line">bb = 2;</div><div class="line">&#125;; </div><div class="line">aa(); </div><div class="line">console.log(bb );</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">2. var bb = 1; </div><div class="line">function aa() &#123; </div><div class="line">bb = 2;</div><div class="line">&#125;; </div><div class="line">aa(); </div><div class="line">console.log(bb );</div></pre></td></tr></table></figure>
+<p>你觉得会输出什么呢，想必很多人和我一样认为会输出2 2<br>答案应该是1 2，为什么呢？</p>
+<h3 id="首先我们先来看一下作用域"><a href="#首先我们先来看一下作用域" class="headerlink" title="首先我们先来看一下作用域"></a>首先我们先来看一下作用域</h3><p>1.js编程环境的顶级作用域是window对象下的范围，称为全局作用域，全局作用域中的变量称为全局变量。<br>注意：代码的任何位置隐士声明（不用var），都是全局变量，具有全局作用域。</p>
+<p>2.js函数内的变量无法在函数外面访问，在函数内却可以访问函数外的变量，函数内的变量称为局部变量。</p>
+<p>3.js函数可以嵌套，多个函数的层层嵌套构成了多个作用域的层层嵌套，这称为js的作用域链。</p>
+<p>4.js作用域链的变量访问规则是：如果当前作用域内存在要访问的变量，则使用当前作用域的变量，否则到上一层作用域内寻找，直到全局作用域，如果找不到，则该变量为未声明。</p>
+<h3 id="全局变量和局部变量"><a href="#全局变量和局部变量" class="headerlink" title="全局变量和局部变量"></a>全局变量和局部变量</h3><p>全局变量：变量在全局声明，或者在代码的任何位置隐士声明（不用var），则该变量在全局可见<br>局部变量：变量在函数内显示申明（使用var）,则在该函数内可见”</p>
+<p>具体的全局变量和局部变量在内存中的区域</p>
+<p><a href="http://www.jianshu.com/p/b42715694c80" target="_blank" rel="external">http://www.jianshu.com/p/b42715694c80</a></p>
+<h3 id="知道了作用域，我们就可以看一下这道题啦"><a href="#知道了作用域，我们就可以看一下这道题啦" class="headerlink" title="知道了作用域，我们就可以看一下这道题啦"></a>知道了作用域，我们就可以看一下这道题啦</h3><p>第一个例子<br>在函数aa里面传了一个参数bb,bb变成了函数的局部变量，也就是相当于在函数体内声明了var bb，再去改变bb的值，bb的值在函数里面就变成了2，但是这个变化不会影响到外部作用域下的bb,因此，全局变量bb的值还是1</p>
+<p>第二个例子<br>在函数内部直接给bb赋值，并没有var，此时bb是一个全局变量，给函数里面的bb赋值，相当于在函数内部重新将bb申明了一遍，并且是以全局变量的形式申明的。因此bb会输出2.</p>
+<h3 id="参数的传递是按值类型还是引用类型传递的"><a href="#参数的传递是按值类型还是引用类型传递的" class="headerlink" title="参数的传递是按值类型还是引用类型传递的"></a>参数的传递是按值类型还是引用类型传递的</h3><p>上面的例子是参数为基本类型的值，那么向参数传一个对象会怎么样呢？看下面这个例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function setName(obj) &#123;</div><div class="line">obj.name = &quot;Nicholas&quot;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var person = new Object();</div><div class="line">setName(person);</div><div class="line">alert(person.name);</div></pre></td></tr></table></figure></p>
+<p>这端代码会输出Nicholas，看到这个结果，很多人会认为，在局部作用域中修改的对象会在全局作用域中反映出来，就说明参数是按引用传递的，其实不是这样的， 我们可以看一下下面这个例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function setName(obj) &#123;</div><div class="line">obj.name = &quot;Nicholas&quot;;</div><div class="line">obj = new Object();</div><div class="line">obj.name = &quot;Greg&quot;; </div><div class="line">&#125;</div><div class="line"></div><div class="line">var person = new Object();</div><div class="line">setName(person);</div><div class="line">alert(person.name);</div></pre></td></tr></table></figure></p>
+<p>这个会输出Nicholas，而不是Greg。</p>
+<p>其实是这样的，如果person是按引用传递的，obj是person的引用，obj指向一个新对象，那么person就会自动被修改为指向其name属性值为”Greg”的新对象。实际上，当在函数内部重写obj时，这个变量引用的就是一个局部对象了。而这个局部对象会在函数执行完毕后立即被销毁。下面，我们就用图示来看一下</p>
+<p>首先 person将指向堆的地址赋给obj，此时，obj也指向了同一块地址空间。<br><img src="http://upload-images.jianshu.io/upload_images/2661054-6dce41ac126a620a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"><br>但是当obj指向了堆中的另一块空间（new Object）的时候，obj里面存的指向堆的地址没有变化，因此他还是指向之前的空间（Object）</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-c12347886251f1fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
+<p>因此我们得出结论</p>
+<h6 id="数组、对象等按值传递，是指变量地址的值。"><a href="#数组、对象等按值传递，是指变量地址的值。" class="headerlink" title="数组、对象等按值传递，是指变量地址的值。"></a>数组、对象等按值传递，是指变量地址的值。</h6><h6 id="ECMAScript-中，所有函数的参数都是按值来传递的。"><a href="#ECMAScript-中，所有函数的参数都是按值来传递的。" class="headerlink" title="ECMAScript 中，所有函数的参数都是按值来传递的。"></a>ECMAScript 中，所有函数的参数都是按值来传递的。</h6>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/25/百度实习/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1346,470 +1913,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/24/exports和module.exports/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="李雪萌">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/24/exports和module.exports/" itemprop="url">
-                  exports module.exports
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-24T00:00:00+08:00">
-                2017-03-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/node/" itemprop="url" rel="index">
-                    <span itemprop="name">node</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>commonjs﻿可以</p>
-<p>1.可以把文件加载成模块</p>
-<p>2.提供了module.exports  exports 解决了public private</p>
-<p>所以nodejs才能处理后端</p>
-<p>module.exports 把一个类 暴露给外部 要在外面new一下 才能调用</p>
-<p>exports返回的永远是一个对象﻿</p>
-<p>module.exports可以返回很多（方法 数组 对象）</p>
-<p>一个简单的例子，计算圆的面积：﻿﻿</p>
-<p>﻿使用 exports</p>
-<p>app.js</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">var circle = require(&apos;./circle&apos;);</div><div class="line"></div><div class="line">﻿console.log(circle.area(4));</div><div class="line"></div><div class="line">﻿circle.js</div><div class="line"></div><div class="line">exports.area = function(r) &#123;﻿﻿</div><div class="line"></div><div class="line">﻿return r * r * Math.PI;</div><div class="line"></div><div class="line">﻿&#125;</div></pre></td></tr></table></figure>
-<p>这种方法是把对象暴露给外部 之后对象.属性去调用area函数</p>
-<p>﻿使用 module.exports</p>
-<p>﻿app.js</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">﻿var area = require(&apos;./area&apos;);</div><div class="line"></div><div class="line">﻿console.log(area(4));</div><div class="line"></div><div class="line">﻿area.js</div><div class="line"></div><div class="line">﻿module.exports = function(r) &#123;</div><div class="line"></div><div class="line">﻿return r * r * Math.PI;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这种是将整个类暴露给外部 new之后 直接就可以访问</p>
-<p>﻿exports和module.exports的区别</p>
-<p>exports是module.exports的一个引用；module.exportsd的初始值是一个空对象</p>
-<p>所以exports的初始值也是一个空对象</p>
-<p>require返回的是module.exports</p>
-<p>上面两个例子输出是一样的。你也许会问，为什么不这样写呢？﻿</p>
-<p>app.js</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">var area = require(&apos;./area&apos;);</div><div class="line"></div><div class="line"> console.log(area(4));</div><div class="line"></div><div class="line">area.js</div><div class="line"></div><div class="line"> exports = function(r) &#123;</div><div class="line"></div><div class="line">   return r * r * Math.PI;</div><div class="line"></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
-<p>运行上面的例子会报错。这是因为，前面的例子中通过给 exports 添加属性，只是对 exports 指向的内存做了修改，而</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">exports = function(r) &#123;</div><div class="line"></div><div class="line">   return r * r * Math.PI;</div><div class="line"></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
-<p>其实是对 exports 进行了覆盖，exports 指向了一块新的内存（内容为一个计算圆面积的函数），exports 和 module.exports 不再指向同一块内存，此时 exports 和 module.exports 毫无联系， module.exports 指向的那块内存并没有做任何改变，仍然为一个空对象 {} ， area.js 导出了一个空对象，所以我们在 app.js 中调用 area(4) 会报 TypeError: object is not a function 的错误。</p>
-<p>所以，一句话做个总结：当我们想让模块导出的是一个对象时， exports 和 module.exports 均可使用（但 exports 也不能重新覆盖为一个新的对象），而当我们想导出非对象接口时，就必须也只能覆盖 module.exports 。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/22/解决兼容性的添加事件和移除事件/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="李雪萌">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/22/解决兼容性的添加事件和移除事件/" itemprop="url">
-                  解决兼容性问题的添加事件和移除事件
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-22T00:00:00+08:00">
-                2017-03-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>用attachevent和addEventListner添加事件不会被覆盖，但是有兼容性问题，因此封装了一个函数，可以用来添加事件，移除事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">function addEvent（elem,type,handler）&#123;</div><div class="line">if(elem.addEventListener)&#123;</div><div class="line">elem.addEventListener(type,handler)</div><div class="line">&#125;else if（elem.attachEvent）&#123;</div><div class="line">elem.attachEvent(&quot;on&quot;+type,function（）&#123;</div><div class="line">         handler.call(elem)</div><div class="line">&#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">&#125;else&#123;</div><div class="line">elem[&quot;on&quot;+type]=handle</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>移除事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function removeEvent(elem,type,handler)&#123;</div><div class="line">if(elem.removeEventListene)&#123;</div><div class="line">elem.removeEventListener(type,handle)</div><div class="line">&#125;else if(elem.detachEvent)&#123;</div><div class="line">elem.detachEvent(&quot;on&quot;+type,handle)</div><div class="line">&#125;else&#123;</div><div class="line">elem[&quot;on&quot;+type]=null</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>因为attachEvent中的this值指向window，所以我们要用call将其this值改为事件源。</p>
-<p>调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function fn（）&#123;</div><div class="line"> alert(1111);</div><div class="line">&#125;</div><div class="line">addEvent(oDiv1,&quot;click&quot;，fn)</div><div class="line">removeEvent(oDiv1,&quot;click&quot;,fn)</div></pre></td></tr></table></figure></p>
-<p>会产生一个问题，移除事件是不好使的，因为添加的处理函数和移除的处理函数不是同一函数<br>为了确保处理的函数是同一个函数我使用了给对象下面添加一个函数属性，这样处理的函数就为同一个函数。<br>这样做<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">else if（elem.attachEvent）&#123;</div><div class="line">elem.fn=function()&#123;</div><div class="line">handle.call(elem);//改变this指向</div><div class="line">&#125;</div><div class="line">elem.attachEvent(&quot;on&quot;+type,elem.fn)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">else if(elem.detachEvent)&#123;</div><div class="line">elem.detachEvent(&quot;on&quot;+type,elem.fn)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这样就可以移除事件了，添加事件和移除事件就是一个事件了。<br>如果我们添加多个事件，并移除<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function fn1（）&#123;</div><div class="line"> alert(1111);</div><div class="line">&#125;</div><div class="line">function fn2（）&#123;</div><div class="line"> alert(2222);</div><div class="line">&#125;</div><div class="line">addEvent(oDiv1,&quot;click&quot;，fn1)</div><div class="line">addEvent(oDiv1,&quot;click&quot;，fn2)</div><div class="line">removeEvent(oDiv1,&quot;click&quot;,fn1)</div><div class="line">removeEvent(oDiv1,&quot;click&quot;,fn2)</div></pre></td></tr></table></figure></p>
-<p>运行的结果是弹出的是1111，因为我们elem.fn 时，刚开始elem.fn 指向的fn1 后来再addEvent(oDiv1,”click”，fn2)后，elem.fn 就是fn2，fn1被覆盖掉了，此时在移除事件时，移除的是fn2，因此fn1事件没有被移除，我们给elem下加一个变量来存函数elem[type+handle]<br>最后完善的代码是这样的<br>添加事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function addEvent（elem,type,handler）&#123;</div><div class="line">if(elem.addEventListener)&#123;</div><div class="line">elem.addEventListener(type,handler)</div><div class="line">&#125;else if（elem.attachEvent）&#123;</div><div class="line">elem[type+handler]=function()&#123;</div><div class="line">handle.call(elem);//改变this指向</div><div class="line">&#125;</div><div class="line">elem.attachEvent(&quot;on&quot;+type,elem[type+handler])</div><div class="line">&#125;else&#123;</div><div class="line">elem[&quot;on&quot;+type]=handle</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>移除事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function removeEven(elem,type,handler)&#123;</div><div class="line">if(elem..removeEventListene)&#123;</div><div class="line">elem.removeEventListener(type,handle)</div><div class="line">&#125;else if(elem.detachEvent)&#123;</div><div class="line">elem.detachEvent(&quot;on&quot;+type,elem[type+handler])</div><div class="line">&#125;else&#123;</div><div class="line">elem[&quot;on&quot;+type]=null</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/getClassName/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="李雪萌">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/17/getClassName/" itemprop="url">
-                  封装getClassName函数适应浏览器兼容性问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-17T00:00:00+08:00">
-                2017-03-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js封装/" itemprop="url" rel="index">
-                    <span itemprop="name">js封装</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>getElementsByClassName() IE不支持<br>可以通过className来实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">function getClass(className,context,tag)&#123;</div><div class="line">  		context=context||document;</div><div class="line">  		tag=tag||&quot;*&quot;;</div><div class="line">  		var arr=context.getElementsByTagName(tag);</div><div class="line">  		var result=[];</div><div class="line">for(var i=0;i&lt;arr.length;i++)  </div><div class="line">    &#123;  </div><div class="line">        if(arr[i].className==className)  </div><div class="line">        &#123;  </div><div class="line">           result.push(arr[i])  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">  		</div><div class="line">  		return result;</div><div class="line">  	&#125;</div><div class="line">`</div></pre></td></tr></table></figure></p>
-<p>利用for循环判断className，className没有兼容性问题</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1859,7 +1962,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

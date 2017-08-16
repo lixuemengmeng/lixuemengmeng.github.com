@@ -1,0 +1,770 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="查阅书籍：JavaScript权威指南
+函数声明与函数表达式12345678sum(10,10)//20function sum(n1,n1)&amp;#123;return n1+n2;&amp;#125;sum(10,10)//报错var sum=function()&amp;#123;return n1+n2;&amp;#125;
+用函数声明定义的函数,函数可以在函数声明之前调用,而用函数表达式定义的函数只能在声明之后调用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript中的函数与闭包">
+<meta property="og:url" content="http://yoursite.com/2017/07/11/JavaScript中的函数与闭包/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="查阅书籍：JavaScript权威指南
+函数声明与函数表达式12345678sum(10,10)//20function sum(n1,n1)&amp;#123;return n1+n2;&amp;#125;sum(10,10)//报错var sum=function()&amp;#123;return n1+n2;&amp;#125;
+用函数声明定义的函数,函数可以在函数声明之前调用,而用函数表达式定义的函数只能在声明之后调用">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-e709fc6c045186cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-415b5525f21bf49f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-f0dbc2e4f2f4ba6c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-030abb644a8c5478.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-16e8ec103b1a0c4f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-523bfac337fe6136.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-1906588fe2b00979.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-d5180ad0b94f252c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-176c3afa9ff9fec4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-48639d8c5fd37574.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-08-16T15:19:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript中的函数与闭包">
+<meta name="twitter:description" content="查阅书籍：JavaScript权威指南
+函数声明与函数表达式12345678sum(10,10)//20function sum(n1,n1)&amp;#123;return n1+n2;&amp;#125;sum(10,10)//报错var sum=function()&amp;#123;return n1+n2;&amp;#125;
+用函数声明定义的函数,函数可以在函数声明之前调用,而用函数表达式定义的函数只能在声明之后调用">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2661054-e709fc6c045186cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/11/JavaScript中的函数与闭包/"/>
+
+
+
+
+
+  <title> JavaScript中的函数与闭包 | Hexo </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/11/JavaScript中的函数与闭包/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李雪萌">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JavaScript中的函数与闭包
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-11T00:00:00+08:00">
+                2017-07-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>查阅书籍：JavaScript权威指南</p>
+<h3 id="函数声明与函数表达式"><a href="#函数声明与函数表达式" class="headerlink" title="函数声明与函数表达式"></a>函数声明与函数表达式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">sum(10,10)//20</div><div class="line">function sum(n1,n1)&#123;</div><div class="line">return n1+n2;</div><div class="line">&#125;</div><div class="line">sum(10,10)//报错</div><div class="line">var sum=function()&#123;</div><div class="line">return n1+n2;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>用函数声明定义的函数,函数可以在函数声明之前调用,而用函数表达式定义的函数只能在声明之后调用。</p>
+<p>根本原因是</p>
+<p>解析器会率先读取函数声明，将其加入执行环境中，<br>函数表达式，必须等到解析器执行到它所在的代码行，才会被真正的执行</p>
+<p>在权威指南是这么写到的</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-e709fc6c045186cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h6 id="ECMAScript规范中表示，函数声明语句可以出现在全局代码中，或者内嵌在其他函数中，但是不能出现在循环、条件判、或者try-finally以及with语句中。函数定义表达式可以出现在javascript代码的任何地方。"><a href="#ECMAScript规范中表示，函数声明语句可以出现在全局代码中，或者内嵌在其他函数中，但是不能出现在循环、条件判、或者try-finally以及with语句中。函数定义表达式可以出现在javascript代码的任何地方。" class="headerlink" title="ECMAScript规范中表示，函数声明语句可以出现在全局代码中，或者内嵌在其他函数中，但是不能出现在循环、条件判、或者try/finally以及with语句中。函数定义表达式可以出现在javascript代码的任何地方。"></a>ECMAScript规范中表示，函数声明语句可以出现在全局代码中，或者内嵌在其他函数中，但是不能出现在循环、条件判、或者try/finally以及with语句中。函数定义表达式可以出现在javascript代码的任何地方。</h6><h3 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h3><p>JavaScript函数可以是匿名的。这意味着你可以从函数声明中省略函数名。但是，函数必须存储在变量中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var addNumbers = function (x, y) &#123; return x + y; &#125;</div></pre></td></tr></table></figure>
+<p>上述语法也被称为函数表达式。</p>
+<h3 id="立即执行函数表达式"><a href="#立即执行函数表达式" class="headerlink" title="立即执行函数表达式"></a>立即执行函数表达式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(function() &#123; </div><div class="line"></div><div class="line">&#125;());</div></pre></td></tr></table></figure>
+<p>这其中定义的任何变量或函数不能被这个范围以外的任何代码改变。</p>
+<p>这是一个在代码中创建局部范围的很好方法。它们可以帮助你保护变量和函数，以避免被应用程序的其他部分更改或覆盖。</p>
+<h3 id="嵌套函数"><a href="#嵌套函数" class="headerlink" title="嵌套函数"></a>嵌套函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function hyotense(a,b)&#123;</div><div class="line">function square(x)&#123;return x*x&#125;;</div><div class="line">return Math.sqrt(square(a)+square(b));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>他的特别之处在于他的变量作用域规则，他们可以访问嵌套他们的函数的参数和变量，这里要说一下作用域链</p>
+<h6 id="作用域链"><a href="#作用域链" class="headerlink" title="作用域链"></a>作用域链</h6><p>作用域链中的下一个变量对象来自包含（外部）环境，而在下一个变量对象则来自下一个包含环境，一直延续到全局执行环境，全局执行环境的变量对象始终是作用域的最后一个对象</p>
+<h3 id="函数调用"><a href="#函数调用" class="headerlink" title="函数调用"></a>函数调用</h3><p>（1）作为函数<br>（2）作为方法<br>（3）作为构造函数<br>（4）通过它们的call和apply间接调用</p>
+<h5 id="作为函数"><a href="#作为函数" class="headerlink" title="作为函数"></a>作为函数</h5><p>就是我们通常看到的最简单的调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">function square(x)&#123;return x*x&#125;;</div><div class="line">square(10);</div></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-415b5525f21bf49f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-f0dbc2e4f2f4ba6c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h5 id="作为方法"><a href="#作为方法" class="headerlink" title="作为方法"></a>作为方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var calcuator=&#123;</div><div class="line">a:1,</div><div class="line">b:2,</div><div class="line">add:function()&#123;</div><div class="line">this.result=this.a+this.b;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">calcuator.add();</div><div class="line">calcuator.result; =&gt;3</div></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-030abb644a8c5478.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h5 id="方法链"><a href="#方法链" class="headerlink" title="方法链"></a>方法链</h5><p>当方法返回的是一个对象的时候，这个对象还可以调用它的方法，jQuery 就是这样。<br>需要注意的是</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-16e8ec103b1a0c4f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-523bfac337fe6136.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h4 id="作为构造函数"><a href="#作为构造函数" class="headerlink" title="作为构造函数"></a>作为构造函数</h4><p>函数可以充当构造器的角色，并且可以使用构造函数来创建新的对象。这是JavaScript面向对象的特点之一。使用构造函数的好处是，你将能够通过预定义的属性和方法，创造尽可能多的对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">function Programmer(name, company, expertise) &#123;  </div><div class="line">this.name = name;   </div><div class="line">this.company = company;  </div><div class="line">this.expertise = expertise;  </div><div class="line">this.writeCode = function() &#123;     </div><div class="line">console.log(&quot;Writing some public static thing..&quot;);</div><div class="line">&#125;   </div><div class="line">this.makeSkypeCall = function() &#123;    </div><div class="line">console.log(&quot;Making skype call..&quot;);</div><div class="line">&#125;  </div><div class="line">this.doSalsa = function() &#123;    </div><div class="line">console.log(&quot;I&apos;m a programmer, I can only do Gangnam style..&quot;);</div><div class="line">&#125;  </div><div class="line">this.canWriteJavaScript = function() &#123;     </div><div class="line">return expertise === &quot;JavaScript&quot;;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h6 id="始终使用new关键字来从构造器创建新的对象。"><a href="#始终使用new关键字来从构造器创建新的对象。" class="headerlink" title="始终使用new关键字来从构造器创建新的对象。"></a>始终使用new关键字来从构造器创建新的对象。</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var jsProgrammer = Programmer(&quot;Douglas Crockford&quot;, &quot;Yahoo&quot;, &quot;JavaScript&quot;)</div></pre></td></tr></table></figure>
+<p>最终将添加所有属性和方法到全局的window对象，原因是，除非明确指定，否则“this”指向全局的window对象。使用new 设置“this”上下文到被创建的当前对象。</p>
+<h4 id="间接调用"><a href="#间接调用" class="headerlink" title="间接调用"></a>间接调用</h4><p>javascript函数也是对象，函数对象也可以包括方法，其中call()和apply也可以间接调用函数<br>call和apply都可以改变this的指向<br>call第二个参数是散列分布<br>apply以数组的形式传第二个参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ClassA.call(this,name,age);改变this值</div><div class="line">ClassA.apply(this,[name,age]);</div><div class="line">ClassA.apply(this,arguments);arguments是一个数组，里面放的是所有传过来的实参</div></pre></td></tr></table></figure>
+<p>call可以用做继承</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function Parent(age)&#123;</div><div class="line">this.name=[&apos;mike&apos;,&apos;jack&apos;,&apos;smith&apos;];</div><div class="line">this.age=age;</div><div class="line">&#125;</div><div class="line">function Child(age)&#123;</div><div class="line">Parent.call(this,age);//把this指向Parent,同时还可以传递参数</div><div class="line">&#125;</div><div class="line">var test=new Child(21);</div><div class="line">console.log(test.age);//21</div><div class="line">console.log(test.name);</div><div class="line">test.name.push(&apos;bill&apos;);</div><div class="line">console.log(test.name);//mike,jack,smith,bill</div></pre></td></tr></table></figure>
+<h6 id="ES5还定义了一个方法：bind-，它会创建一个函数的实例，其this值会被绑定到传给bind-函数的值。如"><a href="#ES5还定义了一个方法：bind-，它会创建一个函数的实例，其this值会被绑定到传给bind-函数的值。如" class="headerlink" title="ES5还定义了一个方法：bind()，它会创建一个函数的实例，其this值会被绑定到传给bind()函数的值。如"></a>ES5还定义了一个方法：bind()，它会创建一个函数的实例，其this值会被绑定到传给bind()函数的值。如</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">window.color=&apos;red&apos;;</div><div class="line">var o=&#123;color:&apos;blue&apos;&#125;;</div><div class="line">function sayColor()&#123;</div><div class="line">console.log(this.color);</div><div class="line">&#125;</div><div class="line">var objectSaycolor=sayColor.bind(o);</div><div class="line">//var objectSaycolor=sayColor.bind();</div><div class="line">objectSaycolor();//blue</div></pre></td></tr></table></figure>
+<p>在这里sayColor()调用bind()并传入对象o,创建了objectSayColor()函数。objectSayColor()函数的this值等于o,因此即使是在全局作用域中调用这个函数，也会看到blue。</p>
+<h4 id="实参和形参"><a href="#实参和形参" class="headerlink" title="实参和形参"></a>实参和形参</h4><p>当调用函数时，传入的实参比函数声明时指定的形参要少的话，剩下的形参都会设为undefine<br>那么当调用函数时，传入的实参超过函数声明时指定的形参的话，没有办法直接获得其他形参，参数对象解决了这个问题，那么什么是参数对象呢？</p>
+<h5 id="参数对象arguments"><a href="#参数对象arguments" class="headerlink" title="参数对象arguments"></a>参数对象arguments</h5><p>标识符arguments是指向实参对象的引用，实参对象是一个类数组对象，这样通过数组下标就可以访问传入函数的实参值<br>我们可以通过arguments[0]取到传入实参的第一位，和真正的数组一样arguments也有length属性，用来表示传入实参的个数。<br>arguments有一个重要的用处，让函数可以操作任意数量的实参。下面的这个例子就利用arguments实现任意数量的数字去比较大小。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-1906588fe2b00979.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>要注意的是，实参对象并不是真正的数组，他不能够使用数组的方法</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-d5180ad0b94f252c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h4 id="实参对象的callee和caller属性"><a href="#实参对象的callee和caller属性" class="headerlink" title="实参对象的callee和caller属性"></a>实参对象的callee和caller属性</h4><p>callee是标准的，指向当前正在执行的函数， 一般用于递归函数 可以实现低耦合 防止将函数赋值为其他函数，<br>caller是非标准的，调用当前正在执行的函数的函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function factorial(num)&#123;</div><div class="line">if(num &lt;= 1)&#123;</div><div class="line">return 1;</div><div class="line">&#125;else&#123;</div><div class="line">return num*arguments.callee(num-1);</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>用一句可以概括一下闭包：外部函数内会定义一个内部函数 2.内部函数调用外部函数的变量  3.外部函数的变量不会回收<br>函数对象可以可以通过作用域链相互关联起来，函数内部的变量可以保存在函数内作用域。</p>
+<p>从技术角度讲，javascript的函数都是闭包，定义大多数函数时的作用域链在调用函数时依然有效。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var scope=&quot;global scope&quot;;</div><div class="line">function checkscope()&#123;</div><div class="line">var scope=&quot;local scope&quot;</div><div class="line">function f()&#123;return scope&#125;;</div><div class="line">retunr f();</div><div class="line">&#125;</div><div class="line">checkscope();</div></pre></td></tr></table></figure></p>
+<p>这个例子很明显，会输出local scope，将f函数执行后的结果返回。<br>做一点改变<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var scope=&quot;global scope&quot;;</div><div class="line">function checkscope()&#123;</div><div class="line">var scope=&quot;local scope&quot;</div><div class="line">function f()&#123;return scope&#125;;</div><div class="line">retunr f;</div><div class="line">&#125;</div><div class="line">checkscope()();</div></pre></td></tr></table></figure></p>
+<p>答案是“local scope”<br>书上的答案是这样的</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-176c3afa9ff9fec4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-48639d8c5fd37574.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h6 id="注意：函数定义时的作用域在函数执行时依然有效"><a href="#注意：函数定义时的作用域在函数执行时依然有效" class="headerlink" title="注意：函数定义时的作用域在函数执行时依然有效"></a>注意：函数定义时的作用域在函数执行时依然有效</h6><p>很多人会认为外部函数中定义的局部变量在函数返回后就不存在了，<br>其实原理是这样的，</p>
+<h6 id="当执行流进入一个函数时，函数的环境（变量，函数）会被推进一个环境栈（我习惯叫运行栈），在栈里面存的是对函数的一个引用，真正的函数是放在堆上面的，当函数执行之后，正常的情况会将环境中的变量弹出来，断开函数的引用，但是由于在外面checkscope变量指向了function-return-scope-这个函数-而在函数里面还需要scope这个变量，因此在这种情况下，编译器会将scope捕捉（我理解就是复制了一份引用），这样我们就可以取到scope，这就是在内部函数里面调用外部函数的变量，外部函数的变量不会被释放的原因。"><a href="#当执行流进入一个函数时，函数的环境（变量，函数）会被推进一个环境栈（我习惯叫运行栈），在栈里面存的是对函数的一个引用，真正的函数是放在堆上面的，当函数执行之后，正常的情况会将环境中的变量弹出来，断开函数的引用，但是由于在外面checkscope变量指向了function-return-scope-这个函数-而在函数里面还需要scope这个变量，因此在这种情况下，编译器会将scope捕捉（我理解就是复制了一份引用），这样我们就可以取到scope，这就是在内部函数里面调用外部函数的变量，外部函数的变量不会被释放的原因。" class="headerlink" title="当执行流进入一个函数时，函数的环境（变量，函数）会被推进一个环境栈（我习惯叫运行栈），在栈里面存的是对函数的一个引用，真正的函数是放在堆上面的，当函数执行之后，正常的情况会将环境中的变量弹出来，断开函数的引用，但是由于在外面checkscope变量指向了function(){return scope}这个函数,而在函数里面还需要scope这个变量，因此在这种情况下，编译器会将scope捕捉（我理解就是复制了一份引用），这样我们就可以取到scope，这就是在内部函数里面调用外部函数的变量，外部函数的变量不会被释放的原因。"></a>当执行流进入一个函数时，函数的环境（变量，函数）会被推进一个环境栈（我习惯叫运行栈），在栈里面存的是对函数的一个引用，真正的函数是放在堆上面的，当函数执行之后，正常的情况会将环境中的变量弹出来，断开函数的引用，但是由于在外面checkscope变量指向了function(){return scope}这个函数,而在函数里面还需要scope这个变量，因此在这种情况下，编译器会将scope捕捉（我理解就是复制了一份引用），这样我们就可以取到scope，这就是在内部函数里面调用外部函数的变量，外部函数的变量不会被释放的原因。</h6><p>闭包有什么用处呢？<br>看下面这个例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">for(var i=0;i&lt;10;i++)&#123;</div><div class="line">ali[i].onclick=function()&#123;</div><div class="line">alert(i);</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>想想这个例子，当我们点击不同的li时，会如我们所愿的输出当前li的下标么？答案当然是不，点击不同的li时都会输出10，因为for循环瞬间执行完毕的时候，每次i出了函数，都将i从栈里面弹出去，在重新给i赋值，i最后变成了10，这个时候无论点击什么，都会alert 10，闭包就可以解决这个问题，将变量保存下来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">for(var i=0;i&lt;10;i++)&#123;</div><div class="line">(function(idx)&#123;</div><div class="line">ali[i].onclick=function()&#123;</div><div class="line">alert(i);</div><div class="line">&#125;</div><div class="line">&#125;)(i);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>看一下这个闭包，通过这种方式就可以保存下来每一个下标，每个点击事件都将当前的i保留下来了，原理和上面那个例子是一样的。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/10/JavaScript的函数作用域和参数的传递问题/" rel="next" title="JavaScript的函数作用域和参数的传递问题">
+                <i class="fa fa-chevron-left"></i> JavaScript的函数作用域和参数的传递问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/16/深入理解Promise和Deferred/" rel="prev" title="JavaScript中的函数与闭包">
+                JavaScript中的函数与闭包 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="李雪萌" />
+          <p class="site-author-name" itemprop="name">李雪萌</p>
+           
+              <p class="site-description motion-element" itemprop="description">欢迎来到李雪萌同学的个人博客</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#函数声明与函数表达式"><span class="nav-number">1.</span> <span class="nav-text">函数声明与函数表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#ECMAScript规范中表示，函数声明语句可以出现在全局代码中，或者内嵌在其他函数中，但是不能出现在循环、条件判、或者try-finally以及with语句中。函数定义表达式可以出现在javascript代码的任何地方。"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">ECMAScript规范中表示，函数声明语句可以出现在全局代码中，或者内嵌在其他函数中，但是不能出现在循环、条件判、或者try/finally以及with语句中。函数定义表达式可以出现在javascript代码的任何地方。</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#匿名函数"><span class="nav-number">2.</span> <span class="nav-text">匿名函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#立即执行函数表达式"><span class="nav-number">3.</span> <span class="nav-text">立即执行函数表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#嵌套函数"><span class="nav-number">4.</span> <span class="nav-text">嵌套函数</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#作用域链"><span class="nav-number">4.0.0.1.</span> <span class="nav-text">作用域链</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数调用"><span class="nav-number">5.</span> <span class="nav-text">函数调用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#作为函数"><span class="nav-number">5.0.1.</span> <span class="nav-text">作为函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#作为方法"><span class="nav-number">5.0.2.</span> <span class="nav-text">作为方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#方法链"><span class="nav-number">5.0.3.</span> <span class="nav-text">方法链</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#作为构造函数"><span class="nav-number">5.1.</span> <span class="nav-text">作为构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#始终使用new关键字来从构造器创建新的对象。"><span class="nav-number">5.1.0.1.</span> <span class="nav-text">始终使用new关键字来从构造器创建新的对象。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#间接调用"><span class="nav-number">5.2.</span> <span class="nav-text">间接调用</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#ES5还定义了一个方法：bind-，它会创建一个函数的实例，其this值会被绑定到传给bind-函数的值。如"><span class="nav-number">5.2.0.1.</span> <span class="nav-text">ES5还定义了一个方法：bind()，它会创建一个函数的实例，其this值会被绑定到传给bind()函数的值。如</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实参和形参"><span class="nav-number">5.3.</span> <span class="nav-text">实参和形参</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#参数对象arguments"><span class="nav-number">5.3.1.</span> <span class="nav-text">参数对象arguments</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实参对象的callee和caller属性"><span class="nav-number">5.4.</span> <span class="nav-text">实参对象的callee和caller属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">6.</span> <span class="nav-text">闭包</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#注意：函数定义时的作用域在函数执行时依然有效"><span class="nav-number">6.0.0.1.</span> <span class="nav-text">注意：函数定义时的作用域在函数执行时依然有效</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#当执行流进入一个函数时，函数的环境（变量，函数）会被推进一个环境栈（我习惯叫运行栈），在栈里面存的是对函数的一个引用，真正的函数是放在堆上面的，当函数执行之后，正常的情况会将环境中的变量弹出来，断开函数的引用，但是由于在外面checkscope变量指向了function-return-scope-这个函数-而在函数里面还需要scope这个变量，因此在这种情况下，编译器会将scope捕捉（我理解就是复制了一份引用），这样我们就可以取到scope，这就是在内部函数里面调用外部函数的变量，外部函数的变量不会被释放的原因。"><span class="nav-number">6.0.0.2.</span> <span class="nav-text">当执行流进入一个函数时，函数的环境（变量，函数）会被推进一个环境栈（我习惯叫运行栈），在栈里面存的是对函数的一个引用，真正的函数是放在堆上面的，当函数执行之后，正常的情况会将环境中的变量弹出来，断开函数的引用，但是由于在外面checkscope变量指向了function(){return scope}这个函数,而在函数里面还需要scope这个变量，因此在这种情况下，编译器会将scope捕捉（我理解就是复制了一份引用），这样我们就可以取到scope，这就是在内部函数里面调用外部函数的变量，外部函数的变量不会被释放的原因。</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李雪萌</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
