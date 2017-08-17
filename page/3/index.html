@@ -260,7 +260,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/24/浮动问题/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/24/内联元素和块级元素之间的嵌套关系/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李雪萌">
@@ -282,8 +282,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/02/24/浮动问题/" itemprop="url">
-                  浮动问题
+                <a class="post-title-link" href="/2017/02/24/内联元素和块级元素之间的嵌套关系/" itemprop="url">
+                  内联样式和块级元素之间的嵌套关系
                 </a>
               
             
@@ -359,16 +359,21 @@
       
         
           
-            <h3 id="浮动问题"><a href="#浮动问题" class="headerlink" title="浮动问题"></a>浮动问题</h3><p>一.内部元素浮动如何对父亲元素消除浮动？</p>
-<p>1.给父级元素div也加上float(里面浮动 外面也浮动，不释放空间)</p>
-<p>2.在子元素后面加上<div style="clear:both;"></div></p>
-<p>3.给父元素加上onerflow：hidden;</p>
-<p>二.绝对定位脱离文档流，浮动没有脱离文档流</p>
-<p>三.父元素div1和子元素div2 给子元素div2设置margin </p>
-<p>防止父元素div1随着子元素div2一起掉下去的方法</p>
-<p>1.左浮</p>
-<p>2.溢出隐藏：overflow：hidden</p>
-<p>3.定位</p>
+            <p>首先，我们来回顾一下内联元素和块级元素<br>内联元素可以嵌套内联元素，块级元素可以嵌套部分块级元素并也能嵌套内联元素，但内联元素不能嵌套块级元素。块级元素为block，内联元素为inline，拥有“inline”特性的同时又拥有“block”的特性称为replace元素。</p>
+<p>在做项目的时候，犯了个错，进了坑<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;p class=&quot;opr-worldcup-tieba2-checkcode&quot;&gt;</div><div class="line">&lt;input class=&quot;opr-worldcup-tieba2-checkcode-input c-input&quot; placeholder=&quot;输入验证码&quot;&gt;</div><div class="line">&lt;div class=&quot;opr-worldcup-tieba2-checkcode-img-wrapper&quot;&gt;image&lt;/div&gt;</div><div class="line">&lt;span class=&quot;opr-worldcup-tieba2-checkcode-change-code&quot;&gt;看不清?&lt;/span&gt;</div><div class="line">&lt;/p&gt;</div></pre></td></tr></table></figure></p>
+<p>在控制台一看，被解析成了这个样子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;p class=&quot;opr-worldcup-tieba2-checkcode&quot;&gt;</div><div class="line">&lt;input class=&quot;opr-worldcup-tieba2-checkcode-input c-input&quot; placeholder=&quot;输入验证码&quot;&gt;</div><div class="line">&lt;/p&gt;</div><div class="line">&lt;div class=&quot;opr-worldcup-tieba2-checkcode-img-wrapper&quot;&gt;image&lt;/div&gt;</div><div class="line">&lt;span class=&quot;opr-worldcup-tieba2-checkcode-change-code&quot;&gt;看不清?&lt;/span&gt;</div><div class="line">&lt;p&gt; &lt;/p&gt;</div></pre></td></tr></table></figure></p>
+<p>我们会发现，<div>分别在一行显示，而此时”p元素的开始”与”p元素的结束”也在不同的一行显示</div></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">原来，在```&lt;p&gt;```元素中是不能嵌套```&lt;div&gt;```元素的，在```&lt;p&gt;```标签还没结束时，遇到下一个块级元素就会自动结束。</div><div class="line">试了一下</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">这段代码会被浏览器会解析为</div><div class="line">```&lt;p&gt;元素的开始&lt;/p&gt;</div></pre></td></tr></table></figure>
+<p>那我们就会想如果把div设置为内联样式的话，是不是就不会出现这样的现象啦<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;这是p元素的开始  </div><div class="line">&lt;div style=&quot;display: inline&quot;&gt;div元素1&lt;/div&gt;  </div><div class="line">&lt;div style=&quot;display: inline&quot;&gt;div元素2&lt;/div&gt;  </div><div class="line">这是p元素的结束  </div><div class="line">&lt;/p&gt;</div></pre></td></tr></table></figure></p>
+<p>即使我们给<div>添加样式，将它变成内联元素形式,他的效果还是一样的，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;这是p元素的开始  &lt;/p&gt;</div><div class="line">&lt;div style=&quot;display: inline&quot;&gt;div元素1&lt;/div&gt;  </div><div class="line">&lt;div style=&quot;display: inline&quot;&gt;div元素2&lt;/div&gt;  </div><div class="line">这是p元素的结束  </div><div class="line">&lt;p&gt;&lt;/p&gt;</div></pre></td></tr></table></figure></div></p>
+<p>我们再用JavaScript代码来检索一个页面中的p元素：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var p = document.querySelectorAll(&quot;p&quot;); //查找p元素  </div><div class="line">console.log(p.length); // 2个元素</div></pre></td></tr></table></figure></p>
+<p>我们以为会是1 结果是2</p>
+<p>###因此得出结论：<br>在p元素是不能嵌套Div元素的，它会被浏览器解析为页面中p元素的两倍数量，也就是开始标签被解析为一个p元素，结束标签被解析为一个p元素。</p>
+<p>###元素的三个类别：<br>那哪些块元素里面不能放哪些块元素呢？我们可以先把所有的块元素再次划分成几个级别的，我们已经知道<code>&lt;html&gt;</code>是在最外层，<code>&lt;html&gt;</code>下一级里面只会有<code>&lt;head&gt;</code>、<code>&lt;body&gt;</code>、。而我们已经知道了可视的元素只会出现在<code>&lt;body&gt;</code>里，所以我们把<code>&lt;body&gt;</code>划在第一个级里面，接着，把不可以自由嵌套的元素划在第三个级，其他的就归进第二个级。所谓的不可自由嵌套的元素就是里面只能放内联元素的，它们包括有：标题标记的<code>&lt;h1&gt;</code>、<code>&lt;h2&gt;</code>、<code>&lt;h3&gt;</code>、<code>&lt;h4&gt;</code>、<code>&lt;h5&gt;</code>、<code>&lt;h6&gt;</code>、<code>&lt;caption&gt;</code>；段落标记的<code>&lt;p&gt;</code>；分隔线<code>&lt;hr&gt;</code>。</p>
+<p>为什么说第二级的元素可以自由嵌套呢？我们可以把它们看成是一些容器（或者说是盒子）， 这些容器的大小可以自由变化，例如我们可以把<code>&lt;ul&gt;</code>嵌在<code>&lt;div&gt;</code>里面，也可以把<code>&lt;div&gt;</code>嵌在<code>&lt;li&gt;</code>里面。</p>
+<p>在HTML里有几个元素是比较特别的：<code>&lt;ul&gt;、&lt;ol&gt;、&lt;dl&gt;、&lt;table&gt;</code>，它们的子一层必须是指定元素，<code>&lt;ul&gt;、&lt;ol&gt;</code>的子一级必须是<code>&lt;li&gt;</code>；<code>&lt;table&gt;</code>的子一层必须是<code>&lt;caption&gt; 或&lt;thead&gt;、&lt;tfoot&gt;、&lt;tbody&gt;</code>等，而再子一层必须是<code>&lt;tr&gt;</code> （<code>&lt;tr&gt;只存在于&lt;thead&gt;、&lt;tfoot&gt;、&lt;tbody&gt;中</code>），之后才是可放内容的<code>&lt;td&gt;</code>或者<code>&lt;th&gt;</code>。</p>
+<p><code>&lt;img&gt;</code>和<code>&lt;input&gt;</code>有着其它内联元素没有的宽和高。它们在”inline”的情况下又有”black”的特性，W3C称之为replace元素。</p>
 
           
         
