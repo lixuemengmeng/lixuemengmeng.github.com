@@ -87,31 +87,21 @@
 
 
 
-<meta name="description" content="添加事件有三种方式，一种是直接添加，第二种是用addEventListener,第三种是用attachEvent的方式
-直接添加
-123456oDiv1.onclick=function()&amp;#123;alert(1);&amp;#125;oDiv1.onclick=function()&amp;#123;alert(2);&amp;#125;
-优点，所有浏览器都支持
-缺点，下面的会将上面的方法覆盖
-用attacheve">
+<meta name="description" content="方法一：最简单的方法，利用a标签来实现
+123456789101112131415161718192021222324252627282930function parseUrl(url)&amp;#123;  var a=document.createElement(&amp;apos;a&amp;apos;);  a.href=url;  return &amp;#123;    protocol:a.protocol.rep">
 <meta property="og:type" content="article">
-<meta property="og:title" content="addEventListener和attachEvent">
-<meta property="og:url" content="http://yoursite.com/2017/03/17/addEventListener和attachEvent/index.html">
+<meta property="og:title" content="javascript将url解析为json格式">
+<meta property="og:url" content="http://yoursite.com/2017/08/17/javascript将url解析为json格式/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="添加事件有三种方式，一种是直接添加，第二种是用addEventListener,第三种是用attachEvent的方式
-直接添加
-123456oDiv1.onclick=function()&amp;#123;alert(1);&amp;#125;oDiv1.onclick=function()&amp;#123;alert(2);&amp;#125;
-优点，所有浏览器都支持
-缺点，下面的会将上面的方法覆盖
-用attacheve">
-<meta property="og:updated_time" content="2017-08-08T13:26:24.000Z">
+<meta property="og:description" content="方法一：最简单的方法，利用a标签来实现
+123456789101112131415161718192021222324252627282930function parseUrl(url)&amp;#123;  var a=document.createElement(&amp;apos;a&amp;apos;);  a.href=url;  return &amp;#123;    protocol:a.protocol.rep">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-c1bb50357fb3a9e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-08-17T14:55:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="addEventListener和attachEvent">
-<meta name="twitter:description" content="添加事件有三种方式，一种是直接添加，第二种是用addEventListener,第三种是用attachEvent的方式
-直接添加
-123456oDiv1.onclick=function()&amp;#123;alert(1);&amp;#125;oDiv1.onclick=function()&amp;#123;alert(2);&amp;#125;
-优点，所有浏览器都支持
-缺点，下面的会将上面的方法覆盖
-用attacheve">
+<meta name="twitter:title" content="javascript将url解析为json格式">
+<meta name="twitter:description" content="方法一：最简单的方法，利用a标签来实现
+123456789101112131415161718192021222324252627282930function parseUrl(url)&amp;#123;  var a=document.createElement(&amp;apos;a&amp;apos;);  a.href=url;  return &amp;#123;    protocol:a.protocol.rep">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2661054-c1bb50357fb3a9e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -139,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/17/addEventListener和attachEvent/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/17/javascript将url解析为json格式/"/>
 
 
 
 
 
-  <title> addEventListener和attachEvent | Hexo </title>
+  <title> javascript将url解析为json格式 | Hexo </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -274,7 +264,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/addEventListener和attachEvent/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/17/javascript将url解析为json格式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李雪萌">
@@ -295,7 +285,7 @@
             
             
               
-                addEventListener和attachEvent
+                javascript将url解析为json格式
               
             
           </h1>
@@ -310,8 +300,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-17T00:00:00+08:00">
-                2017-03-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-17T00:00:00+08:00">
+                2017-08-17
               </time>
             
 
@@ -368,15 +358,11 @@
       
 
       
-        <p>添加事件有三种方式，一种是直接添加，第二种是用addEventListener,第三种是用attachEvent的方式</p>
-<p>直接添加</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">oDiv1.onclick=function()&#123;</div><div class="line">alert(1);</div><div class="line">&#125;</div><div class="line">oDiv1.onclick=function()&#123;</div><div class="line">alert(2);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>优点，所有浏览器都支持</p>
-<p>缺点，下面的会将上面的方法覆盖</p>
-<p>用attachevent和addEventListner添加事件不会被覆盖，但是有兼容性问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">oDiv1.addEventListener(&apos;click&apos;,function()&#123;</div><div class="line">alert(1);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>1.this指向正常<br>2.不用写on<br> 3.ie不支持<br>4.有三个参数，第三个参数 useCapture用来确定是事件冒泡（ useCapture false），还是事件捕获（useCapture false）<br>5.从上向下执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">oDiv1.attachEvent(&quot;onclick&quot;,function()&#123;</div><div class="line">alert(1);</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>1.this指向window </p>
-<p>2.写on<br>3.ie支持<br>4.有两个参数，ie下不支持事件捕获<br>5.从下向上执行</p>
+        <p>方法一：最简单的方法，利用a标签来实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">function parseUrl(url)&#123;</div><div class="line">  var a=document.createElement(&apos;a&apos;);</div><div class="line">  a.href=url;</div><div class="line">  return &#123;</div><div class="line">    protocol:a.protocol.replace(&apos;:&apos;,&apos;&apos;),</div><div class="line">    hostname:a.hostname,</div><div class="line">    port:a.port,</div><div class="line">    path:a.pathname,</div><div class="line">    query:(()=&gt;&#123;</div><div class="line">      var query=a.search.substr(1);</div><div class="line">      var queryArr=query.split(&apos;&amp;&apos;);</div><div class="line">      var queryObj=&#123;&#125;;</div><div class="line">      queryArr.forEach((item,index)=&gt;&#123;</div><div class="line">        var item=item.split(&apos;=&apos;);</div><div class="line">        var key=item[0];</div><div class="line">        queryObj[key]=item[1];</div><div class="line">      &#125;)</div><div class="line">      return queryObj;</div><div class="line">    &#125;)(),</div><div class="line">     params:(()=&gt;&#123;</div><div class="line">      var params=a.hash.substr(1);</div><div class="line">      var paramsArr=params.split(&apos;#&apos;);</div><div class="line">      return paramsArr;</div><div class="line">      </div><div class="line">    &#125;)(),</div><div class="line"></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">var urlObj = parseUrl(&apos;http://www.baidu.com:90/search?name=liyajie&amp;age=12#abc#bbb&apos;)</div><div class="line">console.log(urlObj)</div></pre></td></tr></table></figure>
+<p>得到的结果</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-c1bb50357fb3a9e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>方法二：通过nodejs的url模块<br>解析URL需要用到Node.js提供的url模块，它使用起来非常简单，通过parse()将一个字符串解析为一个Url对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&apos;use strict&apos;;</div><div class="line"> var url = require(&apos;url&apos;);</div><div class="line"> console.log(url.parse(&apos;http://user:pass@host.com:8080/path/to/file?query=string#hash&apos;));</div></pre></td></tr></table></figure></p>
+<p>返回的结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Url &#123;</div><div class="line">  protocol: &apos;http:&apos;,</div><div class="line">  slashes: true,</div><div class="line">  auth: &apos;user:pass&apos;,</div><div class="line">  host: &apos;host.com:8080&apos;,</div><div class="line">  port: &apos;8080&apos;,</div><div class="line">  hostname: &apos;host.com&apos;,</div><div class="line">  hash: &apos;#hash&apos;,</div><div class="line">  search: &apos;?query=string&apos;,</div><div class="line">  query: &apos;query=string&apos;,</div><div class="line">  pathname: &apos;/path/to/file&apos;,</div><div class="line">  path: &apos;/path/to/file?query=string&apos;,</div><div class="line">  href: &apos;http://user:pass@host.com:8080/path/to/file?query=string#hash&apos; &#125;</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -413,8 +399,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/15/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2017/07/25/对象/" rel="next" title="对象">
+                <i class="fa fa-chevron-left"></i> 对象
               </a>
             
           </div>
@@ -422,10 +408,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/17/文档碎片节点优化性能/" rel="prev" title="利用文档碎片节点优化性能">
-                利用文档碎片节点优化性能 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>

@@ -260,6 +260,153 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/17/javascript将url解析为json格式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李雪萌">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/08/17/javascript将url解析为json格式/" itemprop="url">
+                  javascript将url解析为json格式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-17T00:00:00+08:00">
+                2017-08-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>方法一：最简单的方法，利用a标签来实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">function parseUrl(url)&#123;</div><div class="line">  var a=document.createElement(&apos;a&apos;);</div><div class="line">  a.href=url;</div><div class="line">  return &#123;</div><div class="line">    protocol:a.protocol.replace(&apos;:&apos;,&apos;&apos;),</div><div class="line">    hostname:a.hostname,</div><div class="line">    port:a.port,</div><div class="line">    path:a.pathname,</div><div class="line">    query:(()=&gt;&#123;</div><div class="line">      var query=a.search.substr(1);</div><div class="line">      var queryArr=query.split(&apos;&amp;&apos;);</div><div class="line">      var queryObj=&#123;&#125;;</div><div class="line">      queryArr.forEach((item,index)=&gt;&#123;</div><div class="line">        var item=item.split(&apos;=&apos;);</div><div class="line">        var key=item[0];</div><div class="line">        queryObj[key]=item[1];</div><div class="line">      &#125;)</div><div class="line">      return queryObj;</div><div class="line">    &#125;)(),</div><div class="line">     params:(()=&gt;&#123;</div><div class="line">      var params=a.hash.substr(1);</div><div class="line">      var paramsArr=params.split(&apos;#&apos;);</div><div class="line">      return paramsArr;</div><div class="line">      </div><div class="line">    &#125;)(),</div><div class="line"></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">var urlObj = parseUrl(&apos;http://www.baidu.com:90/search?name=liyajie&amp;age=12#abc#bbb&apos;)</div><div class="line">console.log(urlObj)</div></pre></td></tr></table></figure>
+<p>得到的结果</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-c1bb50357fb3a9e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>方法二：通过nodejs的url模块<br>解析URL需要用到Node.js提供的url模块，它使用起来非常简单，通过parse()将一个字符串解析为一个Url对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&apos;use strict&apos;;</div><div class="line"> var url = require(&apos;url&apos;);</div><div class="line"> console.log(url.parse(&apos;http://user:pass@host.com:8080/path/to/file?query=string#hash&apos;));</div></pre></td></tr></table></figure></p>
+<p>返回的结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Url &#123;</div><div class="line">  protocol: &apos;http:&apos;,</div><div class="line">  slashes: true,</div><div class="line">  auth: &apos;user:pass&apos;,</div><div class="line">  host: &apos;host.com:8080&apos;,</div><div class="line">  port: &apos;8080&apos;,</div><div class="line">  hostname: &apos;host.com&apos;,</div><div class="line">  hash: &apos;#hash&apos;,</div><div class="line">  search: &apos;?query=string&apos;,</div><div class="line">  query: &apos;query=string&apos;,</div><div class="line">  pathname: &apos;/path/to/file&apos;,</div><div class="line">  path: &apos;/path/to/file?query=string&apos;,</div><div class="line">  href: &apos;http://user:pass@host.com:8080/path/to/file?query=string#hash&apos; &#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/25/对象/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1761,158 +1908,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/28/对象的深复制和浅复制/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="李雪萌">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/28/对象的深复制和浅复制/" itemprop="url">
-                  对象的浅复制和深复制
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-28T00:00:00+08:00">
-                2017-03-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>对象的深复制和浅复制<br>浅度克隆：原始类型为值传递，对象类型仍为引用传递。<br>深度克隆：所有元素或属性均完全复制，与原对象完全脱离，也就是说所有对于新对象的修改都不会反映到原对象中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var a=&#123;name:&apos;yy&apos;,age:26&#125;;</div><div class="line"> var b=new Object();</div></pre></td></tr></table></figure>
-<p>###深复制</p>
-<p>1.将对象下属性的值取出来赋给要复制的对象下的属性</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">b.name=a.name;</div><div class="line">b.age=a.age;</div><div class="line">a.name=&apos;xx&apos;;</div><div class="line">console.log(b);//Object &#123; name=&quot;yy&quot;, age=26&#125;</div><div class="line">console.log(a);//Object &#123; name=&quot;xx&quot;, age=26&#125; </div><div class="line">``` </div><div class="line"></div><div class="line">2.采用递归的方式</div></pre></td></tr></table></figure>
-<p>function deepClone(obj){<br>    var result={},<br>   oClass=isClass(obj);isClass判断对象的什么类型<br>  for(key in obj){<br>        var copy=obj[key];<br>        if(isClass(copy)==”Object”){<br>            result[key]=arguments.callee(copy);<br>        }else if(isClass(copy)==”Array”){<br>            result[key]=arguments.callee(copy);<br>        }else{<br>            result[key]=obj[key];<br>        }<br>    }<br>    return result;<br>}</p>
-<p>简化的递归函数</p>
-<p>Object.prototype.clone=function(){<br> var o=(this.contructor===Array?[]:{});<br>for(var e in this){<br>o[e]=typeof this[e]===’object’?this[e].clone():this[e]<br>}<br>return o;<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">3.用JSON</div><div class="line"></div><div class="line">```	var str1=JSON.stringify(obj1);</div><div class="line">	var obj2=JSON.parse(str1);</div></pre></td></tr></table></figure></p>
-<p>将对象先转换为字符串，再将字符串转换为数组</p>
-<p>浅复制</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">b=a;</div><div class="line">a.name=&apos;xx&apos;;</div><div class="line">console.log(b);//Object &#123; name=&quot;xx&quot;, age=26&#125;</div><div class="line">console.log(a);//Object &#123; name=&quot;xx&quot;, age=26&#125;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1962,7 +1957,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-count">29</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
