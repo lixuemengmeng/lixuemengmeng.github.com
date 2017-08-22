@@ -366,12 +366,7 @@
 <p>Q2 去掉一组整型数组重复的值</p>
 <p>比如输入: [1,13,24,11,11,14,1,2]<br>输出: [1,13,24,11,14,2]<br>需要去掉重复的11 和 1 这两个元素。</p>
 <p>这道问题出现在诸多的前端面试题中，主要考察个人对Object的使用，利用key来进行筛选。</p>
-<p>/**</p>
-<ul>
-<li>unique an array<br>**/<br>let unique = function(arr) {<br>let hashTable = {};<br>let data = [];<br>for(let i=0,l=arr.length;i&lt;l;i++) {<br>  if(!hashTable[arr[i]]) {<pre><code>hashTable[arr[i]] = true;
-data.push(arr[i]);
-</code></pre>  }<br>}<br>return data</li>
-</ul>
+<p>let unique = function(arr) {<br>  let hashTable = {};<br>  let data = [];<br>  for(let i=0,l=arr.length;i&lt;l;i++) {<br>    if(!hashTable[arr[i]]) {<br>      hashTable[arr[i]] = true;<br>      data.push(arr[i]);<br>    }<br>  }<br>  return data</p>
 <p>}</p>
 <p>module.exports = unique;</p>
 <p>Q3 统计一个字符串出现最多的字母</p>
