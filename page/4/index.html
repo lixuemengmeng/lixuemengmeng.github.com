@@ -87,21 +87,15 @@
 
 
 
-<meta name="description" content="方法一：最简单的方法，利用a标签来实现
-123456789101112131415161718192021222324252627282930function parseUrl(url)&amp;#123;  var a=document.createElement(&amp;apos;a&amp;apos;);  a.href=url;  return &amp;#123;    protocol:a.protocol.rep">
-<meta property="og:type" content="article">
-<meta property="og:title" content="javascript将url解析为json格式">
-<meta property="og:url" content="http://yoursite.com/2017/08/17/javascript将url解析为json格式/index.html">
+<meta name="description" content="欢迎来到李雪萌同学的个人博客">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/page/4/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="方法一：最简单的方法，利用a标签来实现
-123456789101112131415161718192021222324252627282930function parseUrl(url)&amp;#123;  var a=document.createElement(&amp;apos;a&amp;apos;);  a.href=url;  return &amp;#123;    protocol:a.protocol.rep">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-c1bb50357fb3a9e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-08-17T14:55:18.000Z">
+<meta property="og:description" content="欢迎来到李雪萌同学的个人博客">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="javascript将url解析为json格式">
-<meta name="twitter:description" content="方法一：最简单的方法，利用a标签来实现
-123456789101112131415161718192021222324252627282930function parseUrl(url)&amp;#123;  var a=document.createElement(&amp;apos;a&amp;apos;);  a.href=url;  return &amp;#123;    protocol:a.protocol.rep">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2661054-c1bb50357fb3a9e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="欢迎来到李雪萌同学的个人博客">
 
 
 
@@ -129,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/08/17/javascript将url解析为json格式/"/>
+  <link rel="canonical" href="http://yoursite.com/page/4/"/>
 
 
 
 
 
-  <title> javascript将url解析为json格式 | Hexo </title>
+  <title> Hexo </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -160,7 +154,9 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -253,9 +249,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -264,7 +260,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/17/javascript将url解析为json格式/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/25/对象/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李雪萌">
@@ -285,7 +281,10 @@
             
             
               
-                javascript将url解析为json格式
+                
+                <a class="post-title-link" href="/2017/01/25/对象/" itemprop="url">
+                  对象
+                </a>
               
             
           </h1>
@@ -300,8 +299,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-17T00:00:00+08:00">
-                2017-08-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-25T00:00:00+08:00">
+                2017-01-25
               </time>
             
 
@@ -358,33 +357,48 @@
       
 
       
-        <p>方法一：最简单的方法，利用a标签来实现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">function parseUrl(url)&#123;</div><div class="line">  var a=document.createElement(&apos;a&apos;);</div><div class="line">  a.href=url;</div><div class="line">  return &#123;</div><div class="line">    protocol:a.protocol.replace(&apos;:&apos;,&apos;&apos;),</div><div class="line">    hostname:a.hostname,</div><div class="line">    port:a.port,</div><div class="line">    path:a.pathname,</div><div class="line">    query:(()=&gt;&#123;</div><div class="line">      var query=a.search.substr(1);</div><div class="line">      var queryArr=query.split(&apos;&amp;&apos;);</div><div class="line">      var queryObj=&#123;&#125;;</div><div class="line">      queryArr.forEach((item,index)=&gt;&#123;</div><div class="line">        var item=item.split(&apos;=&apos;);</div><div class="line">        var key=item[0];</div><div class="line">        queryObj[key]=item[1];</div><div class="line">      &#125;)</div><div class="line">      return queryObj;</div><div class="line">    &#125;)(),</div><div class="line">     params:(()=&gt;&#123;</div><div class="line">      var params=a.hash.substr(1);</div><div class="line">      var paramsArr=params.split(&apos;#&apos;);</div><div class="line">      return paramsArr;</div><div class="line">      </div><div class="line">    &#125;)(),</div><div class="line"></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">var urlObj = parseUrl(&apos;http://www.baidu.com:90/search?name=liyajie&amp;age=12#abc#bbb&apos;)</div><div class="line">console.log(urlObj)</div></pre></td></tr></table></figure>
-<p>得到的结果</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2661054-c1bb50357fb3a9e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>方法二：通过nodejs的url模块<br>解析URL需要用到Node.js提供的url模块，它使用起来非常简单，通过parse()将一个字符串解析为一个Url对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&apos;use strict&apos;;</div><div class="line"> var url = require(&apos;url&apos;);</div><div class="line"> console.log(url.parse(&apos;http://user:pass@host.com:8080/path/to/file?query=string#hash&apos;));</div></pre></td></tr></table></figure></p>
-<p>返回的结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Url &#123;</div><div class="line">  protocol: &apos;http:&apos;,</div><div class="line">  slashes: true,</div><div class="line">  auth: &apos;user:pass&apos;,</div><div class="line">  host: &apos;host.com:8080&apos;,</div><div class="line">  port: &apos;8080&apos;,</div><div class="line">  hostname: &apos;host.com&apos;,</div><div class="line">  hash: &apos;#hash&apos;,</div><div class="line">  search: &apos;?query=string&apos;,</div><div class="line">  query: &apos;query=string&apos;,</div><div class="line">  pathname: &apos;/path/to/file&apos;,</div><div class="line">  path: &apos;/path/to/file?query=string&apos;,</div><div class="line">  href: &apos;http://user:pass@host.com:8080/path/to/file?query=string#hash&apos; &#125;</div></pre></td></tr></table></figure></p>
+        
+          
+            <p>属性特性</p>
+<p>可写 是否可写<br>可枚举 是否可以通过for/in循环返回该属性<br>可配置 是否可以删除和修改属性<br>创建对象<br>1.对象直接量<br>2.关键字new创建<br>3.object.create()函数<br>对象直接量</p>
+<p>关键字new创建</p>
+<p>object.create()</p>
+<p>通过.访问对象的属性，属性需要一个标识符来表示，无法修改<br>通过[]访问对象的属性，属性名通过字符串来表示，可以修改<br>关联数组对象</p>
+<p>使用for in遍历关联数组<br>删除属性</p>
+<p>delete不能删除的属性</p>
+<p>删除全局对象</p>
+<p>检测对象<br>in</p>
+<p>hasOwnProperty</p>
+<p>propertyIsEnumerble</p>
+<p>枚举属性</p>
+<p>属性getter和setter<br>由getter和setter定义的属性称为存储器属性<br>查询存储器的属性的值 getter方法<br>设置存储器的属性的值 setter方法<br>读取只读属性总是返回undefine<br>函数定义没有使用function 而是使用get和set 方法</p>
+<p>getter和setter里的this关键字的用法，javascript把这些函数当做对象的方法调用。</p>
+<p>存储器属性是可继承的 可以将上面的p对象当做另一个对象的原型<br>属性的特性</p>
+<p>设置属性的特性</p>
+<p>得到描述符</p>
+<p>对象的属性 原型 类 可扩展性<br>原型属性（重要）</p>
+<p>ECMAscrip5 可以通过Object.prototype可以查询原型<br>ECMAscrip3 o.constructor.prototype<br>类属性（重要）<br>对象的类属性是一个字符串，用于表示对象的类型信息,例如取到当前是否为数组</p>
+<p>js判断类型<br>typeof（对象无法判断出是否为array） constructor instanceof<br>typeof返回的类型是字符串<br>typeof null 返回的是对象（早起的一个错误）<br>typeof function function<br>typeof array object<br>如果变量是给定引用类型的实例（array，RegExp）instanceof 会返回一个true<br>判断类型的函数<br>function ValType(o){<br>if(o===null) return “Null”;<br>if(o===undefined) return “Undefined”;<br>return Object.prototype.toString.call(o).slice(8,-1);”[object array]”<br>}<br>1.监测对象是否为数组？<br>1.es5里的新方法isArray（）<br>constructor instanceof<br>arr.constructor 返回构造函数<br>console.log(arr  instanceof Array); true 是否为构造函数的一个实例<br>console.log(arr  instanceof Object);数组是继承自对象的<br>2.可以object原型下tostring方法去call调用一下，返回object arrary类型，最原始的方法<br>var isArray=Function.isArray||function(o){<br>return typeof o===”object”&amp;&amp;Object.prototype.toString.call(o)===”[object Array]”<br>}<br>利用call（o）将最原始的object对象改为传入的对象o</p>
+<p>obj.toString()为object中默认的方法。用来返回该对象的一个字符串形式<br>我们可以在自己定义的类里复写tostring函数用来显示他的具体类型<br>例 function Person(){};<br>Person.prototype.toString=function(){<br>return ‘[object Person]’<br>}<br>alert(new Person());</p>
+<p>可扩展性（了解）<br>是否可以给对象添加新属性</p>
+<p>toString方法<br>返回一个表示调用这个方法额对象值的字符串<br>“[object Object]”</p>
+<p>类和模块</p>
+<p>nstanceof可以不是直接继承</p>
 
+          
+        
       
     </div>
 
     <div>
       
-        
-
-      
     </div>
 
     <div>
       
-        
-
-      
     </div>
 
     <div>
-      
-        
-
       
     </div>
 
@@ -392,42 +406,25 @@
       
 
       
-        
+
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/07/16/深入理解Promise和Deferred/" rel="next" title="深入理解Promise和Deferred">
-                <i class="fa fa-chevron-left"></i> 深入理解Promise和Deferred
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/08/19/算法/" rel="prev" title="算法">
-                算法 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
       
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+  </nav>
+
 
           
           </div>
@@ -435,10 +432,6 @@
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -624,10 +617,6 @@
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
-
-
 
   
 
