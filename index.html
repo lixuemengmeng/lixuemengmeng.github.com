@@ -359,14 +359,16 @@
       
         
           
-            <p>主要是以网络上流传的面试题为主</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2661054-3efa96f77d94c275.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h3 id="TCP-UDP的区别"><a href="#TCP-UDP的区别" class="headerlink" title="TCP UDP的区别"></a>TCP UDP的区别</h3><p>TCP和UDP是OSI模型中的运输层中的协议。TCP提供可靠的通信传输，而UDP则常被用于让广播和细节控制交给应用的通信传输。<br>两者的区别大致如下：</p>
-<p>TCP面向连接，UDP面向非连接即发送数据前不需要建立链接<br>TCP提供可靠的服务（数据传输），UDP无法保证<br>TCP面向字节流，UDP面向报文<br>TCP数据传输慢，UDP数据传输快<br>TCP首部开销20字节;UDP的首部开销小，只有8个字节</p>
-<p>如果还不是太了解这两者的区别，点击阅读：<a href="http://link.zhihu.com/?target=http%3A//blog.csdn.net/yipiankongbai/article/details/24435977" target="_blank" rel="external">TCP与UDP的区别 - yipiankongbai的专栏</a><br><strong>TCP的可靠性如何保证：</strong><br>在TCP的连接中，数据流必须以正确的顺序送达对方。TCP的可靠性是通过顺序编号和确认（ACK）来实现的。TCP在开始传送一个段时，为准备重传而首先将该段插入到发送队列之中，同时启动时钟。其后，如果收到了接受端对该段的ACK信息，就将该段从队列中删去。如果在时钟规定的时间内，ACK未返回，那么就从发送队列中再次送出这个段。TCP在协议中就对数据可靠传输做了保障，握手与断开都需要通讯双方确认，数据传输也需要双方确认成功，在协议中还规定了：分包、重组、重传等规则；而UDP主要是面向不可靠连接的，不能保证数据正确到达目的地。</p>
-<p>TCP的可靠传输分为<br>          停止等待协议：“ 停止等待”就是每发送完一个分组就停止发送，等待对方确认<br>          连续ARQ协议:</p>
-<p><strong><img src="http://upload-images.jianshu.io/upload_images/2661054-19ff98baeaac0783?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></strong></p>
+            <p>主要是以网络上流传的面试题为主<br>1.OSI，TCP/IP，五层协议的体系结构<br>2.TCP UDP的区别</p>
 <h3 id="OSI，TCP-IP，五层协议的体系结构"><a href="#OSI，TCP-IP，五层协议的体系结构" class="headerlink" title="OSI，TCP/IP，五层协议的体系结构"></a>OSI，TCP/IP，五层协议的体系结构</h3><p>OSI分层（7层）：物理层、数据链路层、网络层、传输层、会话层、表示层、应用层。<br>TCP/IP分层（4层）：网络接口层、网际层、运输层、应用层。<br>五层协议（5层）：物理层、数据链路层、网络层、运输层、应用层。</p>
+<h6 id="各层对应的作用和对应的协议"><a href="#各层对应的作用和对应的协议" class="headerlink" title="各层对应的作用和对应的协议"></a>各层对应的作用和对应的协议</h6><p><img src="http://upload-images.jianshu.io/upload_images/2661054-db5469e42bb79407.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="TCP-UDP的区别"><a href="#TCP-UDP的区别" class="headerlink" title="TCP UDP的区别"></a>TCP UDP的区别</h3><p>TCP和UDP是OSI模型中的运输层中的协议。TCP提供可靠的通信传输，而UDP则常被用于让广播和细节控制交给应用的通信传输。</p>
+<h6 id="两者的区别大致如下："><a href="#两者的区别大致如下：" class="headerlink" title="两者的区别大致如下："></a>两者的区别大致如下：</h6><p>TCP面向连接，UDP面向非连接即发送数据前不需要建立链接<br>TCP提供可靠的服务（数据传输），UDP无法保证<br>TCP面向字节流，UDP面向报文<br>TCP数据传输慢，UDP数据传输快<br>TCP首部开销20字节;UDP的首部开销小，只有8个字节</p>
+<p>如果还不是太了解这两者的区别，点击阅读：<a href="http://link.zhihu.com/?target=http%3A//blog.csdn.net/yipiankongbai/article/details/24435977" target="_blank" rel="external">TCP与UDP的区别 - yipiankongbai的专栏</a></p>
+<h6 id="TCP的可靠性如何保证："><a href="#TCP的可靠性如何保证：" class="headerlink" title="TCP的可靠性如何保证："></a>TCP的可靠性如何保证：</h6><p>在TCP的连接中，数据流必须以正确的顺序送达对方。TCP的可靠性是通过顺序编号和确认（ACK）来实现的。TCP在开始传送一个段时，为准备重传而首先将该段插入到发送队列之中，同时启动时钟。其后，如果收到了接受端对该段的ACK信息，就将该段从队列中删去。如果在时钟规定的时间内，ACK未返回，那么就从发送队列中再次送出这个段。TCP在协议中就对数据可靠传输做了保障，握手与断开都需要通讯双方确认，数据传输也需要双方确认成功，在协议中还规定了：分包、重组、重传等规则；而UDP主要是面向不可靠连接的，不能保证数据正确到达目的地。</p>
+<h6 id="TCP的可靠传输分为"><a href="#TCP的可靠传输分为" class="headerlink" title="TCP的可靠传输分为"></a>TCP的可靠传输分为</h6><p>停止等待协议：“ 停止等待”就是每发送完一个分组就停止发送，等待对方确认<br>连续ARQ协议:接收方不必对收到的分组逐个确认，而是在收到几个分组后，对按顺序到达的最后一个分组发送确认。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-19ff98baeaac0783?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="TCP协议首部格式"><a href="#TCP协议首部格式" class="headerlink" title="TCP协议首部格式"></a>TCP协议首部格式</h3><p><img src="http://upload-images.jianshu.io/upload_images/2661054-69e425e567581b3b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 
           
         
