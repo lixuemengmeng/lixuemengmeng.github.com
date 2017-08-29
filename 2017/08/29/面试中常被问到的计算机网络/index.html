@@ -1,0 +1,801 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="主要是以网络上流传的面试题为主OSI，TCP/IP，五层协议的体系结构请简单说一下你了解的端口及对应的服务TCP UDP的区别TCP UDP对应的协议TCP协议首部格式TCP的三次握手和四次挥手IP地址的分类ARP协议的工作原理IP层转发分组的流程子网掩码的作用请简单说一下你了解的端口及对应的服务？常见的路由选择协议，以及它们的区别浏览器中输入www.baidu.com后执行的全部过程HTTP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试中常被问到的计算机网络">
+<meta property="og:url" content="http://yoursite.com/2017/08/29/面试中常被问到的计算机网络/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="主要是以网络上流传的面试题为主OSI，TCP/IP，五层协议的体系结构请简单说一下你了解的端口及对应的服务TCP UDP的区别TCP UDP对应的协议TCP协议首部格式TCP的三次握手和四次挥手IP地址的分类ARP协议的工作原理IP层转发分组的流程子网掩码的作用请简单说一下你了解的端口及对应的服务？常见的路由选择协议，以及它们的区别浏览器中输入www.baidu.com后执行的全部过程HTTP">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-db5469e42bb79407.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-19ff98baeaac0783?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-69e425e567581b3b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-6390c36740acb391.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-a7b4043d479bebf5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-e65c1df251b7247a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-86ece54fb0d504f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-3985b02577fe382e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-f05de5cff2aacf4d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-361bdde7bef66557.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-9f2e12c5f49a4663.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-d555e4ebd0a0706b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-7c6253f642adea46.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-c1e747028b7e1cbe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-fc01bfbbc91dff52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-571ed5b73e37156c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-ebd2d2e88c1968ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2661054-226102d521af4401.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-08-29T06:42:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="面试中常被问到的计算机网络">
+<meta name="twitter:description" content="主要是以网络上流传的面试题为主OSI，TCP/IP，五层协议的体系结构请简单说一下你了解的端口及对应的服务TCP UDP的区别TCP UDP对应的协议TCP协议首部格式TCP的三次握手和四次挥手IP地址的分类ARP协议的工作原理IP层转发分组的流程子网掩码的作用请简单说一下你了解的端口及对应的服务？常见的路由选择协议，以及它们的区别浏览器中输入www.baidu.com后执行的全部过程HTTP">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2661054-db5469e42bb79407.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/29/面试中常被问到的计算机网络/"/>
+
+
+
+
+
+  <title> 面试中常被问到的计算机网络 | Hexo </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/29/面试中常被问到的计算机网络/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李雪萌">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                面试中常被问到的计算机网络
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-29T00:00:00+08:00">
+                2017-08-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机网络/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>主要是以网络上流传的面试题为主<br>OSI，TCP/IP，五层协议的体系结构<br>请简单说一下你了解的端口及对应的服务<br>TCP UDP的区别<br>TCP UDP对应的协议<br>TCP协议首部格式<br>TCP的三次握手和四次挥手<br>IP地址的分类<br>ARP协议的工作原理<br>IP层转发分组的流程<br>子网掩码的作用<br>请简单说一下你了解的端口及对应的服务？<br>常见的路由选择协议，以及它们的区别<br>浏览器中输入<a href="http://www.baidu.com/" target="_blank" rel="external">www.baidu.com</a>后执行的全部过程<br>HTTP<br>        （1）HTTP通信过程<br>        （2）请求和响应<br>        （3）状态码<br>        （4） HTTP/1.0和HTTP/1.1<br>        （5）HTTP和HTTPS<br>POST和GET的区别</p>
+<h3 id="OSI，TCP-IP，五层协议的体系结构"><a href="#OSI，TCP-IP，五层协议的体系结构" class="headerlink" title="OSI，TCP/IP，五层协议的体系结构"></a>OSI，TCP/IP，五层协议的体系结构</h3><p>OSI分层（7层）：物理层、数据链路层、网络层、传输层、会话层、表示层、应用层。<br>TCP/IP分层（4层）：网络接口层、网际层、运输层、应用层。<br>五层协议（5层）：物理层、数据链路层、网络层、运输层、应用层。</p>
+<h6 id="各层对应的作用和对应的协议"><a href="#各层对应的作用和对应的协议" class="headerlink" title="各层对应的作用和对应的协议"></a>各层对应的作用和对应的协议</h6><p><img src="http://upload-images.jianshu.io/upload_images/2661054-db5469e42bb79407.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h6 id="TCP-IP中，每一层对应的协议"><a href="#TCP-IP中，每一层对应的协议" class="headerlink" title="TCP/IP中，每一层对应的协议"></a>TCP/IP中，每一层对应的协议</h6><p>网络层：IP协议、ICMP协议、ARP协议、RARP协议。</p>
+<p>传输层：UDP协议、TCP协议。</p>
+<p>应用层：FTP（文件传送协议）、Telenet（远程登录协议）、DNS（域名解析协议）、SMTP（邮件传送协议），POP3协议（邮局协议），HTTP协议。</p>
+<h3 id="TCP-UDP的区别"><a href="#TCP-UDP的区别" class="headerlink" title="TCP UDP的区别"></a>TCP UDP的区别</h3><p>TCP和UDP是OSI模型中的运输层中的协议。TCP提供可靠的通信传输，而UDP则常被用于让广播和细节控制交给应用的通信传输。</p>
+<h6 id="两者的区别大致如下："><a href="#两者的区别大致如下：" class="headerlink" title="两者的区别大致如下："></a>两者的区别大致如下：</h6><p>TCP面向连接，UDP面向非连接即发送数据前不需要建立链接<br>TCP提供可靠的服务（数据传输），UDP无法保证<br>TCP面向字节流，UDP面向报文<br>TCP数据传输慢，UDP数据传输快<br>TCP首部开销20字节;UDP的首部开销小，只有8个字节</p>
+<p>如果还不是太了解这两者的区别，点击阅读：<a href="http://link.zhihu.com/?target=http%3A//blog.csdn.net/yipiankongbai/article/details/24435977" target="_blank" rel="external">TCP与UDP的区别 - yipiankongbai的专栏</a></p>
+<h6 id="TCP的可靠性如何保证："><a href="#TCP的可靠性如何保证：" class="headerlink" title="TCP的可靠性如何保证："></a>TCP的可靠性如何保证：</h6><p>在TCP的连接中，数据流必须以正确的顺序送达对方。TCP的可靠性是通过顺序编号和确认（ACK）来实现的。TCP在开始传送一个段时，为准备重传而首先将该段插入到发送队列之中，同时启动时钟。其后，如果收到了接受端对该段的ACK信息，就将该段从队列中删去。如果在时钟规定的时间内，ACK未返回，那么就从发送队列中再次送出这个段。TCP在协议中就对数据可靠传输做了保障，握手与断开都需要通讯双方确认，数据传输也需要双方确认成功，在协议中还规定了：分包、重组、重传等规则；而UDP主要是面向不可靠连接的，不能保证数据正确到达目的地。</p>
+<h6 id="TCP的可靠传输分为"><a href="#TCP的可靠传输分为" class="headerlink" title="TCP的可靠传输分为"></a>TCP的可靠传输分为</h6><p>停止等待协议：“ 停止等待”就是每发送完一个分组就停止发送，等待对方确认<br>连续ARQ协议:接收方不必对收到的分组逐个确认，而是在收到几个分组后，对按顺序到达的最后一个分组发送确认。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-19ff98baeaac0783?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="TCP协议首部格式"><a href="#TCP协议首部格式" class="headerlink" title="TCP协议首部格式"></a>TCP协议首部格式</h3><p><img src="http://upload-images.jianshu.io/upload_images/2661054-69e425e567581b3b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>挑几个重要的部分进行讲解</p>
+<p>序号：首部中的序号字段值指的是本报文段所发送的数据的第一个字节的序号。</p>
+<p>确认号：是期待收到对方下一个报文段的第一个数据字节的序号<br>既是收到的对方的序号加上传输数据的长度。</p>
+<p>确认ACK：控制确认号字段是否有效，当ACK=1时确认号才有效，ACK为0确认号无效，在连接建立后所有传送的报文字段都必须把ACK置1。</p>
+<p>同步SYN ：在连接建立时用来同步序号，SYN置为1就表示是一个连接请求或连接接收报文。</p>
+<p>终止FIN：用来释放一个连接，当FIN置为1时，表达此报文段的发送方的数据已发送完毕。</p>
+<p>窗口：窗口值作为接收方让发送方设置其发送窗口的值，可以进行流控。<br>有了这个基础我们来看TCP的三次握手和四次挥手吧，</p>
+<p>###TCP的三次握手和四次挥手</p>
+<p>#####TCP的三次握手<br><img src="http://upload-images.jianshu.io/upload_images/2661054-6390c36740acb391.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>其中SYN是建立连接的同步序号，大写的ACK是确认ACK(为了方便，当做传的数据长度都为1),小写的ack是确认号，seq为序号，</p>
+<p>第一次握手：建立连接。客户端发送连接请求报文段，将SYN位置为1，seq为x；然后，客户端进入SYN_SEND（同步已发送）状态，等待服务器的确认；</p>
+<p>第二次握手：服务器收到SYN报文段。服务器收到客户端的SYN报文段，需要对这个SYN报文段进行确认，设置ack为x+1(seq+1)；同时，自己自己还要发送SYN请求信息，将SYN位置为1，确认ACK位置为1，seq为y；服务器端将上述所有信息放到一个报文段（即SYN+ACK报文段）中，一并发送给客户端，此时服务器进入SYN_RECV（同步收到）状态；</p>
+<p>第三次握手：客户端收到服务器的SYN+ACK报文段。然后将ack设置为y+1，向服务器发送ACK报文段，这个报文段发送完毕以后，客户端和进入ESTABLISHED（已建立连接）状态，<br>服务器端收到确认后，也进入ESTABLISHED（已建立连接）状态<br>完成TCP三次握手。</p>
+<p>为什么一定要三次握手？<br>其实三次握手主要是看一下端之间的通路是否双向都通，主要的一种情况是已失效的连接请求又传到了服务器端，举个例子，A向B发送连接请求，但是在某些网络点长时间滞留了，以致延误到连接释放以后的某个时间才到达B，B收到后，就误认为A又发了一次新的连接请求，就会想A发起确认，如果不采取三次握手，即A不对收到B的请求进行确认的话，B在发送请求，连接就会建立了，而A现在并没有向B发送请求(请求四之前滞留的)，因此不会理睬B的确认，而B却以为连接已经建立，就一直在等，B的很多资源就这样浪费了。</p>
+<p>#####TCP的四次挥手</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-a7b4043d479bebf5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>其中FIN用来释放一个连接，SYN是建立连接的同步序号，大写的ACK是确认ACK,小写的ack是确认号(为了方便，当做传的数据长度都为1)，seq为序号。</p>
+<p>第一次挥手：主机A（可以使客户端，也可以是服务器端），设置seq和ack，向主机B发送一个FIN(为1)报文段；此时，主机1进入FIN_WAIT_1(终止等待1)状态；这表示主机A没有数据要发送给主机B了；<br>第二次挥手：主机A收到了主机B发送的FIN报文段，进入CLOSE-WAIT（关闭等待）向主机A回一个ACK报文段，ack为seq加1；主机A收到B的确认后，主机A进入FIN_WAIT_2状态（终止等待2）；主机B告诉主机A，我“同意”你的关闭请求；</p>
+<p>第三次挥手：主机B向主机A发送FIN报文段，请求关闭连接，同时主机B进入LAST_ACK(最后确认)状态；<br>第四次挥手：主机A收到主机B发送的FIN报文段，向主机B发送ACK报文段，然后主机A进入TIME_WAIT(  时间等待)状态；主机B收到主机1的ACK报文段以后，就关闭连接；此时，主机A等待2MSL后依然没有收到回复，则证明Server端已正常关闭，那好，主机A也可以关闭连接了。<br>为什么要等待2MLS</p>
+<p>1.为了保证A发送的最后一个ACK报文能够到达B，ACK报文可能丢失，因此B不会收到确认，因此B会重传FIN报文，设置等待2MLS就可以收到重传的FIN报文，再重新确认。<br>2.防止“已失效的连接请求报文段”。A在发送完最后一个ACK报文段后，再经过2MLS，就可以使本连接持续的时间内所产生的所有报文段都从网络消失。这样就可以使下一个新的连接中不会出现这种旧的连接请求报文段。</p>
+<p>为什么要四次握手？</p>
+<p>当主机A发出FIN报文段时，只是表示主机A已经没有数据要发送了，主机A告诉主机B，它的数据已经全部发送完毕了；但是，这个时候主机A还是可以接受来自主机B的数据；当主机B马上返回ACK报文段时，表示它已经知道主机A没有数据发送了，但是主机B还是可以发送数据到主机A的；如果主机B要发送的数据没发完，主机B还不能断开连接，因此，ACK和FIN不能一起发给主机B,因此需要4次握手。</p>
+<p>更加深入的了解TCP的三次握手与四次分手：<a href="http://link.zhihu.com/?target=http%3A//www.jellythink.com/archives/705" target="_blank" rel="external">简析TCP的三次握手与四次分手</a></p>
+<h3 id="TCP对应的协议和UDP对应的协议"><a href="#TCP对应的协议和UDP对应的协议" class="headerlink" title="TCP对应的协议和UDP对应的协议"></a>TCP对应的协议和UDP对应的协议</h3><p>TCP对应的协议：</p>
+<p>（1） FTP：定义了文件传输协议，使用21端口。常说某某计算机开了FTP服务便是启动了文件传输服务。下载文件，上传主页，都要用到FTP服务。</p>
+<p>（2） Telnet：它是一种用于远程登陆的端口，用户可以以自己的身份远程连接到计算机上，通过这种端口可以提供一种基于DOS模式下的通信服务。如以前的BBS是-纯字符界面的，支持BBS的服务器将23端口打开，对外提供服务。</p>
+<p>（3） SMTP：定义了简单邮件传送协议，现在很多邮件服务器都用的是这个协议，用于发送邮件。如常见的免费邮件服务中用的就是这个邮件服务端口，所以在电子邮件设置-中常看到有这么SMTP端口设置这个栏，服务器开放的是25号端口。</p>
+<p>（4） POP3：它是和SMTP对应，POP3用于接收邮件。通常情况下，POP3协议所用的是110端口。也是说，只要你有相应的使用POP3协议的程序（例如Fo-xmail或Outlook），就可以不以Web方式登陆进邮箱界面，直接用邮件程序就可以收到邮件（如是163邮箱就没有必要先进入网易网站，再进入自己的邮-箱来收信）。</p>
+<p>（5）HTTP协议：是从Web服务器传输超文本到本地浏览器的传送协议。</p>
+<p>UDP对应的协议：</p>
+<p>（1） DNS：用于域名解析服务，将域名地址转换为IP地址。DNS用的是53号端口。</p>
+<p>（2） SNMP：简单网络管理协议，使用161号端口，是用来管理网络设备的。由于网络设备很多，无连接的服务就体现出其优势。</p>
+<p>（3） TFTP(Trival File Transfer Protocal)，简单文件传输协议，该协议在熟知端口69上使用UDP服务。</p>
+<h3 id="请简单说一下你了解的端口及对应的服务？"><a href="#请简单说一下你了解的端口及对应的服务？" class="headerlink" title="请简单说一下你了解的端口及对应的服务？"></a>请简单说一下你了解的端口及对应的服务？</h3><p><img src="http://upload-images.jianshu.io/upload_images/2661054-e65c1df251b7247a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="IP地址的分类"><a href="#IP地址的分类" class="headerlink" title="IP地址的分类"></a>IP地址的分类</h3><p><img src="http://upload-images.jianshu.io/upload_images/2661054-86ece54fb0d504f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-3985b02577fe382e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h5 id="所有类别的地址的主机地址部分都不能为全0或全1，"><a href="#所有类别的地址的主机地址部分都不能为全0或全1，" class="headerlink" title="所有类别的地址的主机地址部分都不能为全0或全1，"></a>所有类别的地址的主机地址部分都不能为全0或全1，</h5><p>主机地址部分全0 表示“本主机”所连接到的单个网络地址<br>主机地址部分 全1表示网络上的所有主机 也就广播地址。</p>
+<h5 id="A类地址特殊的网络号-："><a href="#A类地址特殊的网络号-：" class="headerlink" title="A类地址特殊的网络号 ："></a>A类地址特殊的网络号 ：</h5><p>网络号全0是保留地址，表示“本网络”<br>网络号为127（即 011111111）保留作为环回测试地址。</p>
+<h5 id="B类地址特殊的网络号"><a href="#B类地址特殊的网络号" class="headerlink" title="B类地址特殊的网络号 :"></a>B类地址特殊的网络号 :</h5><p>网络号为128.0是不可以指派的</p>
+<h5 id="C类地址特殊的网络号-："><a href="#C类地址特殊的网络号-：" class="headerlink" title="C类地址特殊的网络号 ："></a>C类地址特殊的网络号 ：</h5><p>网络号为192.0.0是不可以指派的</p>
+<p>255.255.255.255 该IP地址指的是受限的广播地址。<br>0.0.0.0  常用于寻找自己的IP地址，</p>
+<h3 id="ARP协议的工作原理"><a href="#ARP协议的工作原理" class="headerlink" title="ARP协议的工作原理"></a>ARP协议的工作原理</h3><p>首先来看一下ip地址和硬件地址的关系<br><img src="http://upload-images.jianshu.io/upload_images/2661054-f05de5cff2aacf4d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>那么， ARP协议是做什么的呢？<br>ARP协议是解决同一个局域网上的主机或路由器的IP地址和硬件地址之间的映射问题。</p>
+<h6 id="ARP协议的工作原理-1"><a href="#ARP协议的工作原理-1" class="headerlink" title="ARP协议的工作原理"></a>ARP协议的工作原理</h6><p> 首先，每台主机都会在自己的ARP缓冲区中建立一个 ARP列表，以表示IP地址和MAC地址的对应关系。当源主机需要将一个数据包要发送到目的主机时，会首先检查自己 ARP列表中是否存在该 IP地址对应的MAC地址，如果有，就直接将数据包发送到这个MAC地址；如果没有，就向本地网段发起一个ARP请求的广播包，查询此目的主机对应的MAC地址。此ARP请求数据包里包括源主机的IP地址、硬件地址、以及目的主机的IP地址。网络中所有的主机收到这个ARP请求后，会检查数据包中的目的IP是否和自己的IP地址一致。如果不相同就忽略此数据包；如果相同，该主机首先将发送端的MAC地址和IP地址添加到自己的ARP列表中，如果ARP表中已经存在该IP的信息，则将其覆盖，然后给源主机发送一个 ARP响应数据包，告诉对方自己是它需要查找的MAC地址；源主机收到这个ARP响应数据包后，将得到的目的主机的IP地址和MAC地址添加到自己的ARP列表中，并利用此信息开始数据的传输。如果源主机一直没有收到ARP响应数据包，表示ARP查询失败。<img src="http://upload-images.jianshu.io/upload_images/2661054-361bdde7bef66557.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="IP层转发分组的流程"><a href="#IP层转发分组的流程" class="headerlink" title="IP层转发分组的流程"></a>IP层转发分组的流程</h3><p>首先看一下数据在各层之间的流动</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-9f2e12c5f49a4663.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>由此图可以看出，当路由器收到待转发的数据报，得到目的IP地址，从路由器中得到下一跳路由器的IP地址后，将下一跳的IP地址使用ARP转换为硬件地址，并将硬件地址放在链路层的MAC帧的首部，然后根据硬件地址找到下一跳路由器。</p>
+<p>具体的转发流程<br><img src="http://upload-images.jianshu.io/upload_images/2661054-d555e4ebd0a0706b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>划分子网的情况下转发的流程</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-7c6253f642adea46.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h5 id="子网掩码的作用"><a href="#子网掩码的作用" class="headerlink" title="子网掩码的作用"></a>子网掩码的作用</h5><p>子网掩码其实是为了分割网络,比如一个A类地址能容纳的主机数有2^24-2个主机,一般一个组织是不可能用到这么多地址的,势必会造成浪费。但是我们可以通过子网掩码来将一个A类地址划分成多个子网,根据IP和子网掩码可以判断同一个网络地址下的主机是否在同一个网段.</p>
+<p>计算方法示例：<br>定义子网掩码的步骤为：<br>A、确定哪些组地址归我们使用。比如我们申请到的网络号为 “210.73.a.b”，该网络地址为c类IP地址，网络标识为“210.73.a”，主机标识为“b”。<br>B、根据我们所需的子网数以及将来可能扩充到的子网数，用宿主机的一些位来定义子网掩码。比如我们需要12个子网，将来可能需要16个。2的4次方为16，用第四个字节的前四位确定子网掩码。前四位都置为“1”，即第四个字节为“11110000”，这个数我们暂且称作新的二进制子网掩码。<br>C、把对应初始网络的各个位都置为“1”，即前三个字节都置为“1”，则子网掩码的间断二进制形式为：“11111111.11111111.11111111.11110000” 。<br>D、把这个数转化为间断十进制形式为：“255.255.255.240” 。</p>
+<h3 id="常见的路由选择协议，以及它们的区别"><a href="#常见的路由选择协议，以及它们的区别" class="headerlink" title="常见的路由选择协议，以及它们的区别"></a>常见的路由选择协议，以及它们的区别</h3><p>常见的路由选择协议有：RIP协议、OSPF协议。</p>
+<p>RIP协议：底层是贝尔曼福特算法，它选择路由的度量标准（metric)是跳数，最大跳数是15跳，如果大于15跳，它就会丢弃数据包。</p>
+<p>OSPF协议：底层是迪杰斯特拉算法（最短路径优先），是链路状态路由选择协议，它选择路由的度量标准是带宽，延迟。</p>
+<p>重点说一下RIP协议 他是基于距离向量的路由选择协议，他规定只能和相邻的路由器交换信息，交换的信息是本路由器所知道的全部信息，按固定的时间间隔交换信息</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-c1e747028b7e1cbe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>OSPF是向本系统的所有路由器发送信息，发送的信息是与本路由器相邻的所有路由器的链路状态，只有当链路状态发生改变时，路由器才会向所有路由器发送信息。</p>
+<h3 id="浏览器中输入www-baidu-com后执行的全部过程"><a href="#浏览器中输入www-baidu-com后执行的全部过程" class="headerlink" title="浏览器中输入www.baidu.com后执行的全部过程"></a>浏览器中输入<a href="http://www.baidu.com/" target="_blank" rel="external">www.baidu.com</a>后执行的全部过程</h3><p>现在假设如果我们在客户端（客户端）浏览器中输入<a href="http://www.baidu.com,而baidu.com为要访问的服务器（服务器），下面详细分析客户端为了访问服务器而执行的一系列关于协议的操作：" target="_blank" rel="external">http://www.baidu.com,而baidu.com为要访问的服务器（服务器），下面详细分析客户端为了访问服务器而执行的一系列关于协议的操作：</a><br>  1、客户端浏览器通过DNS解析到www.baidu.com的IP地址220.181.27.48，通过这个IP地址找到客户端到服务器的路径。客户端浏览器发起一个HTTP会话到220.161.27.48，然后通过TCP进行封装数据包，输入到网络层。<br>  2、在客户端的传输层，把HTTP会话请求分成报文段，添加源和目的端口，如服务器使用80端口监听客户端的请求，客户端由系统随机选择一个端口如5000，与服务器进行交换，服务器把相应的请求返回给客户端的5000端口。然后使用IP层的IP地址查找目的端。<br>  3、客户端的网络层不用关系应用层或者传输层的东西，主要做的是通过查找路由表确定如何到达服务器，期间可能经过多个路由器，这些都是由路由器来完成的工作，我不作过多的描述，无非就是通过查找路由表决定通过那个路径到达服务器。<br>  4、客户端的链路层，包通过链路层发送到路由器，通过邻居协议查找给定IP地址的MAC地址，然后发送ARP请求查找目的地址，如果得到回应后就可以使用ARP的请求应答交换的IP数据包现在就可以传输了，然后发送IP数据包到达服务器的地址。</p>
+<h3 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h3><p>HTTP全称为超文本传输协议<br>HTTP是无状态的，无连接的，它使用的是面向连接的TCP作为传输层的协议.<br>每个服务器都有一个服务器进程，不断的监听80端口，来发现是否有浏览器对其发出请求。一旦监听到连接请求就建立TCP连接，浏览器就向服务器发出浏览某个页面的请求，服务器接着就返回所请求的页面作为响应。最后，传输完毕后TCP连接就被释放了。在浏览器和服务器之间的请求和响应的交互，必须按照规定的格式和遵循一定的格式。这些格式和规则就是超文本传输协议HTTP。</p>
+<p>HTTP通信过程大致如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2661054-fc01bfbbc91dff52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>请求数据：<br><img src="http://upload-images.jianshu.io/upload_images/2661054-571ed5b73e37156c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h5 id="Http请求方法："><a href="#Http请求方法：" class="headerlink" title="Http请求方法："></a>Http请求方法：</h5><p>GET       请求获取由 Request-URI 所标识的资源。<br>POST  在 Request-URI 所标识的资源后附加新的数据。<br>HEAD  请求获取由 Request-URI 所标识的资源的响应消息报头。<br>OPTIONS  请求查询服务器的性能，或查询与资源相关的选项和需求。<br>PUT  请求服务器存储一个资源，并用 Request-URI 作为其标识。<br>DELETE  请求服务器删除由 Request-URI 所标识的资源。<br>TRACE  请求服务器回送收到的请求信息，主要用语测试或诊断。</p>
+<p>响应数据：<br><img src="http://upload-images.jianshu.io/upload_images/2661054-ebd2d2e88c1968ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h5 id="HTTP之状态码"><a href="#HTTP之状态码" class="headerlink" title="HTTP之状态码"></a>HTTP之状态码</h5><p>状态代码有三位数字组成，第一个数字定义了响应的类别，共分五种类别:<br>1xx：指示信息–表示请求已接收，继续处理<br>2xx：成功–表示请求已被成功接收、理解、接受<br>3xx：重定向–要完成请求必须进行更进一步的操作<br>4xx：客户端错误–请求有语法错误或请求无法实现<br>5xx：服务器端错误–服务器未能实现合法的请求</p>
+<p>常见状态码：</p>
+<p>200 OK                               //客户端请求成功<br>301                                     //永久重定向<br>302                                     //临时重定向<br>400 Bad Request               //客户端请求有语法错误，不能被服务器所理解<br>401 Unauthorized              //请求未经授权，这个状态代码必须和WWW-Authenticate报头域一起使用<br>403 Forbidden                   //服务器收到请求，但是拒绝提供服务<br>404 Not Found                  //请求资源不存在，eg：输入了错误的URL<br>500 Internal Server Error  //服务器发生不可预期的错误<br>503 Server Unavailable    //服务器当前不能处理客户端的请求，一段时间后可能恢复正常<br>更具体的讲解<br><a href="http://www.cnblogs.com/ranyonsue/p/5984001.html" target="_blank" rel="external">http://www.cnblogs.com/ranyonsue/p/5984001.html</a></p>
+<h5 id="HTTP-1-0和HTTP-1-1"><a href="#HTTP-1-0和HTTP-1-1" class="headerlink" title="HTTP/1.0和HTTP/1.1"></a>HTTP/1.0和HTTP/1.1</h5><p>HTTP/1.0的主要缺点，就是每请求一个文档就要有两倍RTT（一个RTT用于连接TCP连接，一个用于请求和接收万维网）的开销。若主页上有很多连接的对象（如图片等）需要一次进行链接，那么每一次链接下载都要导致2RTT的开销。</p>
+<p>HTTP/1.1协议较好的解决了这个问题。他使用的是持续连接，也就是服务器在发送响应后，仍然在一段时间内保持这条连接，使同一个用户可以继续在这条连接上传送后续的HTTP请求报文和响应报文。</p>
+<h5 id="HTTP和HTTPS"><a href="#HTTP和HTTPS" class="headerlink" title="HTTP和HTTPS"></a>HTTP和HTTPS</h5><p>HTTPS全称为安全超文本传输协议，是以安全为目标的HTTP通道，。即HTTP下加入SSL（安全套接层）层，HTTPS的安全基础是SSL，因此加密的详细内容就需要SSL。</p>
+<p>HTTPS = HTTP + SSL</p>
+<h6 id="HTTPS握手过程："><a href="#HTTPS握手过程：" class="headerlink" title="HTTPS握手过程："></a>HTTPS握手过程：</h6><p>客户端产生一个对称的密钥，通过服务器的CA证书进行交换（CA证书实质上是一个公钥，客户端用公钥加密生成的对称秘钥，将加密信息传递，服务器用私钥进行解密获得客户端生成的对称密钥，双方之后通过对称密钥来进行加密传输）。<br>接下来所有的信息往来就都是加密的。被第三方截获因为没有加密使用的密钥，便无法解密，更无法篡改。</p>
+<h6 id="HTTP和HTTPS的区别"><a href="#HTTP和HTTPS的区别" class="headerlink" title="HTTP和HTTPS的区别"></a>HTTP和HTTPS的区别</h6><p>一、HTTPS协议需要到ca申请证书。<br>二、HTTP是超文本传输协议，信息是明文传输，https 则是具有安全性的SSL加密传输协议。<br>三、HTTP和HTTPS使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。<br>四、HTTP的连接很简单，是无状态的；HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，比HTTP协议安全。</p>
+<p> HTTP和HTTPS和SSL更具体的讲解 <a href="http://www.jianshu.com/p/3863bf9fe93e" target="_blank" rel="external">http://www.jianshu.com/p/3863bf9fe93e</a></p>
+<h3 id="POST-和-GET的区别"><a href="#POST-和-GET的区别" class="headerlink" title="POST 和 GET的区别"></a>POST 和 GET的区别</h3><p><img src="http://upload-images.jianshu.io/upload_images/2661054-226102d521af4401.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>1.GET提交的数据会放在URL之后，以?分割URL和传输数据，参数之间以&amp;相连，如EditPosts.aspx?name=test1&amp;id=123456. POST方法是把提交的数据放在HTTP包的Body中.</p>
+<p>2.GET提交的数据大小有限制（因为浏览器对URL的长度有限制）</p>
+<p>3.GET方式提交数据，会带来安全问题，比如一个登录页面，通过GET方式提交数据时，用户名和密码将出现在URL上，如果页面可以被缓存或者其他人可以访问这台机器，就可以从历史记录获得该用户的账号和密码.</p>
+<p>4.GET方式需要使用Request.QueryString来取得变量的值，而POST方式通过Request.Form来获取变量的值。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/23/js中经常出现的字符串算法/" rel="next" title="js中经常出现的字符串算法">
+                <i class="fa fa-chevron-left"></i> js中经常出现的字符串算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="李雪萌" />
+          <p class="site-author-name" itemprop="name">李雪萌</p>
+           
+              <p class="site-description motion-element" itemprop="description">欢迎来到李雪萌同学的个人博客</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#OSI，TCP-IP，五层协议的体系结构"><span class="nav-number">1.</span> <span class="nav-text">OSI，TCP/IP，五层协议的体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#各层对应的作用和对应的协议"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">各层对应的作用和对应的协议</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#TCP-IP中，每一层对应的协议"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">TCP/IP中，每一层对应的协议</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-UDP的区别"><span class="nav-number">2.</span> <span class="nav-text">TCP UDP的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#两者的区别大致如下："><span class="nav-number">2.0.0.1.</span> <span class="nav-text">两者的区别大致如下：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#TCP的可靠性如何保证："><span class="nav-number">2.0.0.2.</span> <span class="nav-text">TCP的可靠性如何保证：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#TCP的可靠传输分为"><span class="nav-number">2.0.0.3.</span> <span class="nav-text">TCP的可靠传输分为</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP协议首部格式"><span class="nav-number">3.</span> <span class="nav-text">TCP协议首部格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP对应的协议和UDP对应的协议"><span class="nav-number">4.</span> <span class="nav-text">TCP对应的协议和UDP对应的协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#请简单说一下你了解的端口及对应的服务？"><span class="nav-number">5.</span> <span class="nav-text">请简单说一下你了解的端口及对应的服务？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IP地址的分类"><span class="nav-number">6.</span> <span class="nav-text">IP地址的分类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#所有类别的地址的主机地址部分都不能为全0或全1，"><span class="nav-number">6.0.1.</span> <span class="nav-text">所有类别的地址的主机地址部分都不能为全0或全1，</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#A类地址特殊的网络号-："><span class="nav-number">6.0.2.</span> <span class="nav-text">A类地址特殊的网络号 ：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#B类地址特殊的网络号"><span class="nav-number">6.0.3.</span> <span class="nav-text">B类地址特殊的网络号 :</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#C类地址特殊的网络号-："><span class="nav-number">6.0.4.</span> <span class="nav-text">C类地址特殊的网络号 ：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ARP协议的工作原理"><span class="nav-number">7.</span> <span class="nav-text">ARP协议的工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#ARP协议的工作原理-1"><span class="nav-number">7.0.0.1.</span> <span class="nav-text">ARP协议的工作原理</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IP层转发分组的流程"><span class="nav-number">8.</span> <span class="nav-text">IP层转发分组的流程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#子网掩码的作用"><span class="nav-number">8.0.1.</span> <span class="nav-text">子网掩码的作用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见的路由选择协议，以及它们的区别"><span class="nav-number">9.</span> <span class="nav-text">常见的路由选择协议，以及它们的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器中输入www-baidu-com后执行的全部过程"><span class="nav-number">10.</span> <span class="nav-text">浏览器中输入www.baidu.com后执行的全部过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP"><span class="nav-number">11.</span> <span class="nav-text">HTTP</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Http请求方法："><span class="nav-number">11.0.1.</span> <span class="nav-text">Http请求方法：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HTTP之状态码"><span class="nav-number">11.0.2.</span> <span class="nav-text">HTTP之状态码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HTTP-1-0和HTTP-1-1"><span class="nav-number">11.0.3.</span> <span class="nav-text">HTTP/1.0和HTTP/1.1</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HTTP和HTTPS"><span class="nav-number">11.0.4.</span> <span class="nav-text">HTTP和HTTPS</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#HTTPS握手过程："><span class="nav-number">11.0.4.1.</span> <span class="nav-text">HTTPS握手过程：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#HTTP和HTTPS的区别"><span class="nav-number">11.0.4.2.</span> <span class="nav-text">HTTP和HTTPS的区别</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#POST-和-GET的区别"><span class="nav-number">12.</span> <span class="nav-text">POST 和 GET的区别</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李雪萌</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
